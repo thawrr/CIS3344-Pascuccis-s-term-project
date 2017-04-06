@@ -1,0 +1,33 @@
+﻿html, body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    height: 100%;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: 150px; /* this needs to be bigger than footer height*/
+}
+
+footer {
+    position: relative;
+    margin-bottom: -50px;
+    height: 50px;
+    clear: both;
+    background-color: #000000;
+    color: #eeeeee;
+}
+
+.collapse.navbar-collapse li a {
+    color: white;
+}
+
+.navbar {
+    color: antiquewhite;
+    background-color: black;
+}
