@@ -94,6 +94,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LogInPage.aspx" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -108,7 +109,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Home.aspx" />
-    <Content Include="Login.aspx" />
     <Content Include="Registration.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -120,12 +120,12 @@
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="LogInPage.aspx.cs">
+      <DependentUpon>LogInPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
+    <Compile Include="LogInPage.aspx.designer.cs">
+      <DependentUpon>LogInPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Page.Master.cs">
       <DependentUpon>Page.Master</DependentUpon>
