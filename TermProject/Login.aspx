@@ -31,6 +31,8 @@
             <br />
             <br />
             <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
+            <br />
+            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
         </form>
     </div>
 </body>
