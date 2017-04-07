@@ -56,13 +56,22 @@ namespace TermProject
         // Check with database to see if credentials are correct
         public bool CheckCredentials()
         {
-            TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
+            // Still need to create database tables (tblUser && tblRole)
+            //TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
+            //try
+            //{
+            //    DataSet objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
 
-            DataSet objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
+            //    // Check if returned DataSet is empty
+            //    if (objDS.Tables[0].Rows.Count == 0)
+            //        return false;
+            //}
+            //catch (Exception)
+            //{
+            //    lblStatus.Text = "An unexpected error has occured.";
+            //    throw;
+            //}
 
-            // Check if returned DataSet is empty
-            if (objDS.Tables[0].Rows.Count == 0)
-                return false;
             
             // User entered correct login information
             return true;
