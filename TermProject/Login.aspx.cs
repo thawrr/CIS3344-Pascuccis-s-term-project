@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -26,7 +27,7 @@ namespace TermProject
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            if (ValidateInput() && FoundUser())
+            if (ValidateInput() && CheckCredentials())
             {
                 lblStatus.Text = "";
 
@@ -46,15 +47,24 @@ namespace TermProject
         {
             if (txtEmail.Text == "" || txtEmail.Text.Contains('@') == false)
                 return false;
-            else if (txtPassword.Text == "")        // Needs stronger password validation for registration
+            else if (txtPassword.Text == "")
                 return false;
 
             return true;
         }
 
         // Check with database to see if credentials are correct
-        public bool FoundUser()
+        public bool CheckCredentials()
         {
+            TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
+
+            DataSet objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
+
+            // Check if returned DataSet is empty
+            if (objDS.Tables[0].Rows.Count == 0)
+                return false;
+            
+            // User entered correct login information
             return true;
         }
 
