@@ -30,12 +30,12 @@ namespace TermProject
             {
                 lblStatus.Text = "";
 
+                // Write the cookie if requested
                 if (chkRem.Checked == true)
-                {
                     WriteLoginCookie();
-                    StartSession();
-                    Response.Redirect("Home.aspx");
-                }
+
+                StartSession();
+                Response.Redirect("Home.aspx");
             }
             else
                 lblStatus.Text = "Invalid email or password. Please try again";
