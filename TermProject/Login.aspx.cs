@@ -6,14 +6,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Text.RegularExpressions;
-using GlobalMethods;
 using System.Data;
+using GlobalMethods;
 
 namespace TermProject
 {
     public partial class LogInPage : System.Web.UI.Page
     {
-        Gmethods g = new Gmethods();//object of methods class, mostly calls stored procedures
+        GMethods g = new GMethods();//object of methods class, mostly calls stored procedures
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -63,9 +63,27 @@ namespace TermProject
         // Check with database to see if credentials are correct
         public bool FoundUser()
         {
-            DataSet ds = g.GetUserNames();
+            DataSet ds = g.GetUserNames();//ds has everything
+            //userID, FK_RoleID=null, email, password, FN, LN
 
-            return true;
+            DataTable dt = new DataTable();
+            int rowNum = 0;// row number
+            string columnEmail = "Email";  // database table column name
+            string columnPW = "Password";  // database table column name
+
+            dt = ds.Tables["Users"];
+
+            foreach (DataRow dr in dt.Rows)//reading the dataSet
+            {
+                columnEmail = dt.Rows[rowNum][columnEmail].ToString();//specific cell value 
+                columnPW = dt.Rows[rowNum][columnPW].ToString();
+                rowNum++;
+            }
+
+            if (String.Equals(txtEmail.Text, columnEmail) == true && String.Equals(txtPassword.Text, columnPW) == true)
+                return true;//all good
+            else
+                return false;//one or both failed
         }
 
         public void WriteLoginCookie()
