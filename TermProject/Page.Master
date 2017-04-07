@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <title></title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-compatible" content="IE-edgeg" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,7 +12,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
     <link href="styles.css" rel="stylesheet" type="text/css" />
 
     <asp:ContentPlaceHolder ID="cphHead" runat="server">
