@@ -12,9 +12,6 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //necessary for asp validators... or else
-            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
-
             // If cookies is found then populate email textbox and prompt user for password
             if (!IsPostBack && Request.Cookies["LoginCredentials_Cookie"] != null)
             {
@@ -22,7 +19,6 @@ namespace TermProject
                 txtEmail.Text = cookie.Values["Email"].ToString();
                 chkRem.Checked = true;
             }
-
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
