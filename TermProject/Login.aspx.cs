@@ -14,7 +14,7 @@ namespace TermProject
             //necessary for asp validators... or else
             UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
 
-            // If cookies is found then populate email textbox and prompt user for password
+            // If cookie is found then populate email textbox and prompt user for password
             if (!IsPostBack && Request.Cookies["LoginCredentials_Cookie"] != null)
             {
                 HttpCookie cookie = Request.Cookies["LoginCredentials_Cookie"];
