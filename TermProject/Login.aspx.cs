@@ -57,22 +57,21 @@ namespace TermProject
         public bool CheckCredentials()
         {
             // Still need to create database tables (tblUser && tblRole)
-            //TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
-            //try
-            //{
-            //    DataSet objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
+            TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
+            try
+            {
+                DataSet objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
 
-            //    // Check if returned DataSet is empty
-            //    if (objDS.Tables[0].Rows.Count == 0)
-            //        return false;
-            //}
-            //catch (Exception)
-            //{
-            //    lblStatus.Text = "An unexpected error has occured.";
-            //    throw;
-            //}
+                // Check if returned DataSet is empty
+                if (objDS.Tables[0].Rows.Count == 0)
+                    return false;
+            }
+            catch (Exception)
+            {
+                lblStatus.Text = "An unexpected error has occured.";
+                throw;
+            }
 
-            
             // User entered correct login information
             return true;
         }

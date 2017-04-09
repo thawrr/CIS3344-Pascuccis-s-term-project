@@ -23,7 +23,7 @@ namespace TermProjectWS
         SqlCommand objCommand = new SqlCommand();
 
         // Method is used to check for valid login credentials
-        // SELECT * FROM tblUser WHERE LoginID = @LoginID AND @Password = Password
+        // 	SELECT * FROM tblUser u JOIN tblRole r ON r.RoleID = u.RoleID= UPPER(@LoginID) AND Password = @Password
         [WebMethod]
         public DataSet GetUserByLoginIDandPass(string LoginID, string Password)
         {
