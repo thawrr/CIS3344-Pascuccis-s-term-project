@@ -149,16 +149,6 @@
       <DependentUpon>Registration.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GlobalMethods\GlobalMethods.csproj">
-      <Project>{7671c94a-3aec-47ca-a623-a667df733f5e}</Project>
-      <Name>GlobalMethods</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{fe46cc0d-ab9c-42a9-9770-82bb19c4ce35}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
