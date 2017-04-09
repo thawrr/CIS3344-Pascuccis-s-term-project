@@ -35,7 +35,10 @@ namespace TermProject
                 Response.Redirect("Home.aspx");
             }
             else
+            {
+                Session["Login"] = null;
                 lblStatus.Text = "Invalid email or password. Please try again";
+            }
         }
 
         // Check if input is not empty and valid
@@ -65,7 +68,6 @@ namespace TermProject
             catch (Exception)
             {
                 lblStatus.Text = "An unexpected error has occured.";
-                throw;
             }
 
             // User entered correct login information
