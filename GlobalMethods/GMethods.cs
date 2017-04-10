@@ -17,7 +17,7 @@ namespace GlobalMethods
         {
             BinaryFormatter deSerializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream(byteArray);
-
+            memStream.Position = 0;
             Account objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
