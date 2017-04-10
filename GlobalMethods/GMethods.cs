@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Utilities;
 
 namespace GlobalMethods
 {
     public class GMethods
     {
-        public DataSet GetUserNames()//get everything from Users Table
+        // Deserialize the binary data to reconstruct the Account object
+        public Account DeserializeAccount(Byte[] byteArray)
         {
-            DBConnect objDB = new DBConnect();
-            SqlCommand objCommand = new SqlCommand();
+            BinaryFormatter deSerializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream(byteArray);
 
-            objCommand.Parameters.Clear();//use this before executing a stored procedure
-            objCommand.CommandType = CommandType.StoredProcedure;
-            objCommand.CommandText = "GetAllUsers"; // name of the Stored Procedure
+            Account objAccount = (Account)deSerializer.Deserialize(memStream);
 
-            objDB.GetConnection();
-            DataSet ds = objDB.GetDataSetUsingCmdObj(objCommand);
-            objDB.CloseConnection();
-            
-            return ds;
+            return objAccount;
         }
-
-    }//end class
+    }
 }
