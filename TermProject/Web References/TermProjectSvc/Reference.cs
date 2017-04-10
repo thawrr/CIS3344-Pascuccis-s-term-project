@@ -32,6 +32,12 @@ namespace TermProject.TermProjectSvc {
         
         private System.Threading.SendOrPostCallback GetUserByLoginIDandPassOperationCompleted;
         
+        private System.Threading.SendOrPostCallback UpdateAccountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback SerializeDataOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback DeserializeAccountOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -74,6 +80,15 @@ namespace TermProject.TermProjectSvc {
         public event GetUserByLoginIDandPassCompletedEventHandler GetUserByLoginIDandPassCompleted;
         
         /// <remarks/>
+        public event UpdateAccountCompletedEventHandler UpdateAccountCompleted;
+        
+        /// <remarks/>
+        public event SerializeDataCompletedEventHandler SerializeDataCompleted;
+        
+        /// <remarks/>
+        public event DeserializeAccountCompletedEventHandler DeserializeAccountCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetUserByLoginIDandPass(string LoginID, string Password) {
             object[] results = this.Invoke("GetUserByLoginIDandPass", new object[] {
@@ -105,6 +120,96 @@ namespace TermProject.TermProjectSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpdateAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string UpdateAccount(System.Data.DataSet objDS, int UserID) {
+            object[] results = this.Invoke("UpdateAccount", new object[] {
+                        objDS,
+                        UserID});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdateAccountAsync(System.Data.DataSet objDS, int UserID) {
+            this.UpdateAccountAsync(objDS, UserID, null);
+        }
+        
+        /// <remarks/>
+        public void UpdateAccountAsync(System.Data.DataSet objDS, int UserID, object userState) {
+            if ((this.UpdateAccountOperationCompleted == null)) {
+                this.UpdateAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateAccountOperationCompleted);
+            }
+            this.InvokeAsync("UpdateAccount", new object[] {
+                        objDS,
+                        UserID}, this.UpdateAccountOperationCompleted, userState);
+        }
+        
+        private void OnUpdateAccountOperationCompleted(object arg) {
+            if ((this.UpdateAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdateAccountCompleted(this, new UpdateAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/SerializeData", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] SerializeData(System.Data.DataSet objDS) {
+            object[] results = this.Invoke("SerializeData", new object[] {
+                        objDS});
+            return ((byte[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void SerializeDataAsync(System.Data.DataSet objDS) {
+            this.SerializeDataAsync(objDS, null);
+        }
+        
+        /// <remarks/>
+        public void SerializeDataAsync(System.Data.DataSet objDS, object userState) {
+            if ((this.SerializeDataOperationCompleted == null)) {
+                this.SerializeDataOperationCompleted = new System.Threading.SendOrPostCallback(this.OnSerializeDataOperationCompleted);
+            }
+            this.InvokeAsync("SerializeData", new object[] {
+                        objDS}, this.SerializeDataOperationCompleted, userState);
+        }
+        
+        private void OnSerializeDataOperationCompleted(object arg) {
+            if ((this.SerializeDataCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.SerializeDataCompleted(this, new SerializeDataCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeserializeAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Account DeserializeAccount([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteArray) {
+            object[] results = this.Invoke("DeserializeAccount", new object[] {
+                        byteArray});
+            return ((Account)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeserializeAccountAsync(byte[] byteArray) {
+            this.DeserializeAccountAsync(byteArray, null);
+        }
+        
+        /// <remarks/>
+        public void DeserializeAccountAsync(byte[] byteArray, object userState) {
+            if ((this.DeserializeAccountOperationCompleted == null)) {
+                this.DeserializeAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeserializeAccountOperationCompleted);
+            }
+            this.InvokeAsync("DeserializeAccount", new object[] {
+                        byteArray}, this.DeserializeAccountOperationCompleted, userState);
+        }
+        
+        private void OnDeserializeAccountOperationCompleted(object arg) {
+            if ((this.DeserializeAccountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeserializeAccountCompleted(this, new DeserializeAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -120,6 +225,75 @@ namespace TermProject.TermProjectSvc {
                 return true;
             }
             return false;
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class Account {
+        
+        private int userIDField;
+        
+        private string userLoginIDField;
+        
+        private string userPasswordField;
+        
+        private string userFullNameField;
+        
+        private string userRoleField;
+        
+        /// <remarks/>
+        public int UserID {
+            get {
+                return this.userIDField;
+            }
+            set {
+                this.userIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserLoginID {
+            get {
+                return this.userLoginIDField;
+            }
+            set {
+                this.userLoginIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserPassword {
+            get {
+                return this.userPasswordField;
+            }
+            set {
+                this.userPasswordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserFullName {
+            get {
+                return this.userFullNameField;
+            }
+            set {
+                this.userFullNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string UserRole {
+            get {
+                return this.userRoleField;
+            }
+            set {
+                this.userRoleField = value;
+            }
         }
     }
     
@@ -145,6 +319,84 @@ namespace TermProject.TermProjectSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void UpdateAccountCompletedEventHandler(object sender, UpdateAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdateAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdateAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void SerializeDataCompletedEventHandler(object sender, SerializeDataCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class SerializeDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal SerializeDataCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public byte[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((byte[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void DeserializeAccountCompletedEventHandler(object sender, DeserializeAccountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeserializeAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeserializeAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Account Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Account)(this.results[0]));
             }
         }
     }
