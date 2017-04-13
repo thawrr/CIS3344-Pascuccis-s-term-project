@@ -15,6 +15,7 @@ namespace TermProject
     public partial class LogInPage : System.Web.UI.Page
     {
         GMethods objGM;
+        Account objAccount;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -84,9 +85,12 @@ namespace TermProject
                     }
                     else
                     {
-                        Byte[] byteArray = Encoding.ASCII.GetBytes(objDS.Tables[0].Rows[0]["Account"].ToString());
-                        //Account objAccount = DeserializeAccount(byteArray);
-                        //Account objAccount = objGM.DeserializeAccount(byteArray);
+                        Byte[] byteArray = (Byte[])objDS.Tables[0].Rows[0]["Account"];
+
+                        objAccount = DeserializeAccount(byteArray);
+                        
+                        // Getting error when trying to use method that is located in the library class
+                        //objAccount = objGM.DeserializeAccount(byteArray);
                     }
 
                     // User entered correct login information
@@ -116,14 +120,12 @@ namespace TermProject
         }
 
         // Deserialize the binary data to reconstruct the Account object
-        // Not working. Getting error:
-        //'System.Runtime.Serialization.SerializationException' in mscorlib.dll ("End of Stream encountered before parsing was completed.")
         public Account DeserializeAccount(Byte[] byteArray)
         {
             BinaryFormatter deSerializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream(byteArray);
             memStream.Position = 0;
-            Account objAccount = (Account)deSerializer.Deserialize(memStream);
+            objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
         }
