@@ -106,9 +106,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Web References\TermProjectSvc\Account.datasource">
-      <DependentUpon>Reference.map</DependentUpon>
-    </Content>
     <Content Include="Web References\TermProjectSvc\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -185,6 +182,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GlobalMethods\GlobalMethods.csproj">
+      <Project>{7671c94a-3aec-47ca-a623-a667df733f5e}</Project>
+      <Name>GlobalMethods</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{fe46cc0d-ab9c-42a9-9770-82bb19c4ce35}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <WebReferenceUrl Include="http://localhost:4799/TermProject.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\TermProjectSvc\</RelPath>
@@ -196,16 +203,6 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>TermProject_TermProjectSvc_TermProject</CachedSettingsPropName>
     </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GlobalMethods\GlobalMethods.csproj">
-      <Project>{7671c94a-3aec-47ca-a623-a667df733f5e}</Project>
-      <Name>GlobalMethods</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{fe46cc0d-ab9c-42a9-9770-82bb19c4ce35}</Project>
-      <Name>Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

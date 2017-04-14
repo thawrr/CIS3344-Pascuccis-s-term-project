@@ -24,7 +24,7 @@ namespace TermProject.TermProjectSvc {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="TermProjectSoap", Namespace="http://tempuri.org/")]
@@ -35,8 +35,6 @@ namespace TermProject.TermProjectSvc {
         private System.Threading.SendOrPostCallback UpdateAccountOperationCompleted;
         
         private System.Threading.SendOrPostCallback SerializeDataOperationCompleted;
-        
-        private System.Threading.SendOrPostCallback DeserializeAccountOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -84,9 +82,6 @@ namespace TermProject.TermProjectSvc {
         
         /// <remarks/>
         public event SerializeDataCompletedEventHandler SerializeDataCompleted;
-        
-        /// <remarks/>
-        public event DeserializeAccountCompletedEventHandler DeserializeAccountCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -181,35 +176,6 @@ namespace TermProject.TermProjectSvc {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeserializeAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Account DeserializeAccount([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteArray) {
-            object[] results = this.Invoke("DeserializeAccount", new object[] {
-                        byteArray});
-            return ((Account)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void DeserializeAccountAsync(byte[] byteArray) {
-            this.DeserializeAccountAsync(byteArray, null);
-        }
-        
-        /// <remarks/>
-        public void DeserializeAccountAsync(byte[] byteArray, object userState) {
-            if ((this.DeserializeAccountOperationCompleted == null)) {
-                this.DeserializeAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeserializeAccountOperationCompleted);
-            }
-            this.InvokeAsync("DeserializeAccount", new object[] {
-                        byteArray}, this.DeserializeAccountOperationCompleted, userState);
-        }
-        
-        private void OnDeserializeAccountOperationCompleted(object arg) {
-            if ((this.DeserializeAccountCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeserializeAccountCompleted(this, new DeserializeAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -229,80 +195,11 @@ namespace TermProject.TermProjectSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class Account {
-        
-        private int userIDField;
-        
-        private string userLoginIDField;
-        
-        private string userPasswordField;
-        
-        private string userFullNameField;
-        
-        private string userRoleField;
-        
-        /// <remarks/>
-        public int UserID {
-            get {
-                return this.userIDField;
-            }
-            set {
-                this.userIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserLoginID {
-            get {
-                return this.userLoginIDField;
-            }
-            set {
-                this.userLoginIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserPassword {
-            get {
-                return this.userPasswordField;
-            }
-            set {
-                this.userPasswordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserFullName {
-            get {
-                return this.userFullNameField;
-            }
-            set {
-                this.userFullNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserRole {
-            get {
-                return this.userRoleField;
-            }
-            set {
-                this.userRoleField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void GetUserByLoginIDandPassCompletedEventHandler(object sender, GetUserByLoginIDandPassCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserByLoginIDandPassCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -324,11 +221,11 @@ namespace TermProject.TermProjectSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void UpdateAccountCompletedEventHandler(object sender, UpdateAccountCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UpdateAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -350,11 +247,11 @@ namespace TermProject.TermProjectSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void SerializeDataCompletedEventHandler(object sender, SerializeDataCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SerializeDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -371,32 +268,6 @@ namespace TermProject.TermProjectSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((byte[])(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    public delegate void DeserializeAccountCompletedEventHandler(object sender, DeserializeAccountCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class DeserializeAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal DeserializeAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public Account Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((Account)(this.results[0]));
             }
         }
     }
