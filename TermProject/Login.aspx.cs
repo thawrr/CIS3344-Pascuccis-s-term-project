@@ -63,7 +63,8 @@ namespace TermProject
         public bool CheckCredentials()
         {
             DataSet objDS = new DataSet();
-
+            Account a = new Account();
+            
             // Still need to create database tables (tblUser && tblRole)
             TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
             try
@@ -78,10 +79,11 @@ namespace TermProject
                     // If serialized column is empty, then store info, else load into Account object
                     if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
                     {
-                        int UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                        a.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                        Session.Add("Account",a);//save the current user's UserID to session
 
                         // Serialize data for database input and display status
-                        lblStatus.Text = pxy.UpdateAccount(objDS, UserID);
+                        lblStatus.Text = pxy.UpdateAccount(objDS, a.UserID);
                     }
                     else
                     {

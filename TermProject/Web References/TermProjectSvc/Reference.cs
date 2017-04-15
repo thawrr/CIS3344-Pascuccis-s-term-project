@@ -36,6 +36,8 @@ namespace TermProject.TermProjectSvc {
         
         private System.Threading.SendOrPostCallback SerializeDataOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddFileOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -82,6 +84,9 @@ namespace TermProject.TermProjectSvc {
         
         /// <remarks/>
         public event SerializeDataCompletedEventHandler SerializeDataCompleted;
+        
+        /// <remarks/>
+        public event AddFileCompletedEventHandler AddFileCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -172,6 +177,35 @@ namespace TermProject.TermProjectSvc {
             if ((this.SerializeDataCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.SerializeDataCompleted(this, new SerializeDataCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddFile([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input) {
+            object[] results = this.Invoke("AddFile", new object[] {
+                        input});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddFileAsync(byte[] input) {
+            this.AddFileAsync(input, null);
+        }
+        
+        /// <remarks/>
+        public void AddFileAsync(byte[] input, object userState) {
+            if ((this.AddFileOperationCompleted == null)) {
+                this.AddFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddFileOperationCompleted);
+            }
+            this.InvokeAsync("AddFile", new object[] {
+                        input}, this.AddFileOperationCompleted, userState);
+        }
+        
+        private void OnAddFileOperationCompleted(object arg) {
+            if ((this.AddFileCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddFileCompleted(this, new AddFileCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -268,6 +302,32 @@ namespace TermProject.TermProjectSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((byte[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    public delegate void AddFileCompletedEventHandler(object sender, AddFileCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddFileCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

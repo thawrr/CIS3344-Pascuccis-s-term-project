@@ -17,7 +17,9 @@
         </div>
         <div class="col-md-4">
             <h3>Upload a file</h3>
-            <asp:TextBox ID="txtFile" runat="server"></asp:TextBox><asp:Button ID="btnUpload" runat="server" Text="Submit" />
+            <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
+            <asp:FileUpload ID="FileUpload1" runat="server" /><br />
+            <asp:Button ID="btnUpload" runat="server" Text="Submit" OnClick="btnUpload_Click" />
         </div>
         <div class="col-md-4">
             

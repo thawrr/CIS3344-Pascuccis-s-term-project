@@ -99,5 +99,31 @@ namespace TermProjectWS
 
             return byteArray;
         }
-    }
-}
+
+        [WebMethod]
+        public bool AddFile(Byte[] input)
+        {
+            bool result = false;
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "AddFile";
+            objCommand.Parameters.Clear();
+            /*
+            objCommand.Parameters.AddWithValue("@inputData", input);
+            objCommand.Parameters.AddWithValue("@userID", userID);
+            objCommand.Parameters.AddWithValue("@fileName", fileName);
+            objCommand.Parameters.AddWithValue("@fileType", fileType);
+            objCommand.Parameters.AddWithValue("@fileSize", fileSize);
+            */
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+            if (returnValue != -1)
+            {
+                result = true;
+                return result;
+            }
+            else
+            return result;
+        }
+    }//end class
+}//end nameSpace
