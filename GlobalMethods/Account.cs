@@ -14,11 +14,18 @@ namespace GlobalMethods
         private String Password;
         private String Name;
         private String Role;
+        private String Email;
 
         public int UserID
         {
             get { return ID; }
             set { ID = value; }
+        }
+
+        public String UserEmail
+        {
+            get { return Email; }
+            set { Email = value; }
         }
 
         public String UserLoginID

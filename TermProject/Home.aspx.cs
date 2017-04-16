@@ -11,21 +11,30 @@ namespace TermProject
 {
     public partial class Home : System.Web.UI.Page
     {
-        
+        Account objAccount = new Account();
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+            //Check if it exists and if logged in
             if (CheckSession())
             {
-                lblStatus.Text = "Welcome! Your email is: " + Session["Login"].ToString();
+                //Make sure there is an object saved for this user
+                if (Session["Account"] == null)
+                    Session["Account"] = new Account();
+
+                //Access your properties here
+                string email = ((Account)Session["Account"]).UserEmail;//get email
+                lblStatus.Text = "Welcome! Your email is: " + email;//put it on the page
             }
             else
                 Response.Redirect("Login.aspx");
-        }
+        }//end Page_Load
 
         // If there is no active session, redirect to the login page
         public bool CheckSession()
         {
-            if (Session["Login"] == null)
+            if (Session["Account"] == null)
                 return false;
             else
                 return true;
@@ -61,9 +70,10 @@ namespace TermProject
                 {
                     string fileName = FileUpload1.PostedFile.FileName;//SomeFile.txt
                     string fileExtension = Path.GetExtension(fileName);//.txt
-                    a.UserID = Convert.ToInt32(Session["Account"]);//current user id
+                    int userID = ((Account)Session["Account"]).UserID;//When retrieving an object from session state,  
+                                                   //cast it to the appropriate type.
 
-                    lblTest.Text = a.UserID + ", " + fileName + ", " + fileExtension+" was uploaded";
+                    lblTest.Text = userID + ", " + fileName + ", " + fileExtension+" was uploaded";
                 }
             }
         }
