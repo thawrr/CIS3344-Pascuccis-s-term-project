@@ -78,11 +78,11 @@ namespace TermProject
                     if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
                     {
                         int userID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
-
-                        ((Account)Session["Account"]).UserID = userID;//save current user's ID to session oject
-
+                        
                         // Serialize data for database input and display status
                         lblStatus.Text = pxy.UpdateAccount(objDS, userID);
+
+                        ((Account)Session["Account"]).UserID = userID;//save current user's ID to session oject
                     }
                     else
                     {
