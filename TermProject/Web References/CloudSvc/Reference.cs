@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace TermProject.TermProjectSvc {
+namespace TermProject.CloudSvc {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -27,8 +27,8 @@ namespace TermProject.TermProjectSvc {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Web.Services.WebServiceBindingAttribute(Name="TermProjectSoap", Namespace="http://tempuri.org/")]
-    public partial class TermProject : System.Web.Services.Protocols.SoapHttpClientProtocol {
+    [System.Web.Services.WebServiceBindingAttribute(Name="CloudServiceSoap", Namespace="http://tempuri.org/")]
+    public partial class CloudService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback GetUserByLoginIDandPassOperationCompleted;
         
@@ -36,13 +36,13 @@ namespace TermProject.TermProjectSvc {
         
         private System.Threading.SendOrPostCallback SerializeDataOperationCompleted;
         
-        private System.Threading.SendOrPostCallback DeserializeAccountOperationCompleted;
+        private System.Threading.SendOrPostCallback AddFileOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
-        public TermProject() {
-            this.Url = global::TermProject.Properties.Settings.Default.TermProject_TermProjectSvc_TermProject;
+        public CloudService() {
+            this.Url = global::TermProject.Properties.Settings.Default.TermProject_CloudSvc_CloudService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -86,7 +86,7 @@ namespace TermProject.TermProjectSvc {
         public event SerializeDataCompletedEventHandler SerializeDataCompleted;
         
         /// <remarks/>
-        public event DeserializeAccountCompletedEventHandler DeserializeAccountCompleted;
+        public event AddFileCompletedEventHandler AddFileCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -181,31 +181,39 @@ namespace TermProject.TermProjectSvc {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeserializeAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public Account DeserializeAccount([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteArray) {
-            object[] results = this.Invoke("DeserializeAccount", new object[] {
-                        byteArray});
-            return ((Account)(results[0]));
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AddFile([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input, int userID, string fileName, string fileType, int fileSize) {
+            object[] results = this.Invoke("AddFile", new object[] {
+                        input,
+                        userID,
+                        fileName,
+                        fileType,
+                        fileSize});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void DeserializeAccountAsync(byte[] byteArray) {
-            this.DeserializeAccountAsync(byteArray, null);
+        public void AddFileAsync(byte[] input, int userID, string fileName, string fileType, int fileSize) {
+            this.AddFileAsync(input, userID, fileName, fileType, fileSize, null);
         }
         
         /// <remarks/>
-        public void DeserializeAccountAsync(byte[] byteArray, object userState) {
-            if ((this.DeserializeAccountOperationCompleted == null)) {
-                this.DeserializeAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeserializeAccountOperationCompleted);
+        public void AddFileAsync(byte[] input, int userID, string fileName, string fileType, int fileSize, object userState) {
+            if ((this.AddFileOperationCompleted == null)) {
+                this.AddFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddFileOperationCompleted);
             }
-            this.InvokeAsync("DeserializeAccount", new object[] {
-                        byteArray}, this.DeserializeAccountOperationCompleted, userState);
+            this.InvokeAsync("AddFile", new object[] {
+                        input,
+                        userID,
+                        fileName,
+                        fileType,
+                        fileSize}, this.AddFileOperationCompleted, userState);
         }
         
-        private void OnDeserializeAccountOperationCompleted(object arg) {
-            if ((this.DeserializeAccountCompleted != null)) {
+        private void OnAddFileOperationCompleted(object arg) {
+            if ((this.AddFileCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.DeserializeAccountCompleted(this, new DeserializeAccountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.AddFileCompleted(this, new AddFileCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -225,75 +233,6 @@ namespace TermProject.TermProjectSvc {
                 return true;
             }
             return false;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.6.1586.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class Account {
-        
-        private int userIDField;
-        
-        private string userLoginIDField;
-        
-        private string userPasswordField;
-        
-        private string userFullNameField;
-        
-        private string userRoleField;
-        
-        /// <remarks/>
-        public int UserID {
-            get {
-                return this.userIDField;
-            }
-            set {
-                this.userIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserLoginID {
-            get {
-                return this.userLoginIDField;
-            }
-            set {
-                this.userLoginIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserPassword {
-            get {
-                return this.userPasswordField;
-            }
-            set {
-                this.userPasswordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserFullName {
-            get {
-                return this.userFullNameField;
-            }
-            set {
-                this.userFullNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public string UserRole {
-            get {
-                return this.userRoleField;
-            }
-            set {
-                this.userRoleField = value;
-            }
         }
     }
     
@@ -377,26 +316,26 @@ namespace TermProject.TermProjectSvc {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    public delegate void DeserializeAccountCompletedEventHandler(object sender, DeserializeAccountCompletedEventArgs e);
+    public delegate void AddFileCompletedEventHandler(object sender, AddFileCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class DeserializeAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class AddFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal DeserializeAccountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal AddFileCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
         
         /// <remarks/>
-        public Account Result {
+        public bool Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((Account)(this.results[0]));
+                return ((bool)(this.results[0]));
             }
         }
     }

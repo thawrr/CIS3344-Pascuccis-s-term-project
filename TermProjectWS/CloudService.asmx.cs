@@ -13,14 +13,14 @@ using Utilities;
 namespace TermProjectWS
 {
     /// <summary>
-    /// Summary description for TermProject
+    /// Summary description for CloudService
     /// </summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     // [System.Web.Script.Services.ScriptService]
-    public class TermProject : System.Web.Services.WebService
+    public class CloudService : System.Web.Services.WebService
     {
         DBConnect objDB = new DBConnect();
         SqlCommand objCommand = new SqlCommand();
@@ -157,5 +157,5 @@ namespace TermProjectWS
             else
                 return result;
         }
-    }//end class
-}//end nameSpace
+    }
+}

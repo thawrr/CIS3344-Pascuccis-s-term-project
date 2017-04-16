@@ -2,8 +2,8 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TermProject.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="TermProject_TermProjectSvc_TermProject" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://localhost:4799/TermProject.asmx</Value>
+    <Setting Name="TermProject_CloudSvc_CloudService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:4799/CloudService.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

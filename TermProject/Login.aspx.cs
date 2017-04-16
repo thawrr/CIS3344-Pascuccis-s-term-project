@@ -14,7 +14,6 @@ namespace TermProject
 {
     public partial class LogInPage : System.Web.UI.Page
     {
-        GMethods objGM;
         Account objAccount;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -38,12 +37,13 @@ namespace TermProject
                 if (chkRem.Checked == true)
                     WriteLoginCookie();
 
+
                 StartSession();
                 Response.Redirect("Home.aspx");
             }
             else
             {
-                Session["Login"] = null;
+                Session["Account"] = null;
                 lblStatus.Text = "Invalid email or password. Please try again";
             }
         }
@@ -65,7 +65,7 @@ namespace TermProject
             DataSet objDS = new DataSet();
 
             // Still need to create database tables (tblUser && tblRole)
-            TermProjectSvc.TermProject pxy = new TermProjectSvc.TermProject();
+            CloudSvc.CloudService pxy = new CloudSvc.CloudService();
             try
             {
                 objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
@@ -78,28 +78,25 @@ namespace TermProject
                     // If serialized column is empty, then store info, else load into Account object
                     if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
                     {
-                        int UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                        objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
 
                         // Serialize data for database input and display status
-                        lblStatus.Text = pxy.UpdateAccount(objDS, UserID);
+                        lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID);
                     }
                     else
                     {
                         Byte[] byteArray = (Byte[])objDS.Tables[0].Rows[0]["Account"];
 
                         objAccount = DeserializeAccount(byteArray);
-                        
-                        // Getting error when trying to use method that is located in the library class
-                        //objAccount = objGM.DeserializeAccount(byteArray);
                     }
 
                     // User entered correct login information
+
                     return true;
                 }
             }
             catch (Exception e)
             {
-                //lblStatus.Text = "An unexpected error has occured.";
                 lblStatus.Text = e.ToString();
                 return false;
             }
@@ -116,7 +113,14 @@ namespace TermProject
 
         public void StartSession()
         {
-            Session["Login"] = txtEmail.Text;
+            //Make sure there is an object saved for this user
+            if (Session["Account"] == null)
+                Session["Account"] = new Account();
+
+            objAccount.UserEmail = txtEmail.Text;
+
+            ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
+            ((Account)Session["Account"]).UserID = objAccount.UserID;
         }
 
         // Deserialize the binary data to reconstruct the Account object
@@ -129,5 +133,5 @@ namespace TermProject
 
             return objAccount;
         }
-    }
-}
+    }//end class
+}//end nameSpace
