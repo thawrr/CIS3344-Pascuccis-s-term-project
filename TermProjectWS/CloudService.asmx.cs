@@ -157,5 +157,74 @@ namespace TermProjectWS
             else
                 return result;
         }
+
+        [WebMethod]
+        public DataSet GetFilesByID(int userID)
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetFilesByUserID";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 100;
+            objCommand.Parameters.Add(inputParameter);
+
+            DataSet returnedDS = objDB.GetDataSetUsingCmdObj(objCommand);
+            
+            //don't forget to Deserialize going back
+            return returnedDS;
+        }
+
+        [WebMethod]
+        public DataSet AccountUpdate(int userID, string name, string email, int sc, string pw)
+        {
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "UpdateAccount";
+            objCommand.Parameters.Clear();
+            
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 100;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@name", name);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@email", email);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@sc", sc);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@pw", pw);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+            DataSet newAccountInfo = new DataSet();
+
+            if (returnValue != -1)
+            {
+                newAccountInfo = GetUserByLoginIDandPass(email, pw);
+                return newAccountInfo;//new info
+            }
+            else
+                return newAccountInfo;//empty
+        }
     }
 }

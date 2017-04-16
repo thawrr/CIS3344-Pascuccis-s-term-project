@@ -14,7 +14,7 @@ namespace TermProject
 {
     public partial class LogInPage : System.Web.UI.Page
     {
-        Account objAccount;
+        Account objAccount = new Account();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,7 +44,7 @@ namespace TermProject
             else
             {
                 Session["Account"] = null;
-                lblStatus.Text = "Invalid email or password. Please try again";
+                lblStatus2.Text = "Invalid email or password. Please try again";
             }
         }
 
@@ -78,7 +78,8 @@ namespace TermProject
                     // If serialized column is empty, then store info, else load into Account object
                     if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
                     {
-                        objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                        object val = (object)objDS.Tables[0].Rows[0][0];
+                        objAccount.UserID = Convert.ToInt32(val);
 
                         // Serialize data for database input and display status
                         lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID);
@@ -119,8 +120,12 @@ namespace TermProject
 
             objAccount.UserEmail = txtEmail.Text;
 
-            ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
+            ((Account)Session["Account"]).UserEmail = txtEmail.Text;
             ((Account)Session["Account"]).UserID = objAccount.UserID;
+            ((Account)Session["Account"]).UserFullName = objAccount.UserFullName;
+            ((Account)Session["Account"]).UserPassword = txtPassword.Text;
+            ((Account)Session["Account"]).StorageCapacity = objAccount.StorageCapacity;
+            ((Account)Session["Account"]).StorageUsed = objAccount.StorageUsed;
         }
 
         // Deserialize the binary data to reconstruct the Account object

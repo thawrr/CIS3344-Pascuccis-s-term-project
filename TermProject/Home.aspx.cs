@@ -16,9 +16,11 @@ namespace TermProject
     public partial class Home : System.Web.UI.Page
     {
         Account objAccount = new Account();
+        Validation v = new Validation();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;//necessary for asp validators... or else
 
             //Check if it exists and if logged in
             if (CheckSession())
@@ -31,6 +33,13 @@ namespace TermProject
                 string email = ((Account)Session["Account"]).UserEmail;//get email
                 objAccount.UserID = ((Account)Session["Account"]).UserID;//get user ID from session object
                 lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;//put it on the page
+
+                txtName.Text = ((Account)Session["Account"]).UserFullName;
+                txtEmail.Text = ((Account)Session["Account"]).UserEmail;
+                txtCapacity.Text = ((Account)Session["Account"]).StorageCapacity.ToString();
+                txtPW.Text = ((Account)Session["Account"]).UserPassword;
+                txtUsedSC.Text = ((Account)Session["Account"]).StorageUsed.ToString();
+                
             }
             else
                 Response.Redirect("Login.aspx");
@@ -135,5 +144,108 @@ namespace TermProject
 
             return objAccount;
         }
-    }//end class
+
+        private void BindData()
+        {
+
+        }
+
+        protected void gvUserFiles_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            //Set the edit index.
+            gvUserFiles.EditIndex = e.NewEditIndex;
+            //Bind data to the GridView control.
+            //BindData();
+        }
+
+        protected void gvUserFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {// Get the currently selected row using the SelectedRow property.
+         
+        }
+
+        protected void gvUserFiles_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {// RowEditing event handler that fires when the CommandField Edit button is clicked.
+
+        }
+
+        protected void gvUserFiles_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        { // RowUpdating event handler that fires when the CommandField Update button is clicked.
+
+        }
+
+        protected void gvUserFiles_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+
+        }
+
+
+
+        //NEXT GRIDVIEW -- TRANSACTION
+        protected void gvTransactions_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+
+        }
+
+        protected void gvTransactions_PageIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void gvTransactions_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+
+        }
+
+        protected void gvTransactions_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+
+        }
+
+        //submit button 
+        protected void btnAccount_Click(object sender, EventArgs e)
+        {
+            if (v.IsText(txtName) && v.IsValidEmail(txtEmail) && v.IsInt(txtCapacity) && v.IsInt(txtCapacity) == false)
+            {
+                lblAccountError.Text = "Input error in one of the input boxes";
+
+                txtName.Text = ((Account)Session["Account"]).UserFullName;
+                txtEmail.Text = ((Account)Session["Account"]).UserEmail;
+                txtCapacity.Text = ((Account)Session["Account"]).StorageCapacity.ToString();
+                txtPW.Text = ((Account)Session["Account"]).UserPassword;
+                txtUsedSC.Text = ((Account)Session["Account"]).StorageUsed.ToString();
+            }
+            else
+            {
+                CloudSvc.CloudService pxy = new CloudSvc.CloudService();
+                Account a = new Account();
+                int userID = ((Account)Session["Account"]).UserID;
+                string tempName = txtName.Text;
+                string tempEmail = txtEmail.Text;
+                int capTemp = Convert.ToInt32(txtCapacity.Text);
+                string tempPW = txtPW.Text;
+
+
+                DataSet newAccountInfo = new DataSet();
+                newAccountInfo = pxy.AccountUpdate(userID, tempName, tempEmail, capTemp, tempPW);
+
+                if (newAccountInfo.Tables[0].Rows[0][0] == DBNull.Value)
+                    lblTest.Text = "could not update Account :(";
+                else
+                {
+                    objAccount.UserID = Convert.ToInt32(newAccountInfo.Tables[0].Rows[0]["UserID"]);
+                    objAccount.UserEmail = newAccountInfo.Tables[0].Rows[0]["LoginID"].ToString();
+                    objAccount.UserPassword = newAccountInfo.Tables[0].Rows[0]["HashedPassword"].ToString();
+                    objAccount.UserFullName = newAccountInfo.Tables[0].Rows[0]["Name"].ToString();
+                    objAccount.StorageCapacity = Convert.ToInt32(newAccountInfo.Tables[0].Rows[0]["StorageCapacity"]);
+
+                    txtName.Text = objAccount.UserFullName;
+                    txtEmail.Text = objAccount.UserEmail;
+                    txtCapacity.Text = objAccount.StorageCapacity.ToString();
+                    txtPW.Text = objAccount.UserPassword;
+                    txtUsedSC.Text = objAccount.StorageCapacity.ToString();
+
+                }
+            }
+        }
+    }//end class1
 }//end name space 

@@ -24,7 +24,7 @@ namespace TermProject.CloudSvc {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="CloudServiceSoap", Namespace="http://tempuri.org/")]
@@ -37,6 +37,10 @@ namespace TermProject.CloudSvc {
         private System.Threading.SendOrPostCallback SerializeDataOperationCompleted;
         
         private System.Threading.SendOrPostCallback AddFileOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetFilesByIDOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AccountUpdateOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -87,6 +91,12 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event AddFileCompletedEventHandler AddFileCompleted;
+        
+        /// <remarks/>
+        public event GetFilesByIDCompletedEventHandler GetFilesByIDCompleted;
+        
+        /// <remarks/>
+        public event AccountUpdateCompletedEventHandler AccountUpdateCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -218,6 +228,72 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFilesByID", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetFilesByID(int userID) {
+            object[] results = this.Invoke("GetFilesByID", new object[] {
+                        userID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFilesByIDAsync(int userID) {
+            this.GetFilesByIDAsync(userID, null);
+        }
+        
+        /// <remarks/>
+        public void GetFilesByIDAsync(int userID, object userState) {
+            if ((this.GetFilesByIDOperationCompleted == null)) {
+                this.GetFilesByIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFilesByIDOperationCompleted);
+            }
+            this.InvokeAsync("GetFilesByID", new object[] {
+                        userID}, this.GetFilesByIDOperationCompleted, userState);
+        }
+        
+        private void OnGetFilesByIDOperationCompleted(object arg) {
+            if ((this.GetFilesByIDCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFilesByIDCompleted(this, new GetFilesByIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AccountUpdate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet AccountUpdate(int userID, string name, string email, int sc, string pw) {
+            object[] results = this.Invoke("AccountUpdate", new object[] {
+                        userID,
+                        name,
+                        email,
+                        sc,
+                        pw});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw) {
+            this.AccountUpdateAsync(userID, name, email, sc, pw, null);
+        }
+        
+        /// <remarks/>
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, object userState) {
+            if ((this.AccountUpdateOperationCompleted == null)) {
+                this.AccountUpdateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAccountUpdateOperationCompleted);
+            }
+            this.InvokeAsync("AccountUpdate", new object[] {
+                        userID,
+                        name,
+                        email,
+                        sc,
+                        pw}, this.AccountUpdateOperationCompleted, userState);
+        }
+        
+        private void OnAccountUpdateOperationCompleted(object arg) {
+            if ((this.AccountUpdateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AccountUpdateCompleted(this, new AccountUpdateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -237,11 +313,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void GetUserByLoginIDandPassCompletedEventHandler(object sender, GetUserByLoginIDandPassCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserByLoginIDandPassCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -263,11 +339,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void UpdateAccountCompletedEventHandler(object sender, UpdateAccountCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UpdateAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -289,11 +365,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void SerializeDataCompletedEventHandler(object sender, SerializeDataCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class SerializeDataCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -315,11 +391,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     public delegate void AddFileCompletedEventHandler(object sender, AddFileCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -336,6 +412,58 @@ namespace TermProject.CloudSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    public delegate void GetFilesByIDCompletedEventHandler(object sender, GetFilesByIDCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFilesByIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFilesByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    public delegate void AccountUpdateCompletedEventHandler(object sender, AccountUpdateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AccountUpdateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AccountUpdateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }
