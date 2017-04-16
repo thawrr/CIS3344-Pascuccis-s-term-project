@@ -105,11 +105,18 @@ namespace TermProjectWS
         {
             bool result = false;
 
+            // Serialize the input file (input)
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, input);
+            byteArray = memStream.ToArray();
+
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "AddFile";
             objCommand.Parameters.Clear();
-
-            SqlParameter inputParameter = new SqlParameter("@inputData", input);
+            
+            SqlParameter inputParameter = new SqlParameter("@inputData", byteArray);
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarBinary;
             inputParameter.Size = 8000;
@@ -121,28 +128,24 @@ namespace TermProjectWS
             inputParameter.SqlDbType = SqlDbType.Int;
             inputParameter.Size = 100;
             objCommand.Parameters.Add(inputParameter);
-            objCommand.Parameters.AddWithValue("@userID", userID);
 
             inputParameter = new SqlParameter("@fileName", fileName);
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarChar;
             inputParameter.Size = 8000;
             objCommand.Parameters.Add(inputParameter);
-            objCommand.Parameters.AddWithValue("@fileName", fileName);
 
             inputParameter = new SqlParameter("@fileType", fileType);
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarChar;
             inputParameter.Size = 8000;
             objCommand.Parameters.Add(inputParameter);
-            objCommand.Parameters.AddWithValue("@fileType", fileType);
 
             inputParameter = new SqlParameter("@fileSize", fileSize);
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarBinary;
             inputParameter.Size = 8000;
             objCommand.Parameters.Add(inputParameter);
-            objCommand.Parameters.AddWithValue("@fileSize", fileSize);
             
             int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
 
