@@ -37,7 +37,6 @@ namespace TermProject
                 if (chkRem.Checked == true)
                     WriteLoginCookie();
 
-
                 StartSession();
                 Response.Redirect("Home.aspx");
             }
@@ -63,9 +62,9 @@ namespace TermProject
         public bool CheckCredentials()
         {
             DataSet objDS = new DataSet();
-
-            // Still need to create database tables (tblUser && tblRole)
+            
             CloudSvc.CloudService pxy = new CloudSvc.CloudService();
+
             try
             {
                 objDS = pxy.GetUserByLoginIDandPass(txtEmail.Text, txtPassword.Text);
@@ -88,10 +87,11 @@ namespace TermProject
                         Byte[] byteArray = (Byte[])objDS.Tables[0].Rows[0]["Account"];
 
                         objAccount = DeserializeAccount(byteArray);
+                        objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
+                        objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
                     }
 
                     // User entered correct login information
-
                     return true;
                 }
             }
@@ -121,6 +121,7 @@ namespace TermProject
 
             ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
             ((Account)Session["Account"]).UserID = objAccount.UserID;
+            Session["Account"] = objAccount;
         }
 
         // Deserialize the binary data to reconstruct the Account object

@@ -105,9 +105,6 @@ namespace TermProjectWS
         [WebMethod]
         public bool AddFile(Byte[] input, int userID, string fileName, string fileType, int fileSize)
         {
-            DBConnect objDB = new DBConnect();
-            SqlCommand objCommand = new SqlCommand();
-
             bool result = false;
 
             // Serialize the input file (input)
@@ -156,6 +153,108 @@ namespace TermProjectWS
             }
             else
                 return result;
+        }
+
+        [WebMethod]
+        public bool UpdateFile(int fileID, Byte[] input, int userID, string fileName, string fileType, int fileSize)
+        {
+            bool result = false;
+
+            // Serialize the input file (input)
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, input);
+            byteArray = memStream.ToArray();
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "UpdateFile";
+            objCommand.Parameters.Clear();
+
+            objCommand.Parameters.AddWithValue("@inputData", input);
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 100;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileName", fileName);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileType", fileType);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileSize", fileSize);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileID", fileID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+            if (returnValue != -1)
+            {
+                result = true;
+                return result;
+            }
+            else
+                return result;
+        }
+
+        [WebMethod]
+        public DataSet GetFilesByUserID(int userID)
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetFilesByUserID";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            return dsFiles;
+        }
+
+        [WebMethod]
+        public bool DeleteFile(int fileID)
+        {
+            DBConnect objDB = new DBConnect();
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.Parameters.Clear();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "DeleteFile";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@fileID", fileID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+            if (returnValue > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -1,13 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="TermProject.Home" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cphBody" runat="server">
     <style>
         .center {
             text-align: center;
         }
     </style>
+    <title>Home Page</title>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphBody" runat="server">
     <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
     <h2>WebService Method Test Page</h2>
     <br />
@@ -50,12 +51,34 @@
             <!--end row 3-->
             <div class="row">
                 <div class="col-lg-12">
+                    <h3>File Delete</h3>
+                    <asp:GridView ID="gvFiles" AutoGenerateColumns="true" OnRowDeleting="gvFiles_RowDeleting" runat="server">
+                        <Columns>
+                            <asp:CommandField ButtonType="Button" HeaderText="Delete File" ShowDeleteButton="True" />
+                        </Columns>
+                    </asp:GridView>
+                    <asp:Label ID="lblDeleteStatus" runat="server" />
+                </div>
+            </div>
+            <!--end row 4-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>File Update</h3>
+                    <p>Choose a file to update:</p>
+                    <asp:DropDownList ID="ddlFiles" DataTextField="FileName" DataValueField="FileID" runat="server" />
+                    <asp:FileUpload ID="FileUploadUpdate" runat="server" /><br />
+                    <asp:Button ID="btnUpdateFile" runat="server" Text="Submit" OnClick="btnUpdateFile_Click" />
+                </div>
+            </div>
+            <!--end row 5-->
+            <div class="row">
+                <div class="col-lg-12">
                     <h3>File Transactions</h3>
                     <asp:GridView ID="gvTransactions" runat="server">
                     </asp:GridView>
                 </div>
             </div>
-            <!--end row 4-->
+            <!--end row 6-->
         </div>
     </div>
 </asp:Content>
