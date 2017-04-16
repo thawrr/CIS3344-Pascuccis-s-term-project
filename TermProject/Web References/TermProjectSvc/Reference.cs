@@ -182,24 +182,32 @@ namespace TermProject.TermProjectSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AddFile([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input) {
+        public bool AddFile([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input, int userID, string fileName, string fileType, int fileSize) {
             object[] results = this.Invoke("AddFile", new object[] {
-                        input});
+                        input,
+                        userID,
+                        fileName,
+                        fileType,
+                        fileSize});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void AddFileAsync(byte[] input) {
-            this.AddFileAsync(input, null);
+        public void AddFileAsync(byte[] input, int userID, string fileName, string fileType, int fileSize) {
+            this.AddFileAsync(input, userID, fileName, fileType, fileSize, null);
         }
         
         /// <remarks/>
-        public void AddFileAsync(byte[] input, object userState) {
+        public void AddFileAsync(byte[] input, int userID, string fileName, string fileType, int fileSize, object userState) {
             if ((this.AddFileOperationCompleted == null)) {
                 this.AddFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddFileOperationCompleted);
             }
             this.InvokeAsync("AddFile", new object[] {
-                        input}, this.AddFileOperationCompleted, userState);
+                        input,
+                        userID,
+                        fileName,
+                        fileType,
+                        fileSize}, this.AddFileOperationCompleted, userState);
         }
         
         private void OnAddFileOperationCompleted(object arg) {

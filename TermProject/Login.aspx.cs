@@ -15,6 +15,7 @@ namespace TermProject
     public partial class LogInPage : System.Web.UI.Page
     {
         Account objAccount;
+        GMethods objGM;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -29,7 +30,7 @@ namespace TermProject
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-            if (ValidateInput() && CheckCredentials() == true)
+            if (ValidateInput() && CheckCredentials())
             {
                 lblStatus.Text = "";
 
@@ -37,12 +38,13 @@ namespace TermProject
                 if (chkRem.Checked == true)
                     WriteLoginCookie();
 
+               
                 StartSession();
                 Response.Redirect("Home.aspx");
             }
             else
             {
-                //Session["Account"] = null;
+                Session["Account"] = null;
                 lblStatus.Text = "Invalid email or password. Please try again";
             }
         }
@@ -77,12 +79,12 @@ namespace TermProject
                     // If serialized column is empty, then store info, else load into Account object
                     if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
                     {
-                        int userID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                        objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
                         
                         // Serialize data for database input and display status
-                        lblStatus.Text = pxy.UpdateAccount(objDS, userID);
+                        lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID);
 
-                        ((Account)Session["Account"]).UserID = userID;//save current user's ID to session oject
+                        
                     }
                     else
                     {
@@ -90,13 +92,14 @@ namespace TermProject
 
                         objAccount = DeserializeAccount(byteArray);
 
-                        ((Account)Session["Account"]).UserID = objAccount.UserID;//save user ID to session object
+                        
 
                         // Getting error when trying to use method that is located in the library class
-                        //objAccount = objGM.DeserializeAccount(byteArray);
+                       //objAccount = objGM.DeserializeAccount(byteArray);
                     }
 
                     // User entered correct login information
+                    
                     return true;
                 }
             }
@@ -127,6 +130,8 @@ namespace TermProject
 
             //set email to object inside of Session State
             ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
+            //insert userID
+            ((Account)Session["Account"]).UserID = objAccount.UserID;
         }
 
         // Deserialize the binary data to reconstruct the Account object
@@ -139,5 +144,6 @@ namespace TermProject
 
             return objAccount;
         }
-    }
-}
+
+    }//end class
+}//end nameSpace

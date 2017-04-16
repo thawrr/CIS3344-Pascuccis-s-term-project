@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using GlobalMethods;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TermProject
 {
@@ -25,7 +26,8 @@ namespace TermProject
 
                 //Access your properties here
                 string email = ((Account)Session["Account"]).UserEmail;//get email
-                lblStatus.Text = "Welcome! Your email is: " + email;//put it on the page
+                objAccount.UserID = ((Account)Session["Account"]).UserID;//get user ID from session object
+                lblStatus.Text = "Welcome! Your email is: " + email+". Your UserID is "+ objAccount.UserID;//put it on the page
             }
             else
                 Response.Redirect("Login.aspx");
@@ -71,11 +73,64 @@ namespace TermProject
                     string fileName = FileUpload1.PostedFile.FileName;//SomeFile.txt
                     string fileExtension = Path.GetExtension(fileName);//.txt
                     int userID = ((Account)Session["Account"]).UserID;//When retrieving an object from session state,  
-                                                   //cast it to the appropriate type.
+                                                                      //cast it to the appropriate type.
+                    string fileType;
 
-                    lblTest.Text = userID + ", " + fileName + ", " + fileExtension+" was uploaded";
-                }
+                   
+                    switch(fileExtension)
+                    {
+                        case ".txt":
+                            fileType = "Text";
+                            break;
+
+                        case ".png":
+                            fileType = "Portable Network Graphics";
+                            break;
+
+                        case ".gif":
+                            fileType = "Graphics Interchange Format";
+                            break;
+
+                        case ".jpg":
+                            fileType = "Joint Photographic Experts Group";
+                            break;
+
+                        case ".jpeg":
+                            fileType = "Joint Photographic Experts Group";
+                            break;
+
+                        case ".docx":
+                            fileType = "Windows Word Document";
+                            break;
+
+                        case ".bat":
+                            fileType = "Batch File";
+                            break;
+
+                        default:
+                            fileType = "unknown to app";
+                            break;
+                    }
+                    bool result = pxy.AddFile(input, userID, fileName, fileType, fileSize);
+
+                    if (result == true)
+                        lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
+                    else
+                        lblTest.Text = "could not upload file to DataBase";
+                }//end else
             }
+        }//end btnClick
+
+        // Deserialize the binary data to reconstruct the Account object
+        public Account DeserializeAccount(Byte[] byteArray)
+        {
+            BinaryFormatter deSerializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream(byteArray);
+            memStream.Position = 0;
+            objAccount = (Account)deSerializer.Deserialize(memStream);
+
+            return objAccount;
         }
+
     }//end class
 }//end name space 
