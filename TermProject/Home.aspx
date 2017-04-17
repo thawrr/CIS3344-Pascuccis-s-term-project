@@ -138,7 +138,7 @@
                 <div class="col-lg-8">
                     <h3>File Transactions</h3>
                     <p>Select a user from the list below to view their transactions.</p>
-                    <p>Currently set to show all transaction. NOT time based</p>
+                    <p>Currently set to show all transactions from the last 2 days.</p>
                     <asp:DropDownList ID="ddlUserTrans" DataTextField="Name" DataValueField="UserID" runat="server" />
                     <br />
                     <asp:Button ID="btnSelectUserTrans" Text="Select" OnClick="btnSelectUserTrans_Click" runat="server" />
