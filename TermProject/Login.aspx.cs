@@ -62,7 +62,7 @@ namespace TermProject
         public bool CheckCredentials()
         {
             DataSet objDS = new DataSet();
-            
+
             CloudSvc.CloudService pxy = new CloudSvc.CloudService();
 
             try

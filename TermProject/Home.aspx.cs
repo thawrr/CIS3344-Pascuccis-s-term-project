@@ -21,6 +21,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
 
             //Check if it exists and if logged in
             if (CheckSession())
@@ -28,7 +29,6 @@ namespace TermProject
                 //Make sure there is an object saved for this user
                 if (Session["Account"] == null)
                     Session["Account"] = new Account();
-
 
                 objAccount = (Account)Session["Account"];
 
@@ -152,7 +152,7 @@ namespace TermProject
         {
             // Get the fileID
             int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[1].Text);
-            bool isDelete = pxy.DeleteFile(fileID);
+            bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID);
 
             if (isDelete)
                 lblDeleteStatus.Text = "File was deleted";
@@ -253,7 +253,6 @@ namespace TermProject
                         }
 
                         bool result = pxy.UpdateFile(fileID, input, userID, fileName, fileType, fileSize);
-                        //bool result = UpdateFile(fileID, input, userID, fileName, fileType, fileSize);
 
                         if (result == true)
                             lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
@@ -267,6 +266,11 @@ namespace TermProject
                 }
             }
             FillControls();
+        }
+
+        protected void btnUpdateAccount_Click(object sender, EventArgs e)
+        {
+
         }
     }//end class
 }//end name space 

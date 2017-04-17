@@ -302,24 +302,26 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool DeleteFile(int fileID) {
+        public bool DeleteFile(int fileID, int userID) {
             object[] results = this.Invoke("DeleteFile", new object[] {
-                        fileID});
+                        fileID,
+                        userID});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void DeleteFileAsync(int fileID) {
-            this.DeleteFileAsync(fileID, null);
+        public void DeleteFileAsync(int fileID, int userID) {
+            this.DeleteFileAsync(fileID, userID, null);
         }
         
         /// <remarks/>
-        public void DeleteFileAsync(int fileID, object userState) {
+        public void DeleteFileAsync(int fileID, int userID, object userState) {
             if ((this.DeleteFileOperationCompleted == null)) {
                 this.DeleteFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteFileOperationCompleted);
             }
             this.InvokeAsync("DeleteFile", new object[] {
-                        fileID}, this.DeleteFileOperationCompleted, userState);
+                        fileID,
+                        userID}, this.DeleteFileOperationCompleted, userState);
         }
         
         private void OnDeleteFileOperationCompleted(object arg) {
