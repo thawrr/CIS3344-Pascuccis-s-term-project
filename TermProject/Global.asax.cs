@@ -43,13 +43,15 @@ namespace TermProject
 
             // Update the DB with serialized Account object
             Account objAccount = (Account)Session["Account"];
+            objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;//get user ID from session object
+            objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
 
             DataSet objDS = new DataSet();
             //objDS.Tables.Add(dt);
 
             objDS = pxy.GetUserByLoginIDandPass(objAccount.UserLoginID, objAccount.UserPassword);
 
-            String strPlaceHolder = pxy.UpdateAccount(objDS, objAccount.UserID);
+            String strPlaceHolder = pxy.UpdateAccount(objDS, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
         }
 
         protected void Application_End(object sender, EventArgs e)

@@ -80,7 +80,7 @@ namespace TermProject
                         objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
 
                         // Serialize data for database input and display status
-                        lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID);
+                        lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID, txtEmail.Text, txtPassword.Text);
                     }
                     else
                     {

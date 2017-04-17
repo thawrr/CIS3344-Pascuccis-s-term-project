@@ -2,6 +2,21 @@
 <wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="AuthenticateMethod">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AuthenticateMethodResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AuthenticateMethodResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetUserByLoginIDandPass">
         <s:complexType>
           <s:sequence>
@@ -36,6 +51,8 @@
               </s:complexType>
             </s:element>
             <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -75,6 +92,8 @@
             <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="fileType" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="fileSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -94,6 +113,8 @@
             <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="fileType" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="fileSize" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -108,6 +129,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -130,6 +153,8 @@
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
             <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -175,7 +200,12 @@
         </s:complexType>
       </s:element>
       <s:element name="GetAllCloudUsers">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetAllCloudUsersResponse">
         <s:complexType>
@@ -192,7 +222,12 @@
         </s:complexType>
       </s:element>
       <s:element name="GetAllRoles">
-        <s:complexType />
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
       </s:element>
       <s:element name="GetAllRolesResponse">
         <s:complexType>
@@ -212,6 +247,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -233,6 +270,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -252,6 +291,12 @@
       </s:element>
     </s:schema>
   </wsdl:types>
+  <wsdl:message name="AuthenticateMethodSoapIn">
+    <wsdl:part name="parameters" element="tns:AuthenticateMethod" />
+  </wsdl:message>
+  <wsdl:message name="AuthenticateMethodSoapOut">
+    <wsdl:part name="parameters" element="tns:AuthenticateMethodResponse" />
+  </wsdl:message>
   <wsdl:message name="GetUserByLoginIDandPassSoapIn">
     <wsdl:part name="parameters" element="tns:GetUserByLoginIDandPass" />
   </wsdl:message>
@@ -331,6 +376,10 @@
     <wsdl:part name="parameters" element="tns:GetAllTransResponse" />
   </wsdl:message>
   <wsdl:portType name="CloudServiceSoap">
+    <wsdl:operation name="AuthenticateMethod">
+      <wsdl:input message="tns:AuthenticateMethodSoapIn" />
+      <wsdl:output message="tns:AuthenticateMethodSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetUserByLoginIDandPass">
       <wsdl:input message="tns:GetUserByLoginIDandPassSoapIn" />
       <wsdl:output message="tns:GetUserByLoginIDandPassSoapOut" />
@@ -386,6 +435,15 @@
   </wsdl:portType>
   <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AuthenticateMethod">
+      <soap:operation soapAction="http://tempuri.org/AuthenticateMethod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetUserByLoginIDandPass">
       <soap:operation soapAction="http://tempuri.org/GetUserByLoginIDandPass" style="document" />
       <wsdl:input>
@@ -506,6 +564,15 @@
   </wsdl:binding>
   <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AuthenticateMethod">
+      <soap12:operation soapAction="http://tempuri.org/AuthenticateMethod" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetUserByLoginIDandPass">
       <soap12:operation soapAction="http://tempuri.org/GetUserByLoginIDandPass" style="document" />
       <wsdl:input>
