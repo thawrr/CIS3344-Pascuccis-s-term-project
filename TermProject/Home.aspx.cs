@@ -197,7 +197,7 @@ namespace TermProject
             {
                 // Get the size in bytes of the file to upload.
                 int fileSize = FileUploadUpdate.PostedFile.ContentLength;
-                
+
                 if (objAccount.StorageUsed + fileSize < objAccount.StorageCapacity)
                 {
                     // Create a byte array to hold the contents of the file.
@@ -266,6 +266,25 @@ namespace TermProject
                 }
             }
             FillControls();
+        }
+
+        protected void btnAddUser_Click(object sender, EventArgs e)
+        {
+            // Assuming fields are validated
+            bool isAdded = pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text);
+
+            if(isAdded)
+            {
+                txtFullName.Text = "";
+                txtEmail.Text = "";
+                txtPassword.Text = "";
+
+                lblAddStatus.Text = "New user has been added.";
+            }
+            else
+            {
+                lblAddStatus.Text = "An error occured. User has not been added.";
+            }
         }
 
         protected void btnUpdateAccount_Click(object sender, EventArgs e)

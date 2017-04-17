@@ -307,10 +307,47 @@ namespace TermProjectWS
             if (returnValue != -1)
             {
                 newAccountInfo = GetUserByLoginIDandPass(email, pw);
-                return newAccountInfo;//new info
+                return newAccountInfo;
             }
             else
-                return newAccountInfo;//empty
+                return newAccountInfo;
+        }
+
+        [WebMethod]
+        public bool AddUser(string fullName, string email, string password)
+        {
+            DBConnect objDB = new DBConnect();
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.Parameters.Clear();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "AddUser";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@fullName", fullName);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@email", email);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@password", password);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+            if (returnValue > 0)
+                return true;
+            else
+                return false;
         }
     }
 }
