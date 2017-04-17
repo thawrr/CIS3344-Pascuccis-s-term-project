@@ -117,9 +117,16 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h3>File Delete</h3>
+                    <asp:Label ID="lblStorageInfo" runat="server" />
+                    <br />
                     <asp:GridView ID="gvFiles" AutoGenerateColumns="true" OnRowDeleting="gvFiles_RowDeleting" runat="server">
                         <Columns>
                             <asp:CommandField ButtonType="Button" HeaderText="Delete File" ShowDeleteButton="True" />
+                            <asp:TemplateField HeaderText="Type">
+                                <ItemTemplate>
+                                    <asp:Image ImageURL='<% #Eval("ImageURL")%>' Height="40" runat="server" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
                     <asp:Label ID="lblDeleteStatus" runat="server" />

@@ -16,6 +16,7 @@ namespace TermProject
     public partial class Home : System.Web.UI.Page
     {
         Account objAccount = new Account();
+        GMethods objGM = new GMethods();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
 
 
@@ -87,60 +88,24 @@ namespace TermProject
                         string fileName = FileUpload1.PostedFile.FileName;
                         string fileExtension = Path.GetExtension(fileName);
                         int userID = ((Account)Session["Account"]).UserID;
-                        string fileType;
 
-
-                        switch (fileExtension)
-                        {
-                            case ".txt":
-                                fileType = "Text";
-                                break;
-
-                            case ".png":
-                                fileType = "Portable Network Graphics";
-                                break;
-
-                            case ".gif":
-                                fileType = "Graphics Interchange Format";
-                                break;
-
-                            case ".jpg":
-                                fileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".jpeg":
-                                fileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".docx":
-                                fileType = "Windows Word Document";
-                                break;
-
-                            case ".bat":
-                                fileType = "Batch File";
-                                break;
-
-                            default:
-                                fileType = "Unknown to app";
-                                break;
-                        }
+                        string fileType = objGM.GetFileType(fileExtension);
 
                         bool result = pxy.AddFile(input, userID, fileName, fileType, fileSize, objAccount.UserEmail, objAccount.UserPassword);
-
 
                         if (result == true)
                             lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
                         else
                             lblTest.Text = "Could not upload file to DataBase";
-                    }//end else
+                    }
                 }
                 else
                 {
                     lblFileError.Text = "You have reached your maximum storage quota";
                 }
             }
-            //FillControls();
-        }//end btnClick
+            FillControls();
+        }
 
         // Deserialize the binary data to reconstruct the Account object
         public Account DeserializeAccount(Byte[] byteArray)
@@ -156,7 +121,7 @@ namespace TermProject
         protected void gvFiles_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             // Get the fileID
-            int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[1].Text);
+            int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[2].Text);
 
             bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
 
@@ -171,20 +136,34 @@ namespace TermProject
         public void FillControls()
         {
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+            DataTable dtFiles = dsFiles.Tables[0];
 
             if (dsFiles.Tables[0].Rows.Count != 0)
             {
+                dtFiles.Columns.Add("ImageURL", typeof(string));
+
+                // Determine which icon to show based on the file type
+                for (int i = 0; i < dtFiles.Rows.Count; i++)
+                {
+                    string fileType = dtFiles.Rows[i]["FileType"].ToString();
+                    string url = objGM.GetImageURL(fileType);
+                    dtFiles.Rows[i]["ImageURL"] = url;
+                }
+
                 gvFiles.Visible = true;
-                gvFiles.DataSource = dsFiles;
+                gvFiles.DataSource = dtFiles;
                 gvFiles.DataBind();
 
-                ddlFiles.DataSource = dsFiles;
+                ddlFiles.DataSource = dtFiles;
                 ddlFiles.DataBind();
+
+                lblStorageInfo.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
             {
                 gvFiles.Visible = false;
                 lblDeleteStatus.Text = "No files were found";
+                lblStorageInfo.Text = "";
             }
 
             DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
@@ -231,43 +210,8 @@ namespace TermProject
                         string fileName = FileUploadUpdate.PostedFile.FileName;
                         string fileExtension = Path.GetExtension(fileName);
                         int userID = ((Account)Session["Account"]).UserID;
-                        string fileType;
 
-
-                        switch (fileExtension)
-                        {
-                            case ".txt":
-                                fileType = "Text";
-                                break;
-
-                            case ".png":
-                                fileType = "Portable Network Graphics";
-                                break;
-
-                            case ".gif":
-                                fileType = "Graphics Interchange Format";
-                                break;
-
-                            case ".jpg":
-                                fileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".jpeg":
-                                fileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".docx":
-                                fileType = "Windows Word Document";
-                                break;
-
-                            case ".bat":
-                                fileType = "Batch File";
-                                break;
-
-                            default:
-                                fileType = "Unknown to app";
-                                break;
-                        }
+                        string fileType = objGM.GetFileType(fileExtension);
 
                         int roleID = Convert.ToInt32(ddlRole.SelectedValue);
 

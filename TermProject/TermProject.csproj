@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="images\batch.png" />
+    <Content Include="images\gif.png" />
+    <Content Include="images\picture.png" />
+    <Content Include="images\text.png" />
+    <Content Include="images\unknown.png" />
+    <Content Include="images\word.png" />
     <Content Include="Login.aspx" />
     <Content Include="loginstyles.css" />
     <Content Include="packages.config" />
