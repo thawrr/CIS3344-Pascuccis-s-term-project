@@ -42,8 +42,9 @@
                 </div>
             </div>
         </nav>
-        <div>
+        <div class="container">
             <asp:ContentPlaceHolder ID="cphBody" runat="server">
+
             </asp:ContentPlaceHolder>
         </div>
     </form>
