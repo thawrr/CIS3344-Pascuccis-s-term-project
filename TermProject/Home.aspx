@@ -21,7 +21,7 @@
                 <h3>Upload a file</h3>
                 <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
                 <asp:FileUpload ID="FileUpload1" runat="server" /><br />
-                <asp:Button ID="btnUpload" runat="server" Text="Submit" OnClick="btnUpload_Click" />
+                <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
             </div>
             <div class="col-md-4">
             </div>
@@ -40,32 +40,26 @@
                     <div class="col-lg-12">
 
                         <asp:Label ID="lblAccountError" runat="server" Text=""></asp:Label>&nbsp;
-
-                        <asp:ValidationSummary ID="valErrorList" runat="server" ForeColor="#CC0000"/>
                         <br />
 
                         <asp:Label ID="lblName" runat="server" Text="Full Name: "></asp:Label><asp:TextBox ID="txtName" runat="server"></asp:TextBox>&nbsp;
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Name cannot be empty" ControlToValidate="txtName"></asp:RequiredFieldValidator>&nbsp;
                         
                         <asp:Label ID="Label2" runat="server" Text="Total File size"></asp:Label> &nbsp;
                         <asp:TextBox ID="txtUsedSC" runat="server" ReadOnly="True"></asp:TextBox>
                         <br />
                         
                         <asp:Label ID="lblEmail" runat="server" Text="Email: "></asp:Label><asp:TextBox ID="txtEmail" TextMode="Email" runat="server" Height="27px"></asp:TextBox>&nbsp;
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Email cannot be empty" ControlToValidate="txtEmail"></asp:RequiredFieldValidator>
                         
                         &nbsp;
                         <asp:Label ID="lblPassword" runat="server" Text="Password"></asp:Label>
                         &nbsp;<asp:TextBox ID="txtPW" runat="server"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Password cannot be empty" ControlToValidate="txtPW"></asp:RequiredFieldValidator>
                         <br />
                         
                         <asp:Label ID="lblCapacity" runat="server" Text="Storage Capacity "></asp:Label><asp:TextBox ID="txtCapacity" runat="server"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Capacity cannot be empty" ControlToValidate="txtCapacity"></asp:RequiredFieldValidator>
                         <br />
                         <br />
                         
-                        <asp:Button ID="btnUpdateAccount" runat="server" Text="Submit" OnClick="btnUpdateAccount_Click" />
+                        <asp:Button ID="btnUpdateAccount" runat="server" Text="Update" OnClick="btnUpdateAccount_Click" />
                         <br />
                     </div>
                 </div>
@@ -89,7 +83,7 @@
                     <p>Choose a file to update:</p>
                     <asp:DropDownList ID="ddlFiles" DataTextField="FileName" DataValueField="FileID" runat="server" />
                     <asp:FileUpload ID="FileUploadUpdate" runat="server" /><br />
-                    <asp:Button ID="btnUpdateFile" runat="server" Text="Submit" OnClick="btnUpdateFile_Click" />
+                    <asp:Button ID="btnUpdateFile" runat="server" Text="Update" OnClick="btnUpdateFile_Click" />
                 </div>
             </div>
             <!--end row 5-->
