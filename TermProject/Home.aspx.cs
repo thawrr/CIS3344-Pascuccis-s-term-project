@@ -36,11 +36,12 @@ namespace TermProject
                 string email = ((Account)Session["Account"]).UserEmail;//get email
                 objAccount.UserID = ((Account)Session["Account"]).UserID;//get user ID from session object
                 lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;//put it on the page
-
-                FillControls();
             }
             else
                 Response.Redirect("Login.aspx");
+
+            if (!IsPostBack)
+                FillControls();
         }//end Page_Load
 
         // If there is no active session, redirect to the login page
@@ -134,7 +135,7 @@ namespace TermProject
                     lblFileError.Text = "You have reached your maximum storage quota";
                 }
             }
-            FillControls();
+            //FillControls();
         }//end btnClick
 
         // Deserialize the binary data to reconstruct the Account object

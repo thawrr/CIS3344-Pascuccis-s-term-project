@@ -60,7 +60,7 @@
                     <p>Select a user to edit</p>
                     <p>Method assumes user is an admin, therefore can update any user's information.</p>
                     <p>Select a user from the list below to Update</p>
-                    <asp:DropDownList ID="ddlUser" DataTextField="Name" DataValueField="UserID" runat="server" />
+                    <asp:DropDownList ID="ddlUser" AutoPostBack="true" DataTextField="Name" DataValueField="UserID" runat="server" />
                     <br />
                     <asp:Button ID="btnSelectUpdateUser" Text="Select" OnClick="btnSelectUpdateUser_Click" runat="server" />
                     <br />
@@ -99,7 +99,7 @@
                         <asp:TableRow>
                             <asp:TableCell>Role:</asp:TableCell>
                             <asp:TableCell>
-                                <asp:DropDownList ID="ddlRole" DataTextField="RoleDescription" DataValueField="RoleID" runat="server" />
+                                <asp:DropDownList ID="ddlRole" AutoPostBack="true" DataTextField="RoleDescription" DataValueField="RoleID" runat="server" />
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>
@@ -128,7 +128,7 @@
                 <div class="col-lg-8">
                     <h3>File Update</h3>
                     <p>Choose a file to update:</p>
-                    <asp:DropDownList ID="ddlFiles" DataTextField="FileName" DataValueField="FileID" runat="server" />
+                    <asp:DropDownList ID="ddlFiles" AutoPostBack="true" DataTextField="FileName" DataValueField="FileID" runat="server" />
                     <asp:FileUpload ID="FileUploadUpdate" runat="server" /><br />
                     <asp:Button ID="btnUpdateFile" runat="server" Text="Update" OnClick="btnUpdateFile_Click" />
                 </div>
@@ -139,7 +139,7 @@
                     <h3>File Transactions</h3>
                     <p>Select a user from the list below to view their transactions.</p>
                     <p>Currently set to show all transactions from the last 2 days.</p>
-                    <asp:DropDownList ID="ddlUserTrans" DataTextField="Name" DataValueField="UserID" runat="server" />
+                    <asp:DropDownList ID="ddlUserTrans" AutoPostBack="true" DataTextField="Name" DataValueField="UserID" runat="server" />
                     <br />
                     <asp:Button ID="btnSelectUserTrans" Text="Select" OnClick="btnSelectUserTrans_Click" runat="server" />
                     <br />
