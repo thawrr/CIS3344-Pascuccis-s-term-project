@@ -198,10 +198,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://localhost:4799/CloudService.asmx">
+    <WebReferenceUrl Include="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CloudSvc\</RelPath>
-      <UpdateFromURL>http://localhost:4799/CloudService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

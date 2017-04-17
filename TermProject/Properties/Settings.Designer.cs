@@ -26,7 +26,8 @@ namespace TermProject.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:4799/CloudService.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService" +
+            ".asmx")]
         public string TermProject_CloudSvc_CloudService {
             get {
                 return ((string)(this["TermProject_CloudSvc_CloudService"]));
