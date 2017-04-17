@@ -67,29 +67,79 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeserializeAccount">
+      <s:element name="AddFile">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="byteArray" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="input" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fileSize" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="DeserializeAccountResponse">
+      <s:element name="AddFileResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="DeserializeAccountResult" type="tns:Account" />
+            <s:element minOccurs="1" maxOccurs="1" name="AddFileResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:complexType name="Account">
-        <s:sequence>
-          <s:element minOccurs="1" maxOccurs="1" name="UserID" type="s:int" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserLoginID" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserPassword" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserFullName" type="s:string" />
-          <s:element minOccurs="0" maxOccurs="1" name="UserRole" type="s:string" />
-        </s:sequence>
-      </s:complexType>
+      <s:element name="UpdateFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="input" type="s:base64Binary" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fileType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="fileSize" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UpdateFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="UpdateFileResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFilesByUserID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFilesByUserIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFilesByUserIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteFileResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="GetUserByLoginIDandPassSoapIn">
@@ -110,13 +160,31 @@
   <wsdl:message name="SerializeDataSoapOut">
     <wsdl:part name="parameters" element="tns:SerializeDataResponse" />
   </wsdl:message>
-  <wsdl:message name="DeserializeAccountSoapIn">
-    <wsdl:part name="parameters" element="tns:DeserializeAccount" />
+  <wsdl:message name="AddFileSoapIn">
+    <wsdl:part name="parameters" element="tns:AddFile" />
   </wsdl:message>
-  <wsdl:message name="DeserializeAccountSoapOut">
-    <wsdl:part name="parameters" element="tns:DeserializeAccountResponse" />
+  <wsdl:message name="AddFileSoapOut">
+    <wsdl:part name="parameters" element="tns:AddFileResponse" />
   </wsdl:message>
-  <wsdl:portType name="TermProjectSoap">
+  <wsdl:message name="UpdateFileSoapIn">
+    <wsdl:part name="parameters" element="tns:UpdateFile" />
+  </wsdl:message>
+  <wsdl:message name="UpdateFileSoapOut">
+    <wsdl:part name="parameters" element="tns:UpdateFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetFilesByUserIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFilesByUserID" />
+  </wsdl:message>
+  <wsdl:message name="GetFilesByUserIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFilesByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFileSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteFile" />
+  </wsdl:message>
+  <wsdl:message name="DeleteFileSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteFileResponse" />
+  </wsdl:message>
+  <wsdl:portType name="CloudServiceSoap">
     <wsdl:operation name="GetUserByLoginIDandPass">
       <wsdl:input message="tns:GetUserByLoginIDandPassSoapIn" />
       <wsdl:output message="tns:GetUserByLoginIDandPassSoapOut" />
@@ -129,12 +197,24 @@
       <wsdl:input message="tns:SerializeDataSoapIn" />
       <wsdl:output message="tns:SerializeDataSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="DeserializeAccount">
-      <wsdl:input message="tns:DeserializeAccountSoapIn" />
-      <wsdl:output message="tns:DeserializeAccountSoapOut" />
+    <wsdl:operation name="AddFile">
+      <wsdl:input message="tns:AddFileSoapIn" />
+      <wsdl:output message="tns:AddFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFile">
+      <wsdl:input message="tns:UpdateFileSoapIn" />
+      <wsdl:output message="tns:UpdateFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFilesByUserID">
+      <wsdl:input message="tns:GetFilesByUserIDSoapIn" />
+      <wsdl:output message="tns:GetFilesByUserIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <wsdl:input message="tns:DeleteFileSoapIn" />
+      <wsdl:output message="tns:DeleteFileSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="TermProjectSoap" type="tns:TermProjectSoap">
+  <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetUserByLoginIDandPass">
       <soap:operation soapAction="http://tempuri.org/GetUserByLoginIDandPass" style="document" />
@@ -163,8 +243,35 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeserializeAccount">
-      <soap:operation soapAction="http://tempuri.org/DeserializeAccount" style="document" />
+    <wsdl:operation name="AddFile">
+      <soap:operation soapAction="http://tempuri.org/AddFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFile">
+      <soap:operation soapAction="http://tempuri.org/UpdateFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFilesByUserID">
+      <soap:operation soapAction="http://tempuri.org/GetFilesByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap:operation soapAction="http://tempuri.org/DeleteFile" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -173,7 +280,7 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="TermProjectSoap12" type="tns:TermProjectSoap">
+  <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetUserByLoginIDandPass">
       <soap12:operation soapAction="http://tempuri.org/GetUserByLoginIDandPass" style="document" />
@@ -202,8 +309,35 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="DeserializeAccount">
-      <soap12:operation soapAction="http://tempuri.org/DeserializeAccount" style="document" />
+    <wsdl:operation name="AddFile">
+      <soap12:operation soapAction="http://tempuri.org/AddFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFile">
+      <soap12:operation soapAction="http://tempuri.org/UpdateFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFilesByUserID">
+      <soap12:operation soapAction="http://tempuri.org/GetFilesByUserID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFile">
+      <soap12:operation soapAction="http://tempuri.org/DeleteFile" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -212,12 +346,12 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="TermProject">
-    <wsdl:port name="TermProjectSoap" binding="tns:TermProjectSoap">
-      <soap:address location="http://localhost:4799/TermProject.asmx" />
+  <wsdl:service name="CloudService">
+    <wsdl:port name="CloudServiceSoap" binding="tns:CloudServiceSoap">
+      <soap:address location="http://localhost:4799/CloudService.asmx" />
     </wsdl:port>
-    <wsdl:port name="TermProjectSoap12" binding="tns:TermProjectSoap12">
-      <soap12:address location="http://localhost:4799/TermProject.asmx" />
+    <wsdl:port name="CloudServiceSoap12" binding="tns:CloudServiceSoap12">
+      <soap12:address location="http://localhost:4799/CloudService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

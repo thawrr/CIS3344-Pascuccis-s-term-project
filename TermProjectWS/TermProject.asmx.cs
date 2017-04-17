@@ -26,7 +26,7 @@ namespace TermProjectWS
         SqlCommand objCommand = new SqlCommand();
 
         // Method is used to check for valid login credentials
-        // 	SELECT * FROM tblUser u JOIN tblRole r ON r.RoleID = u.RoleID= UPPER(@LoginID) AND Password = @Password
+        // SELECT * FROM tblUser u JOIN tblRole r ON r.RoleID = u.RoleID= UPPER(@LoginID) AND Password = @Password
         [WebMethod]
         public DataSet GetUserByLoginIDandPass(string LoginID, string Password)
         {
@@ -89,6 +89,8 @@ namespace TermProjectWS
             objAccount.UserPassword = objDS.Tables[0].Rows[0]["HashedPassword"].ToString();
             objAccount.UserFullName = objDS.Tables[0].Rows[0]["Name"].ToString();
             objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
+            objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
+            objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
 
             // Serialize the Account object
             BinaryFormatter serializer = new BinaryFormatter();
@@ -99,5 +101,61 @@ namespace TermProjectWS
 
             return byteArray;
         }
-    }
-}
+
+        [WebMethod]
+        public bool AddFile(Byte[] input, int userID, string fileName, string fileType, int fileSize)
+        {
+            DBConnect objDB = new DBConnect();
+            SqlCommand objCommand = new SqlCommand();
+
+            bool result = false;
+
+            // Serialize the input file (input)
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, input);
+            byteArray = memStream.ToArray();
+
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "AddFile";
+            objCommand.Parameters.Clear();
+
+            objCommand.Parameters.AddWithValue("@inputData", input);
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 100;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileName", fileName);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileType", fileType);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            inputParameter = new SqlParameter("@fileSize", fileSize);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 8000;
+            objCommand.Parameters.Add(inputParameter);
+
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+            if (returnValue != -1)
+            {
+                result = true;
+                return result;
+            }
+            else
+                return result;
+        }
+    }//end class
+}//end nameSpace

@@ -14,11 +14,32 @@ namespace GlobalMethods
         private String Password;
         private String Name;
         private String Role;
+        private String Email;
+        private int Capacity;
+        private int Used;
 
         public int UserID
         {
             get { return ID; }
             set { ID = value; }
+        }
+
+        public int StorageCapacity
+        {
+            get { return Capacity; }
+            set { Capacity = value; }
+        }
+
+        public int StorageUsed
+        {
+            get { return Used; }
+            set { Used = value; }
+        }
+
+        public String UserEmail
+        {
+            get { return Email; }
+            set { Email = value; }
         }
 
         public String UserLoginID

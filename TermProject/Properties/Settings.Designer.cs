@@ -26,10 +26,10 @@ namespace TermProject.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:4799/TermProject.asmx")]
-        public string TermProject_TermProjectSvc_TermProject {
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:4799/CloudService.asmx")]
+        public string TermProject_CloudSvc_CloudService {
             get {
-                return ((string)(this["TermProject_TermProjectSvc_TermProject"]));
+                return ((string)(this["TermProject_CloudSvc_CloudService"]));
             }
         }
     }
