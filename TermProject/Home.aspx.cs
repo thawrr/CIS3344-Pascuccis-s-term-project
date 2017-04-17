@@ -33,9 +33,12 @@ namespace TermProject
                 objAccount = (Account)Session["Account"];
 
                 //Access your properties here
-                string email = ((Account)Session["Account"]).UserEmail;//get email
-                objAccount.UserID = ((Account)Session["Account"]).UserID;//get user ID from session object
-                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;//put it on the page
+                string email = ((Account)Session["Account"]).UserEmail;
+                objAccount.UserID = ((Account)Session["Account"]).UserID;
+                objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
+                objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
+
+                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;
             }
             else
                 Response.Redirect("Login.aspx");
@@ -122,7 +125,8 @@ namespace TermProject
                                 break;
                         }
 
-                        bool result = pxy.AddFile(input, userID, fileName, fileType, fileSize);
+                        bool result = pxy.AddFile(input, userID, fileName, fileType, fileSize, objAccount.UserEmail, objAccount.UserPassword);
+
 
                         if (result == true)
                             lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
@@ -153,7 +157,8 @@ namespace TermProject
         {
             // Get the fileID
             int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[1].Text);
-            bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID);
+
+            bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
 
             if (isDelete)
                 lblDeleteStatus.Text = "File was deleted";
@@ -165,7 +170,7 @@ namespace TermProject
 
         public void FillControls()
         {
-            DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID);
+            DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsFiles.Tables[0].Rows.Count != 0)
             {
@@ -182,14 +187,14 @@ namespace TermProject
                 lblDeleteStatus.Text = "No files were found";
             }
 
-            DataSet dsUsers = pxy.GetAllCloudUsers();
+            DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
             ddlUser.DataSource = dsUsers;
             ddlUser.DataBind();
 
             ddlUserTrans.DataSource = dsUsers;
             ddlUserTrans.DataBind();
 
-            DataSet dlRoles = pxy.GetAllRoles();
+            DataSet dlRoles = pxy.GetAllRoles(objAccount.UserEmail, objAccount.UserPassword);
             ddlRole.DataSource = dlRoles;
             ddlRole.DataBind();
         }
@@ -264,7 +269,9 @@ namespace TermProject
                                 break;
                         }
 
-                        bool result = pxy.UpdateFile(fileID, input, userID, fileName, fileType, fileSize);
+                        int roleID = Convert.ToInt32(ddlRole.SelectedValue);
+
+                        bool result = pxy.UpdateFile(fileID, input, userID, fileName, fileType, fileSize, roleID, objAccount.UserEmail, objAccount.UserPassword);
 
                         if (result == true)
                             lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
@@ -303,7 +310,7 @@ namespace TermProject
 
         protected void btnSelectUpdateUser_Click(object sender, EventArgs e)
         {
-            DataSet dsUser = pxy.GetUserByID(Convert.ToInt32(ddlUser.SelectedValue));
+            DataSet dsUser = pxy.GetUserByID(Convert.ToInt32(ddlUser.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             lblUserID.Text = dsUser.Tables[0].Rows[0]["UserID"].ToString();
             txtUpdateName.Text = dsUser.Tables[0].Rows[0]["Name"].ToString();
@@ -333,7 +340,7 @@ namespace TermProject
 
         protected void btnSelectUserTrans_Click(object sender, EventArgs e)
         {
-            DataSet dsTrans = pxy.GetAllTrans(Convert.ToInt32(ddlUserTrans.SelectedValue));
+            DataSet dsTrans = pxy.GetAllTrans(Convert.ToInt32(ddlUserTrans.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsTrans.Tables[0].Rows.Count != 0)
             {

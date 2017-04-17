@@ -10,6 +10,8 @@
             <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
             <h2>WebService Method Test Page</h2>
             <br />
+            <p>All WebMethods are secured using User Credentials</p>
+            <br />
             <div class="row">
 
                 <div class="col-lg-12">

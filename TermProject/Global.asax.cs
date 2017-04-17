@@ -49,7 +49,7 @@ namespace TermProject
 
             objDS = pxy.GetUserByLoginIDandPass(objAccount.UserLoginID, objAccount.UserPassword);
 
-            String strPlaceHolder = pxy.UpdateAccount(objDS, objAccount.UserID);
+            String strPlaceHolder = pxy.UpdateAccount(objDS, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
         }
 
         protected void Application_End(object sender, EventArgs e)
