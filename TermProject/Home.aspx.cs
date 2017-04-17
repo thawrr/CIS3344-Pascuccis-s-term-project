@@ -185,6 +185,9 @@ namespace TermProject
             ddlUser.DataSource = dsUsers;
             ddlUser.DataBind();
 
+            ddlUserTrans.DataSource = dsUsers;
+            ddlUserTrans.DataBind();
+
             DataSet dlRoles = pxy.GetAllRoles();
             ddlRole.DataSource = dlRoles;
             ddlRole.DataBind();
@@ -309,7 +312,6 @@ namespace TermProject
             ddlRole.SelectedValue = dsUser.Tables[0].Rows[0]["RoleID"].ToString();
 
             tblUpdateUser.Visible = true;
-
         }
 
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
@@ -320,11 +322,29 @@ namespace TermProject
             {
                 tblUpdateUser.Visible = false;
                 lblUpdateStatus.Text = "Account has been updated.";
+                FillControls();
             }
             else
             {
                 lblUpdateStatus.Text = "Account was not updated.";
             }
         }
-    }//end class
-}//end name space 
+
+        protected void btnSelectUserTrans_Click(object sender, EventArgs e)
+        {
+            DataSet dsTrans = pxy.GetAllTrans(Convert.ToInt32(ddlUserTrans.SelectedValue));
+
+            if (dsTrans.Tables[0].Rows.Count != 0)
+            {
+                gvTransactions.DataSource = dsTrans;
+                gvTransactions.DataBind();
+                gvTransactions.Visible = true;
+            }
+            else
+            {
+                lblTransactionStatus.Text = "No transactions were found";
+                gvTransactions.Visible = false;
+            }
+        }
+    }
+}

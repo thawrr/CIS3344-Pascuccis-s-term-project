@@ -389,5 +389,23 @@ namespace TermProjectWS
 
             return dsFiles;
         }
+
+        [WebMethod]
+        public DataSet GetAllTrans(int userID)
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetAllTrans";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 100;
+            objCommand.Parameters.Add(inputParameter);
+
+            DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            return dsFiles;
+        }
     }
 }

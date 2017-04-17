@@ -137,16 +137,23 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h3>File Transactions</h3>
-                    <asp:GridView ID="gvTransactions" runat="server">
+                    <p>Select a user from the list below to view their transactions.</p>
+                    <p>Currently set to show all transaction. NOT time based</p>
+                    <asp:DropDownList ID="ddlUserTrans" DataTextField="Name" DataValueField="UserID" runat="server" />
+                    <br />
+                    <asp:Button ID="btnSelectUserTrans" Text="Select" OnClick="btnSelectUserTrans_Click" runat="server" />
+                    <br />
+                    <br />
+                    <asp:GridView ID="gvTransactions" AutoGenerateColumns="False" Visible="false" runat="server">
                         <Columns>
-                            <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
-                            <asp:BoundField DataField="LoginID" HeaderText="Email" SortExpression="LoginID" />
-                            <asp:BoundField DataField="HashedPassword" HeaderText="Password" SortExpression="HashedPassword" />
-                            <asp:BoundField DataField="StorageCapacity" HeaderText="Storage Capacity " ReadOnly="True" SortExpression="StorageCapacity" />
-                            <asp:BoundField DataField="StorageUsed" HeaderText="Storage Used" ReadOnly="True" SortExpression="StorageUsed" />
-                            <asp:BoundField DataField="Account" HeaderText="Account" ReadOnly="True" SortExpression="Account" />
+                            <asp:BoundField DataField="UserID" HeaderText="UserID" />
+                            <asp:BoundField DataField="FileID" HeaderText="File Num" />
+                            <asp:BoundField DataField="TransDesc" HeaderText="Description" />
+                            <asp:BoundField DataField="DateTimeStamp" HeaderText="Date" />
                         </Columns>
                     </asp:GridView>
+
+                    <asp:Label ID="lblTransactionStatus" runat="server" />
                 </div>
             </div>
             <!--end row 6-->

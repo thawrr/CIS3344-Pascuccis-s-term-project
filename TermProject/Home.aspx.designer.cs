@@ -256,6 +256,24 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Button btnUpdateFile;
         
         /// <summary>
+        /// ddlUserTrans control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlUserTrans;
+        
+        /// <summary>
+        /// btnSelectUserTrans control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSelectUserTrans;
+        
+        /// <summary>
         /// gvTransactions control.
         /// </summary>
         /// <remarks>
@@ -263,5 +281,14 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvTransactions;
+        
+        /// <summary>
+        /// lblTransactionStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTransactionStatus;
     }
 }

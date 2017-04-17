@@ -54,6 +54,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback GetUserByIDOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllTransOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -127,6 +129,9 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event GetUserByIDCompletedEventHandler GetUserByIDCompleted;
+        
+        /// <remarks/>
+        public event GetAllTransCompletedEventHandler GetAllTransCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -510,6 +515,35 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllTrans", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllTrans(int userID) {
+            object[] results = this.Invoke("GetAllTrans", new object[] {
+                        userID});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllTransAsync(int userID) {
+            this.GetAllTransAsync(userID, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllTransAsync(int userID, object userState) {
+            if ((this.GetAllTransOperationCompleted == null)) {
+                this.GetAllTransOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllTransOperationCompleted);
+            }
+            this.InvokeAsync("GetAllTrans", new object[] {
+                        userID}, this.GetAllTransOperationCompleted, userState);
+        }
+        
+        private void OnGetAllTransOperationCompleted(object arg) {
+            if ((this.GetAllTransCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllTransCompleted(this, new GetAllTransCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -827,6 +861,32 @@ namespace TermProject.CloudSvc {
         private object[] results;
         
         internal GetUserByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllTransCompletedEventHandler(object sender, GetAllTransCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllTransCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllTransCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
