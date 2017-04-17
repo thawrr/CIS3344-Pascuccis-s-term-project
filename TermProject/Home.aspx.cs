@@ -180,6 +180,14 @@ namespace TermProject
                 gvFiles.Visible = false;
                 lblDeleteStatus.Text = "No files were found";
             }
+
+            DataSet dsUsers = pxy.GetAllCloudUsers();
+            ddlUser.DataSource = dsUsers;
+            ddlUser.DataBind();
+
+            DataSet dlRoles = pxy.GetAllRoles();
+            ddlRole.DataSource = dlRoles;
+            ddlRole.DataBind();
         }
 
         protected void btnUpdateFile_Click(object sender, EventArgs e)
@@ -273,13 +281,15 @@ namespace TermProject
             // Assuming fields are validated
             bool isAdded = pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text);
 
-            if(isAdded)
+            if (isAdded)
             {
                 txtFullName.Text = "";
                 txtEmail.Text = "";
                 txtPassword.Text = "";
 
                 lblAddStatus.Text = "New user has been added.";
+
+                FillControls();
             }
             else
             {
@@ -287,9 +297,34 @@ namespace TermProject
             }
         }
 
+        protected void btnSelectUpdateUser_Click(object sender, EventArgs e)
+        {
+            DataSet dsUser = pxy.GetUserByID(Convert.ToInt32(ddlUser.SelectedValue));
+
+            lblUserID.Text = dsUser.Tables[0].Rows[0]["UserID"].ToString();
+            txtUpdateName.Text = dsUser.Tables[0].Rows[0]["Name"].ToString();
+            txtUpdateEmail.Text = dsUser.Tables[0].Rows[0]["LoginID"].ToString();
+            txtUpdatePassword.Text = dsUser.Tables[0].Rows[0]["HashedPassword"].ToString();
+            txtUpdateCapacity.Text = dsUser.Tables[0].Rows[0]["StorageCapacity"].ToString();
+            ddlRole.SelectedValue = dsUser.Tables[0].Rows[0]["RoleID"].ToString();
+
+            tblUpdateUser.Visible = true;
+
+        }
+
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
         {
+            bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text);
 
+            if (isUpdated)
+            {
+                tblUpdateUser.Visible = false;
+                lblUpdateStatus.Text = "Account has been updated.";
+            }
+            else
+            {
+                lblUpdateStatus.Text = "Account was not updated.";
+            }
         }
     }//end class
 }//end name space 

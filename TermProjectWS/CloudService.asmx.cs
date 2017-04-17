@@ -264,9 +264,8 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public DataSet AccountUpdate(int userID, string name, string email, int sc, string pw)
+        public bool AccountUpdate(int userID, string name, string email, int sc, string pw)
         {
-
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "UpdateAccount";
             objCommand.Parameters.Clear();
@@ -306,11 +305,10 @@ namespace TermProjectWS
 
             if (returnValue != -1)
             {
-                newAccountInfo = GetUserByLoginIDandPass(email, pw);
-                return newAccountInfo;
+                return true;
             }
             else
-                return newAccountInfo;
+                return false;
         }
 
         [WebMethod]
@@ -348,6 +346,48 @@ namespace TermProjectWS
                 return true;
             else
                 return false;
+        }
+
+        [WebMethod]
+        public DataSet GetAllCloudUsers()
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetAllCloudUsers";
+            objCommand.Parameters.Clear();
+
+            DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            return dsFiles;
+        }
+
+        [WebMethod]
+        public DataSet GetAllRoles()
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetAllRoles";
+            objCommand.Parameters.Clear();
+
+            DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            return dsFiles;
+        }
+
+        [WebMethod]
+        public DataSet GetUserByID(int userID)
+        {
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "GetUserByID";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@userID", userID);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.Int;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            return dsFiles;
         }
     }
 }

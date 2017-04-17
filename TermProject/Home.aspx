@@ -41,7 +41,7 @@
                         <asp:TableRow>
                             <asp:TableCell>Password:</asp:TableCell>
                             <asp:TableCell>
-                                <asp:TextBox ID="txtPassword" TextMode="Password" runat="server" />
+                                <asp:TextBox ID="txtPassword" runat="server" />
                             </asp:TableCell>
                         </asp:TableRow>
                         <asp:TableRow>
@@ -56,9 +56,59 @@
             <!--end row 2-->
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Account Info - Edit or Delete Fields</h3>
-                    <div class="col-lg-12">
-                    </div>
+                    <h3>Account Info - Update Account</h3>
+                    <p>Select a user to edit</p>
+                    <p>Method assumes user is an admin, therefore can update any user's information.</p>
+                    <p>Select a user from the list below to Update</p>
+                    <asp:DropDownList ID="ddlUser" DataTextField="Name" DataValueField="UserID" runat="server" />
+                    <br />
+                    <asp:Button ID="btnSelectUpdateUser" Text="Select" OnClick="btnSelectUpdateUser_Click" runat="server" />
+                    <br />
+                    <br />
+                    <asp:Table ID="tblUpdateUser" Visible="false" runat="server">
+                        <asp:TableRow>
+                            <asp:TableCell>User ID:</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:Label ID="lblUserID" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>Full Name:</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:TextBox ID="txtUpdateName" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>Email (LoginID):</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:TextBox ID="txtUpdateEmail" TextMode="Email" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>Password:</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:TextBox ID="txtUpdatePassword" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>Storage Capactiy:</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:TextBox ID="txtUpdateCapacity" TextMode="Number" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>Role:</asp:TableCell>
+                            <asp:TableCell>
+                                <asp:DropDownList ID="ddlRole" DataTextField="RoleDescription" DataValueField="RoleID" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                        <asp:TableRow>
+                            <asp:TableCell>
+                                <asp:Button ID="btnUpdateAccount" Text="Submit" OnClick="btnUpdateAccount_Click" runat="server" />
+                            </asp:TableCell>
+                        </asp:TableRow>
+                    </asp:Table>
+                    <asp:Label ID="lblUpdateStatus" runat="server" />
                 </div>
             </div>
             <!--end row 3-->
