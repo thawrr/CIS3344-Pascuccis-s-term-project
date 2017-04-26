@@ -27,6 +27,11 @@ namespace TermProject
             }
         }
 
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Registration.aspx");
+        }
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             if (ValidateInput() && CheckCredentials())
@@ -136,5 +141,6 @@ namespace TermProject
 
             return objAccount;
         }
+        
     }//end class
 }//end nameSpace

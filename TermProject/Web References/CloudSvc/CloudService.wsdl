@@ -269,6 +269,23 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetOneFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetOneFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetOneFileResult" type="s:base64Binary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AuthenticateMethodSoapIn">
@@ -349,6 +366,12 @@
   <wsdl:message name="GetAllTransSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllTransResponse" />
   </wsdl:message>
+  <wsdl:message name="GetOneFileSoapIn">
+    <wsdl:part name="parameters" element="tns:GetOneFile" />
+  </wsdl:message>
+  <wsdl:message name="GetOneFileSoapOut">
+    <wsdl:part name="parameters" element="tns:GetOneFileResponse" />
+  </wsdl:message>
   <wsdl:portType name="CloudServiceSoap">
     <wsdl:operation name="AuthenticateMethod">
       <wsdl:input message="tns:AuthenticateMethodSoapIn" />
@@ -401,6 +424,10 @@
     <wsdl:operation name="GetAllTrans">
       <wsdl:input message="tns:GetAllTransSoapIn" />
       <wsdl:output message="tns:GetAllTransSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOneFile">
+      <wsdl:input message="tns:GetOneFileSoapIn" />
+      <wsdl:output message="tns:GetOneFileSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
@@ -522,6 +549,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetOneFile">
+      <soap:operation soapAction="http://tempuri.org/GetOneFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -635,6 +671,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllTrans">
       <soap12:operation soapAction="http://tempuri.org/GetAllTrans" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOneFile">
+      <soap12:operation soapAction="http://tempuri.org/GetOneFile" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

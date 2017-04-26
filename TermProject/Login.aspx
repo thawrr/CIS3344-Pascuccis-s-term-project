@@ -29,6 +29,7 @@
             <br />
             <asp:Button ID="btnLogin" Class="btnLogin" type="submit" OnClick="btnLogin_Click" runat="server" Text="Log In" />
             <br />
+            <asp:Button ID="btnRegister" Class="btnRegister" type="submit" runat="server" Text="Register" OnClick="btnRegister_Click" />
             <br />
             <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
             <br />

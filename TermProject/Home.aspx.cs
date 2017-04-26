@@ -56,6 +56,7 @@ namespace TermProject
                 return true;
         }
 
+
         protected void btnUpload_Click(object sender, EventArgs e)
         {
             lblFileError.Visible = false;//hide error
@@ -68,68 +69,67 @@ namespace TermProject
             else
             {
                 // Get the size in bytes of the file to upload.
-                int fileSize = FileUpload1.PostedFile.ContentLength;
+                objAccount.FileSize = FileUpload1.PostedFile.ContentLength;
 
 
-                if (objAccount.StorageUsed + fileSize < objAccount.StorageCapacity)
+                if (objAccount.StorageUsed + objAccount.FileSize < objAccount.StorageCapacity)
                 {
                     // Create a byte array to hold the contents of the file.
-                    byte[] input = new byte[fileSize - 1];
+                    byte[] input = new byte[objAccount.FileSize - 1];
                     input = FileUpload1.FileBytes;//file data
 
-                    if (fileSize > 510000)//limit size
+                    if (objAccount.FileSize > 510000)//limit size
                     {
                         lblFileError.Visible = true;//show error
                         lblFileError.Text = "File is too big.";
                     }
                     else
                     {
-                        string fileName = FileUpload1.PostedFile.FileName;
-                        string fileExtension = Path.GetExtension(fileName);
+                        objAccount.FileName = FileUpload1.PostedFile.FileName;
+                        string fileExtension = Path.GetExtension(objAccount.FileName);
                         int userID = ((Account)Session["Account"]).UserID;
-                        string fileType;
 
 
                         switch (fileExtension)
                         {
                             case ".txt":
-                                fileType = "Text";
+                                objAccount.FileType = "Text";
                                 break;
 
                             case ".png":
-                                fileType = "Portable Network Graphics";
+                                objAccount.FileType = "Portable Network Graphics";
                                 break;
 
                             case ".gif":
-                                fileType = "Graphics Interchange Format";
+                                objAccount.FileType = "Graphics Interchange Format";
                                 break;
 
                             case ".jpg":
-                                fileType = "Joint Photographic Experts Group";
+                                objAccount.FileType = "Joint Photographic Experts Group";
                                 break;
 
                             case ".jpeg":
-                                fileType = "Joint Photographic Experts Group";
+                                objAccount.FileType = "Joint Photographic Experts Group";
                                 break;
 
                             case ".docx":
-                                fileType = "Windows Word Document";
+                                objAccount.FileType = "Windows Word Document";
                                 break;
 
                             case ".bat":
-                                fileType = "Batch File";
+                                objAccount.FileType = "Batch File";
                                 break;
 
                             default:
-                                fileType = "Unknown to app";
+                                objAccount.FileType = "Unknown to app";
                                 break;
                         }
 
-                        bool result = pxy.AddFile(input, userID, fileName, fileType, fileSize, objAccount.UserEmail, objAccount.UserPassword);
+                        bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
 
 
                         if (result == true)
-                            lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
+                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
                         else
                             lblTest.Text = "Could not upload file to DataBase";
                     }//end else
@@ -213,68 +213,67 @@ namespace TermProject
             else
             {
                 // Get the size in bytes of the file to upload.
-                int fileSize = FileUploadUpdate.PostedFile.ContentLength;
+                objAccount.FileSize = FileUploadUpdate.PostedFile.ContentLength;
 
-                if (objAccount.StorageUsed + fileSize < objAccount.StorageCapacity)
+                if (objAccount.StorageUsed + objAccount.FileSize < objAccount.StorageCapacity)
                 {
                     // Create a byte array to hold the contents of the file.
-                    byte[] input = new byte[fileSize - 1];
+                    byte[] input = new byte[objAccount.FileSize - 1];
                     input = FileUploadUpdate.FileBytes;//file data
 
-                    if (fileSize > 510000)//limit size
+                    if (objAccount.FileSize > 510000)//limit size
                     {
                         lblFileError.Visible = true;//show error
                         lblFileError.Text = "File is too big.";
                     }
                     else
                     {
-                        string fileName = FileUploadUpdate.PostedFile.FileName;
-                        string fileExtension = Path.GetExtension(fileName);
+                        objAccount.FileName = FileUpload1.PostedFile.FileName;
+                        string fileExtension = Path.GetExtension(objAccount.FileName);
                         int userID = ((Account)Session["Account"]).UserID;
-                        string fileType;
 
 
                         switch (fileExtension)
                         {
                             case ".txt":
-                                fileType = "Text";
+                                objAccount.FileType = "Text";
                                 break;
 
                             case ".png":
-                                fileType = "Portable Network Graphics";
+                                objAccount.FileType = "Portable Network Graphics";
                                 break;
 
                             case ".gif":
-                                fileType = "Graphics Interchange Format";
+                                objAccount.FileType = "Graphics Interchange Format";
                                 break;
 
                             case ".jpg":
-                                fileType = "Joint Photographic Experts Group";
+                                objAccount.FileType = "Joint Photographic Experts Group";
                                 break;
 
                             case ".jpeg":
-                                fileType = "Joint Photographic Experts Group";
+                                objAccount.FileType = "Joint Photographic Experts Group";
                                 break;
 
                             case ".docx":
-                                fileType = "Windows Word Document";
+                                objAccount.FileType = "Windows Word Document";
                                 break;
 
                             case ".bat":
-                                fileType = "Batch File";
+                                objAccount.FileType = "Batch File";
                                 break;
 
                             default:
-                                fileType = "Unknown to app";
+                                objAccount.FileType = "Unknown to app";
                                 break;
                         }
 
                         int roleID = Convert.ToInt32(ddlRole.SelectedValue);
 
-                        bool result = pxy.UpdateFile(fileID, input, userID, fileName, fileType, fileSize, roleID, objAccount.UserEmail, objAccount.UserPassword);
+                        bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, roleID, objAccount.UserEmail, objAccount.UserPassword);
 
                         if (result == true)
-                            lblTest.Text = userID + ", " + fileName + ", " + fileType + ", " + fileExtension + " was uploaded";
+                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
                         else
                             lblTest.Text = "Could not upload file to DataBase";
                     }//end else

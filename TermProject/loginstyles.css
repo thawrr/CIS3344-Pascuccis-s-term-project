@@ -58,6 +58,17 @@
     text-decoration: none;
 }
 
+.btnRegister {
+    -webkit-border-radius: 9;
+    -moz-border-radius: 9;
+    border-radius: 9px;
+    color: AntiqueWhite;
+    font-size: 15px;
+    background: #000000;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+}
+
 .lblStatus {
     color: red;
 }
