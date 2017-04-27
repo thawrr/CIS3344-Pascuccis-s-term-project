@@ -5,10 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Login</title>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" type="text/css" href="loginstyles.css"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="loginstyles.css" />
 
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -32,9 +32,7 @@
             <br />
             <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
             <br />
-             <asp:Label ID="lblStatus2" Class="lblStatus" runat="server" />
-            <br />
-            <asp:ValidationSummary ID="ValidationSummary1" runat="server" />
+            <asp:Button ID="btnRegister" Class="btnRegister" type="submit" runat="server" Text="Register" OnClick="btnRegister_Click" />
         </form>
     </div>
 </body>

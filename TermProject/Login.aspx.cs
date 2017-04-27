@@ -122,6 +122,7 @@ namespace TermProject
             ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
             ((Account)Session["Account"]).UserID = objAccount.UserID;
             ((Account)Session["Account"]).UserPassword = objAccount.UserPassword;
+            ((Account)Session["Account"]).UserRole = objAccount.UserRole;
 
             Session["Account"] = objAccount;
         }
@@ -135,6 +136,11 @@ namespace TermProject
             objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
+        }
+
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Registration.aspx");
         }
     }//end class
 }//end nameSpace
