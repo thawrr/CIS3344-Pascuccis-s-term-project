@@ -112,6 +112,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="UserPage.aspx" />
     <None Include="Web References\CloudSvc\CloudService.wsdl" />
     <Content Include="Web References\CloudSvc\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -168,6 +169,13 @@
     </Compile>
     <Compile Include="Registration.aspx.designer.cs">
       <DependentUpon>Registration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserPage.aspx.cs">
+      <DependentUpon>UserPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserPage.aspx.designer.cs">
+      <DependentUpon>UserPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Web References\CloudSvc\Reference.cs">
       <AutoGen>True</AutoGen>

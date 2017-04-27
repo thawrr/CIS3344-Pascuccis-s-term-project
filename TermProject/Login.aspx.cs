@@ -27,6 +27,11 @@ namespace TermProject
             }
         }
 
+        protected void btnRegister_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Registration.aspx");
+        }
+
         protected void btnLogin_Click(object sender, EventArgs e)
         {
             if (ValidateInput() && CheckCredentials())
@@ -122,7 +127,6 @@ namespace TermProject
             ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
             ((Account)Session["Account"]).UserID = objAccount.UserID;
             ((Account)Session["Account"]).UserPassword = objAccount.UserPassword;
-            ((Account)Session["Account"]).UserRole = objAccount.UserRole;
 
             Session["Account"] = objAccount;
         }
@@ -137,10 +141,6 @@ namespace TermProject
 
             return objAccount;
         }
-
-        protected void btnRegister_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("Registration.aspx");
-        }
+        
     }//end class
 }//end nameSpace

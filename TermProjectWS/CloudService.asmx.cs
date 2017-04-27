@@ -519,5 +519,45 @@ namespace TermProjectWS
                 return dsFiles;//empty
             }
         }
+
+        [WebMethod]
+        public Byte[] GetOneFile(int fileID, int userID, string LoginID, string Password)
+        {
+            if (AuthenticateMethod(LoginID, Password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetOneFileByID";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@fileID", fileID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                byte[] bytes;
+                bytes = SerializeData(dsFiles);
+                return bytes;
+            }
+            else
+            {
+                byte[] bytes = new byte[] {0x00};//enpty
+                return bytes;//return empty array if failed
+
+            }
+        }
+
     }
 }

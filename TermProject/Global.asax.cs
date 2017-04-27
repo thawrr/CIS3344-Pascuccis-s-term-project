@@ -43,6 +43,8 @@ namespace TermProject
 
             // Update the DB with serialized Account object
             Account objAccount = (Account)Session["Account"];
+            objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;//get user ID from session object
+            objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
 
             DataSet objDS = new DataSet();
             //objDS.Tables.Add(dt);
