@@ -95,8 +95,8 @@ namespace TermProject
                 // cell in the GridView control.
                 GridViewRow selectedRow = gvUserCloud.Rows[index];
                 
-                int userID = int.Parse(selectedRow.Cells[0].Text);//got userID for selected file
-                int fileID = int.Parse(selectedRow.Cells[1].Text);//got fileID for that file
+                int fileID = int.Parse(selectedRow.Cells[0].Text);//got userID for selected file
+                int userID = int.Parse(selectedRow.Cells[1].Text);//got fileID for that file
                 string ContentType = selectedRow.Cells[2].Text;
                 string fileName = selectedRow.Cells[3].Text;
 

@@ -17,7 +17,7 @@ namespace TermProject
     {
         Account objAccount = new Account();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
-
+        DataSet userCloud = new DataSet("Account");
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -269,6 +269,8 @@ namespace TermProject
                         }
 
                         int roleID = Convert.ToInt32(ddlRole.SelectedValue);
+
+
 
                         bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, roleID, objAccount.UserEmail, objAccount.UserPassword);
 
