@@ -338,7 +338,7 @@ namespace TermProject
 
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
         {
-            bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text);
+            bool isUpdated = false;
 
             if (isUpdated)
             {

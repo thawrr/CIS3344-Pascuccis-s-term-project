@@ -69,7 +69,9 @@ namespace TermProject
 
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
         {
-            bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text);
+            bool isActive = chkActive.Checked;
+
+            bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text, Convert.ToInt32(ddlRole.SelectedValue), isActive);
 
             if (isUpdated)
             {
@@ -93,6 +95,13 @@ namespace TermProject
             txtUpdatePassword.Text = dsUser.Tables[0].Rows[0]["HashedPassword"].ToString();
             txtUpdateCapacity.Text = dsUser.Tables[0].Rows[0]["StorageCapacity"].ToString();
             ddlRole.SelectedValue = dsUser.Tables[0].Rows[0]["RoleID"].ToString();
+
+            if (Convert.ToBoolean(dsUser.Tables[0].Rows[0]["isActive"]))
+            {
+                chkActive.Checked = true;
+            }
+            else
+                chkActive.Checked = false;
 
             tblUpdateUser.Visible = true;
         }
@@ -200,10 +209,11 @@ namespace TermProject
         // Fill page controls with updated information
         public void FillControls()
         {
-            DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
-            ddlUser.DataSource = dsUsers;
+            DataSet dsAllUsersAdmins = pxy.GetAllUsersAdmins(objAccount.UserEmail, objAccount.UserPassword);
+            ddlUser.DataSource = dsAllUsersAdmins;
             ddlUser.DataBind();
 
+            DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
             ddlUserTrans.DataSource = dsUsers;
             ddlUserTrans.DataBind();
 

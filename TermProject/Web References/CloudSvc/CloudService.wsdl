@@ -153,6 +153,8 @@
             <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="sc" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="pw" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="isActive" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -191,6 +193,28 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAllCloudUsersResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUsersAdmins">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUsersAdminsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllUsersAdminsResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -438,6 +462,12 @@
   <wsdl:message name="GetAllCloudUsersSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllCloudUsersResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllUsersAdminsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllUsersAdmins" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUsersAdminsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllUsersAdminsResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAllCloudAdminsSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllCloudAdmins" />
   </wsdl:message>
@@ -526,6 +556,10 @@
     <wsdl:operation name="GetAllCloudUsers">
       <wsdl:input message="tns:GetAllCloudUsersSoapIn" />
       <wsdl:output message="tns:GetAllCloudUsersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersAdmins">
+      <wsdl:input message="tns:GetAllUsersAdminsSoapIn" />
+      <wsdl:output message="tns:GetAllUsersAdminsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllCloudAdmins">
       <wsdl:input message="tns:GetAllCloudAdminsSoapIn" />
@@ -645,6 +679,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllCloudUsers">
       <soap:operation soapAction="http://tempuri.org/GetAllCloudUsers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersAdmins">
+      <soap:operation soapAction="http://tempuri.org/GetAllUsersAdmins" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -810,6 +853,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetAllCloudUsers">
       <soap12:operation soapAction="http://tempuri.org/GetAllCloudUsers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUsersAdmins">
+      <soap12:operation soapAction="http://tempuri.org/GetAllUsersAdmins" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

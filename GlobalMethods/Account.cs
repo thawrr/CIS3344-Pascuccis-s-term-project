@@ -17,6 +17,7 @@ namespace GlobalMethods
         private String Email;
         private int Capacity;
         private int Used;
+        private bool isActive;
 
         private String FName;
         private String FType;
@@ -94,6 +95,12 @@ namespace GlobalMethods
         {
             get { return FVersion; }
             set { FVersion = value; }
+        }
+
+        public bool Active
+        {
+            get { return isActive; }
+            set { isActive = value; }
         }
     }
 }

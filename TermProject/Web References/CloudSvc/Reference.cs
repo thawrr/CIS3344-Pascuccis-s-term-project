@@ -50,6 +50,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback GetAllCloudUsersOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllUsersAdminsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAllCloudAdminsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllRolesOperationCompleted;
@@ -133,6 +135,9 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event GetAllCloudUsersCompletedEventHandler GetAllCloudUsersCompleted;
+        
+        /// <remarks/>
+        public event GetAllUsersAdminsCompletedEventHandler GetAllUsersAdminsCompleted;
         
         /// <remarks/>
         public event GetAllCloudAdminsCompletedEventHandler GetAllCloudAdminsCompleted;
@@ -411,23 +416,25 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AccountUpdate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AccountUpdate(int userID, string name, string email, int sc, string pw) {
+        public bool AccountUpdate(int userID, string name, string email, int sc, string pw, int roleID, bool isActive) {
             object[] results = this.Invoke("AccountUpdate", new object[] {
                         userID,
                         name,
                         email,
                         sc,
-                        pw});
+                        pw,
+                        roleID,
+                        isActive});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw) {
-            this.AccountUpdateAsync(userID, name, email, sc, pw, null);
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, int roleID, bool isActive) {
+            this.AccountUpdateAsync(userID, name, email, sc, pw, roleID, isActive, null);
         }
         
         /// <remarks/>
-        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, object userState) {
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, int roleID, bool isActive, object userState) {
             if ((this.AccountUpdateOperationCompleted == null)) {
                 this.AccountUpdateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAccountUpdateOperationCompleted);
             }
@@ -436,7 +443,9 @@ namespace TermProject.CloudSvc {
                         name,
                         email,
                         sc,
-                        pw}, this.AccountUpdateOperationCompleted, userState);
+                        pw,
+                        roleID,
+                        isActive}, this.AccountUpdateOperationCompleted, userState);
         }
         
         private void OnAccountUpdateOperationCompleted(object arg) {
@@ -507,6 +516,37 @@ namespace TermProject.CloudSvc {
             if ((this.GetAllCloudUsersCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllCloudUsersCompleted(this, new GetAllCloudUsersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllUsersAdmins", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllUsersAdmins(string email, string password) {
+            object[] results = this.Invoke("GetAllUsersAdmins", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllUsersAdminsAsync(string email, string password) {
+            this.GetAllUsersAdminsAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllUsersAdminsAsync(string email, string password, object userState) {
+            if ((this.GetAllUsersAdminsOperationCompleted == null)) {
+                this.GetAllUsersAdminsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllUsersAdminsOperationCompleted);
+            }
+            this.InvokeAsync("GetAllUsersAdmins", new object[] {
+                        email,
+                        password}, this.GetAllUsersAdminsOperationCompleted, userState);
+        }
+        
+        private void OnGetAllUsersAdminsOperationCompleted(object arg) {
+            if ((this.GetAllUsersAdminsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllUsersAdminsCompleted(this, new GetAllUsersAdminsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1037,6 +1077,32 @@ namespace TermProject.CloudSvc {
         private object[] results;
         
         internal GetAllCloudUsersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllUsersAdminsCompletedEventHandler(object sender, GetAllUsersAdminsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllUsersAdminsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllUsersAdminsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

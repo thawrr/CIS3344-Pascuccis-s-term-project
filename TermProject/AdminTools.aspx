@@ -43,9 +43,9 @@
 
             <%--Update a User--%>
             <div class="col-lg-8">
-                <h3>Account Info - Update Account</h3>
+                <h3>Account Info - Update/Deactivate Account</h3>
                 <p>Select a user to edit</p>
-                <p>Method assumes user is an admin, therefore can update any user's information.</p>
+                <p>You can change basic info, storage capacity, and de/activate users.</p>
                 <p>Select a user from the list below to Update</p>
                 <asp:DropDownList ID="ddlUser" AutoPostBack="true" DataTextField="Name" DataValueField="UserID" runat="server" />
                 <br />
@@ -90,7 +90,14 @@
                         </asp:TableCell>
                     </asp:TableRow>
                     <asp:TableRow>
+                        <asp:TableCell>Active:</asp:TableCell>
                         <asp:TableCell>
+                            <asp:CheckBox ID="chkActive" runat="server" />
+                        </asp:TableCell>
+                    </asp:TableRow>
+                    <asp:TableRow>
+                        <asp:TableCell>
+                            <br />
                             <asp:Button ID="btnUpdateAccount" Text="Submit" OnClick="btnUpdateAccount_Click" runat="server" />
                         </asp:TableCell>
                     </asp:TableRow>
@@ -124,7 +131,7 @@
             </div>
         </div>
     </asp:Panel>
-    <br />
+
     <asp:Panel ID="pnlSuperAdminTools" Visible="false" runat="server">
         <div class="row">
 

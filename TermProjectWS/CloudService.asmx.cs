@@ -128,6 +128,7 @@ namespace TermProjectWS
             objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
             objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
             objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
+            objAccount.Active = Convert.ToBoolean(objDS.Tables[0].Rows[0]["isActive"]);
 
             // Serialize the Account object
             BinaryFormatter serializer = new BinaryFormatter();
@@ -331,7 +332,7 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public bool AccountUpdate(int userID, string name, string email, int sc, string pw)
+        public bool AccountUpdate(int userID, string name, string email, int sc, string pw, int roleID, bool isActive)
         {
             if (AuthenticateMethod(email, pw) == true)
             {
@@ -366,6 +367,24 @@ namespace TermProjectWS
                 inputParameter = new SqlParameter("@pw", pw);
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.VarChar;
+                inputParameter.Size = 8000;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@roleID", roleID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 8000;
+                objCommand.Parameters.Add(inputParameter);
+
+                int active;
+                if (isActive)
+                    active = 1;
+                else
+                    active = 0;
+
+                inputParameter = new SqlParameter("@isActive", active);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
                 inputParameter.Size = 8000;
                 objCommand.Parameters.Add(inputParameter);
 
@@ -447,6 +466,26 @@ namespace TermProjectWS
         }
 
         [WebMethod]
+        public DataSet GetAllUsersAdmins(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllUsersAdmins";
+                objCommand.Parameters.Clear();
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet dsFiles = new DataSet();
+                return dsFiles;//empty
+            }
+        }
+
+        [WebMethod]
         public DataSet GetAllCloudAdmins(string email, string password)
         {
             if (AuthenticateMethod(email, password) == true)
@@ -505,7 +544,6 @@ namespace TermProjectWS
                 DataSet dsFiles = new DataSet();
                 return dsFiles;//empty
             }
-
         }
 
         [WebMethod]
