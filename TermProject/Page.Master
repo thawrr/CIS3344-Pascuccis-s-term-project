@@ -36,9 +36,11 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-left">
                         <li class="navlinks"><a href="Home.aspx">Home</a></li>
+                        <li class="navlinks"><a href="AdminTools.aspx">Admin Tools</a></li>
                         <li class="navlinks"><a href="UserPage.aspx">User Cloud</a></li>
                         <li class="navlinks"><a href="Login.aspx">Login</a></li>
                         <li class="navlinks"><a href="Registration.aspx">Registration</a></li>
+                        <li class="navlinks"><a><asp:Button ID="btnLogout" Text="Log Out" OnClick="btnLogout_Click" runat="server" /></a></li>
                     </ul>
                 </div>
             </div>

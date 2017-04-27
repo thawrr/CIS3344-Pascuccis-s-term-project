@@ -156,7 +156,6 @@
                     <asp:GridView ID="gvTransactions" AutoGenerateColumns="False" Visible="false" runat="server">
                         <Columns>
                             <asp:BoundField DataField="UserID" HeaderText="UserID" />
-                            <asp:BoundField DataField="FileID" HeaderText="File Num" />
                             <asp:BoundField DataField="TransDesc" HeaderText="Description" />
                             <asp:BoundField DataField="DateTimeStamp" HeaderText="Date" />
                         </Columns>

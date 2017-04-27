@@ -33,7 +33,6 @@
             <br />
             <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
             <br />
-            <asp:Button ID="btnRegister" Class="btnRegister" type="submit" runat="server" Text="Register" OnClick="btnRegister_Click" />
         </form>
     </div>
 </body>

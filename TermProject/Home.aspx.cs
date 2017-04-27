@@ -17,12 +17,11 @@ namespace TermProject
     {
         Account objAccount = new Account();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
+        GMethods objGM = new GMethods();
         DataSet userCloud = new DataSet("Account");
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
-
             //Check if it exists and if logged in
             if (CheckSession())
             {
@@ -171,20 +170,34 @@ namespace TermProject
         public void FillControls()
         {
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+            DataTable dtFiles = dsFiles.Tables[0];
 
             if (dsFiles.Tables[0].Rows.Count != 0)
             {
+                dtFiles.Columns.Add("ImageURL", typeof(string));
+
+                // Determine which icon to show based on the file type
+                for (int i = 0; i < dtFiles.Rows.Count; i++)
+                {
+                    string fileType = dtFiles.Rows[i]["FileType"].ToString();
+                    string url = objGM.GetImageURL(fileType);
+                    dtFiles.Rows[i]["ImageURL"] = url;
+                }
+
                 gvFiles.Visible = true;
-                gvFiles.DataSource = dsFiles;
+                gvFiles.DataSource = dtFiles;
                 gvFiles.DataBind();
 
-                ddlFiles.DataSource = dsFiles;
+                ddlFiles.DataSource = dtFiles;
                 ddlFiles.DataBind();
+
+                lblStorageInfo.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
             {
                 gvFiles.Visible = false;
                 lblDeleteStatus.Text = "No files were found";
+                lblStorageInfo.Text = "";
             }
 
             DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
@@ -341,7 +354,7 @@ namespace TermProject
 
         protected void btnSelectUserTrans_Click(object sender, EventArgs e)
         {
-            DataSet dsTrans = pxy.GetAllTrans(Convert.ToInt32(ddlUserTrans.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+            DataSet dsTrans = pxy.GetAllTransByID(Convert.ToInt32(ddlUserTrans.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsTrans.Tables[0].Rows.Count != 0)
             {

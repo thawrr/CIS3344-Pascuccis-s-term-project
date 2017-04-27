@@ -94,6 +94,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdminTools.aspx" />
     <Content Include="Global.asax" />
     <Content Include="images\batch.png" />
     <Content Include="images\gif.png" />
@@ -133,6 +134,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminTools.aspx.cs">
+      <DependentUpon>AdminTools.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminTools.aspx.designer.cs">
+      <DependentUpon>AdminTools.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,10 +214,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx">
+    <WebReferenceUrl Include="http://localhost:4799/CloudService.asmx">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CloudSvc\</RelPath>
-      <UpdateFromURL>http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx</UpdateFromURL>
+      <UpdateFromURL>http://localhost:4799/CloudService.asmx</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

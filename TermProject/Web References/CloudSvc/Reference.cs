@@ -24,7 +24,7 @@ namespace TermProject.CloudSvc {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="CloudServiceSoap", Namespace="http://tempuri.org/")]
@@ -50,11 +50,19 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback GetAllCloudUsersOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetAllCloudAdminsOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAllRolesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllIntervalsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetUserByIDOperationCompleted;
         
-        private System.Threading.SendOrPostCallback GetAllTransOperationCompleted;
+        private System.Threading.SendOrPostCallback GetAllTransByIDOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllTransByDateOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllAdminTransByDateOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetOneFileOperationCompleted;
         
@@ -127,13 +135,25 @@ namespace TermProject.CloudSvc {
         public event GetAllCloudUsersCompletedEventHandler GetAllCloudUsersCompleted;
         
         /// <remarks/>
+        public event GetAllCloudAdminsCompletedEventHandler GetAllCloudAdminsCompleted;
+        
+        /// <remarks/>
         public event GetAllRolesCompletedEventHandler GetAllRolesCompleted;
+        
+        /// <remarks/>
+        public event GetAllIntervalsCompletedEventHandler GetAllIntervalsCompleted;
         
         /// <remarks/>
         public event GetUserByIDCompletedEventHandler GetUserByIDCompleted;
         
         /// <remarks/>
-        public event GetAllTransCompletedEventHandler GetAllTransCompleted;
+        public event GetAllTransByIDCompletedEventHandler GetAllTransByIDCompleted;
+        
+        /// <remarks/>
+        public event GetAllTransByDateCompletedEventHandler GetAllTransByDateCompleted;
+        
+        /// <remarks/>
+        public event GetAllAdminTransByDateCompletedEventHandler GetAllAdminTransByDateCompleted;
         
         /// <remarks/>
         public event GetOneFileCompletedEventHandler GetOneFileCompleted;
@@ -491,6 +511,37 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllCloudAdmins", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllCloudAdmins(string email, string password) {
+            object[] results = this.Invoke("GetAllCloudAdmins", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllCloudAdminsAsync(string email, string password) {
+            this.GetAllCloudAdminsAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllCloudAdminsAsync(string email, string password, object userState) {
+            if ((this.GetAllCloudAdminsOperationCompleted == null)) {
+                this.GetAllCloudAdminsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllCloudAdminsOperationCompleted);
+            }
+            this.InvokeAsync("GetAllCloudAdmins", new object[] {
+                        email,
+                        password}, this.GetAllCloudAdminsOperationCompleted, userState);
+        }
+        
+        private void OnGetAllCloudAdminsOperationCompleted(object arg) {
+            if ((this.GetAllCloudAdminsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllCloudAdminsCompleted(this, new GetAllCloudAdminsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllRoles", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public System.Data.DataSet GetAllRoles(string email, string password) {
             object[] results = this.Invoke("GetAllRoles", new object[] {
@@ -518,6 +569,37 @@ namespace TermProject.CloudSvc {
             if ((this.GetAllRolesCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetAllRolesCompleted(this, new GetAllRolesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllIntervals", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllIntervals(string email, string password) {
+            object[] results = this.Invoke("GetAllIntervals", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllIntervalsAsync(string email, string password) {
+            this.GetAllIntervalsAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllIntervalsAsync(string email, string password, object userState) {
+            if ((this.GetAllIntervalsOperationCompleted == null)) {
+                this.GetAllIntervalsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllIntervalsOperationCompleted);
+            }
+            this.InvokeAsync("GetAllIntervals", new object[] {
+                        email,
+                        password}, this.GetAllIntervalsOperationCompleted, userState);
+        }
+        
+        private void OnGetAllIntervalsOperationCompleted(object arg) {
+            if ((this.GetAllIntervalsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllIntervalsCompleted(this, new GetAllIntervalsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -555,9 +637,9 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllTrans", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public System.Data.DataSet GetAllTrans(int userID, string email, string password) {
-            object[] results = this.Invoke("GetAllTrans", new object[] {
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllTransByID", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllTransByID(int userID, string email, string password) {
+            object[] results = this.Invoke("GetAllTransByID", new object[] {
                         userID,
                         email,
                         password});
@@ -565,25 +647,91 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
-        public void GetAllTransAsync(int userID, string email, string password) {
-            this.GetAllTransAsync(userID, email, password, null);
+        public void GetAllTransByIDAsync(int userID, string email, string password) {
+            this.GetAllTransByIDAsync(userID, email, password, null);
         }
         
         /// <remarks/>
-        public void GetAllTransAsync(int userID, string email, string password, object userState) {
-            if ((this.GetAllTransOperationCompleted == null)) {
-                this.GetAllTransOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllTransOperationCompleted);
+        public void GetAllTransByIDAsync(int userID, string email, string password, object userState) {
+            if ((this.GetAllTransByIDOperationCompleted == null)) {
+                this.GetAllTransByIDOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllTransByIDOperationCompleted);
             }
-            this.InvokeAsync("GetAllTrans", new object[] {
+            this.InvokeAsync("GetAllTransByID", new object[] {
                         userID,
                         email,
-                        password}, this.GetAllTransOperationCompleted, userState);
+                        password}, this.GetAllTransByIDOperationCompleted, userState);
         }
         
-        private void OnGetAllTransOperationCompleted(object arg) {
-            if ((this.GetAllTransCompleted != null)) {
+        private void OnGetAllTransByIDOperationCompleted(object arg) {
+            if ((this.GetAllTransByIDCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.GetAllTransCompleted(this, new GetAllTransCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.GetAllTransByIDCompleted(this, new GetAllTransByIDCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllTransByDate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllTransByDate(int interval, string email, string password) {
+            object[] results = this.Invoke("GetAllTransByDate", new object[] {
+                        interval,
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllTransByDateAsync(int interval, string email, string password) {
+            this.GetAllTransByDateAsync(interval, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllTransByDateAsync(int interval, string email, string password, object userState) {
+            if ((this.GetAllTransByDateOperationCompleted == null)) {
+                this.GetAllTransByDateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllTransByDateOperationCompleted);
+            }
+            this.InvokeAsync("GetAllTransByDate", new object[] {
+                        interval,
+                        email,
+                        password}, this.GetAllTransByDateOperationCompleted, userState);
+        }
+        
+        private void OnGetAllTransByDateOperationCompleted(object arg) {
+            if ((this.GetAllTransByDateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllTransByDateCompleted(this, new GetAllTransByDateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllAdminTransByDate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllAdminTransByDate(int interval, string email, string password) {
+            object[] results = this.Invoke("GetAllAdminTransByDate", new object[] {
+                        interval,
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllAdminTransByDateAsync(int interval, string email, string password) {
+            this.GetAllAdminTransByDateAsync(interval, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllAdminTransByDateAsync(int interval, string email, string password, object userState) {
+            if ((this.GetAllAdminTransByDateOperationCompleted == null)) {
+                this.GetAllAdminTransByDateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllAdminTransByDateOperationCompleted);
+            }
+            this.InvokeAsync("GetAllAdminTransByDate", new object[] {
+                        interval,
+                        email,
+                        password}, this.GetAllAdminTransByDateOperationCompleted, userState);
+        }
+        
+        private void OnGetAllAdminTransByDateOperationCompleted(object arg) {
+            if ((this.GetAllAdminTransByDateCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllAdminTransByDateCompleted(this, new GetAllAdminTransByDateCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -643,11 +791,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void AuthenticateMethodCompletedEventHandler(object sender, AuthenticateMethodCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AuthenticateMethodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -669,11 +817,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetUserByLoginIDandPassCompletedEventHandler(object sender, GetUserByLoginIDandPassCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserByLoginIDandPassCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -695,11 +843,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void UpdateAccountCompletedEventHandler(object sender, UpdateAccountCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UpdateAccountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -721,11 +869,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void AddFileCompletedEventHandler(object sender, AddFileCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -747,11 +895,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void UpdateFileCompletedEventHandler(object sender, UpdateFileCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class UpdateFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -773,11 +921,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetFilesByUserIDCompletedEventHandler(object sender, GetFilesByUserIDCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetFilesByUserIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -799,11 +947,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void DeleteFileCompletedEventHandler(object sender, DeleteFileCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class DeleteFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -825,11 +973,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void AccountUpdateCompletedEventHandler(object sender, AccountUpdateCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AccountUpdateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -851,11 +999,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void AddUserCompletedEventHandler(object sender, AddUserCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AddUserCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -877,11 +1025,11 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetAllCloudUsersCompletedEventHandler(object sender, GetAllCloudUsersCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetAllCloudUsersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -903,11 +1051,37 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllCloudAdminsCompletedEventHandler(object sender, GetAllCloudAdminsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllCloudAdminsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllCloudAdminsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetAllRolesCompletedEventHandler(object sender, GetAllRolesCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetAllRolesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -929,11 +1103,37 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllIntervalsCompletedEventHandler(object sender, GetAllIntervalsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllIntervalsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllIntervalsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetUserByIDCompletedEventHandler(object sender, GetUserByIDCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetUserByIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -955,18 +1155,18 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
-    public delegate void GetAllTransCompletedEventHandler(object sender, GetAllTransCompletedEventArgs e);
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllTransByIDCompletedEventHandler(object sender, GetAllTransByIDCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class GetAllTransCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class GetAllTransByIDCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal GetAllTransCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal GetAllTransByIDCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -981,11 +1181,63 @@ namespace TermProject.CloudSvc {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllTransByDateCompletedEventHandler(object sender, GetAllTransByDateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllTransByDateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllTransByDateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllAdminTransByDateCompletedEventHandler(object sender, GetAllAdminTransByDateCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllAdminTransByDateCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllAdminTransByDateCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     public delegate void GetOneFileCompletedEventHandler(object sender, GetOneFileCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1038.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class GetOneFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
-  <contractRef ref="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx?wsdl" docRef="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
-  <soap address="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx" xmlns:q1="http://tempuri.org/" binding="q1:CloudServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
-  <soap address="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx" xmlns:q2="http://tempuri.org/" binding="q2:CloudServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <contractRef ref="http://localhost:4799/CloudService.asmx?wsdl" docRef="http://localhost:4799/CloudService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost:4799/CloudService.asmx" xmlns:q1="http://tempuri.org/" binding="q1:CloudServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://localhost:4799/CloudService.asmx" xmlns:q2="http://tempuri.org/" binding="q2:CloudServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
 </discovery>

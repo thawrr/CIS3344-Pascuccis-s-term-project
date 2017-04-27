@@ -17,6 +17,8 @@ namespace TermProject
     {
         Account objAccount = new Account();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
+        GMethods objGM = new GMethods();
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -56,12 +58,28 @@ namespace TermProject
         public void FillControls()
         {
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+            DataTable dtFiles = dsFiles.Tables[0];
 
             if (dsFiles.Tables[0].Rows.Count != 0)
             {
-                gvUserCloud.DataSource = dsFiles;
+                dtFiles.Columns.Add("ImageURL", typeof(string));
+
+                // Determine which icon to show based on the file type
+                for (int i = 0; i < dtFiles.Rows.Count; i++)
+                {
+                    string fileType = dtFiles.Rows[i]["FileType"].ToString();
+                    string url = objGM.GetImageURL(fileType);
+                    dtFiles.Rows[i]["ImageURL"] = url;
+                }
+
+                gvUserCloud.Visible = true;
+                gvUserCloud.DataSource = dtFiles;
                 gvUserCloud.DataBind();
-                
+
+                gvUserCloud.DataSource = dtFiles;
+                gvUserCloud.DataBind();
+
+                lblStatus.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
             {

@@ -444,7 +444,26 @@ namespace TermProjectWS
                 DataSet dsFiles = new DataSet();
                 return dsFiles;//empty
             }
+        }
 
+        [WebMethod]
+        public DataSet GetAllCloudAdmins(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllCloudAdmins";
+                objCommand.Parameters.Clear();
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet dsFiles = new DataSet();
+                return dsFiles;//empty
+            }
         }
 
         [WebMethod]
@@ -454,6 +473,27 @@ namespace TermProjectWS
             {
                 objCommand.CommandType = CommandType.StoredProcedure;
                 objCommand.CommandText = "GetAllRoles";
+                objCommand.Parameters.Clear();
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet dsFiles = new DataSet();
+                return dsFiles;//empty
+            }
+
+        }
+
+        [WebMethod]
+        public DataSet GetAllIntervals(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllIntervals";
                 objCommand.Parameters.Clear();
 
                 DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
@@ -495,12 +535,12 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public DataSet GetAllTrans(int userID, string email, string password)
+        public DataSet GetAllTransByID(int userID, string email, string password)
         {
             if (AuthenticateMethod(email, password) == true)
             {
                 objCommand.CommandType = CommandType.StoredProcedure;
-                objCommand.CommandText = "GetAllTrans";
+                objCommand.CommandText = "GetAllTransByID";
                 objCommand.Parameters.Clear();
 
                 SqlParameter inputParameter = new SqlParameter("@userID", userID);
@@ -517,6 +557,58 @@ namespace TermProjectWS
             {
                 DataSet dsFiles = new DataSet();
                 return dsFiles;//empty
+            }
+        }
+
+        [WebMethod]
+        public DataSet GetAllTransByDate(int interval, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllTransByDate";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@interval", interval);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 100;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet dsFiles = new DataSet();
+                return dsFiles;
+            }
+        }
+
+        [WebMethod]
+        public DataSet GetAllAdminTransByDate(int interval, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllAdminTransByDate";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@interval", interval);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 100;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet dsFiles = new DataSet();
+                return dsFiles;
             }
         }
 

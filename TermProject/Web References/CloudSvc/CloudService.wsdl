@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
       <s:element name="AuthenticateMethod">
@@ -201,6 +201,28 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetAllCloudAdmins">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllCloudAdminsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllCloudAdminsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="GetAllRoles">
         <s:complexType>
           <s:sequence>
@@ -213,6 +235,28 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="GetAllRolesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllIntervals">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllIntervalsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllIntervalsResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -246,7 +290,7 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAllTrans">
+      <s:element name="GetAllTransByID">
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
@@ -255,10 +299,56 @@
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="GetAllTransResponse">
+      <s:element name="GetAllTransByIDResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetAllTransResult">
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllTransByIDResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllTransByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="interval" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllTransByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllTransByDateResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAdminTransByDate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="interval" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllAdminTransByDateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllAdminTransByDateResult">
               <s:complexType>
                 <s:sequence>
                   <s:element ref="s:schema" />
@@ -348,11 +438,23 @@
   <wsdl:message name="GetAllCloudUsersSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllCloudUsersResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllCloudAdminsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllCloudAdmins" />
+  </wsdl:message>
+  <wsdl:message name="GetAllCloudAdminsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllCloudAdminsResponse" />
+  </wsdl:message>
   <wsdl:message name="GetAllRolesSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllRoles" />
   </wsdl:message>
   <wsdl:message name="GetAllRolesSoapOut">
     <wsdl:part name="parameters" element="tns:GetAllRolesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllIntervalsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllIntervals" />
+  </wsdl:message>
+  <wsdl:message name="GetAllIntervalsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllIntervalsResponse" />
   </wsdl:message>
   <wsdl:message name="GetUserByIDSoapIn">
     <wsdl:part name="parameters" element="tns:GetUserByID" />
@@ -360,11 +462,23 @@
   <wsdl:message name="GetUserByIDSoapOut">
     <wsdl:part name="parameters" element="tns:GetUserByIDResponse" />
   </wsdl:message>
-  <wsdl:message name="GetAllTransSoapIn">
-    <wsdl:part name="parameters" element="tns:GetAllTrans" />
+  <wsdl:message name="GetAllTransByIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllTransByID" />
   </wsdl:message>
-  <wsdl:message name="GetAllTransSoapOut">
-    <wsdl:part name="parameters" element="tns:GetAllTransResponse" />
+  <wsdl:message name="GetAllTransByIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllTransByIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllTransByDateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllTransByDate" />
+  </wsdl:message>
+  <wsdl:message name="GetAllTransByDateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllTransByDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAdminTransByDateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllAdminTransByDate" />
+  </wsdl:message>
+  <wsdl:message name="GetAllAdminTransByDateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllAdminTransByDateResponse" />
   </wsdl:message>
   <wsdl:message name="GetOneFileSoapIn">
     <wsdl:part name="parameters" element="tns:GetOneFile" />
@@ -413,17 +527,33 @@
       <wsdl:input message="tns:GetAllCloudUsersSoapIn" />
       <wsdl:output message="tns:GetAllCloudUsersSoapOut" />
     </wsdl:operation>
+    <wsdl:operation name="GetAllCloudAdmins">
+      <wsdl:input message="tns:GetAllCloudAdminsSoapIn" />
+      <wsdl:output message="tns:GetAllCloudAdminsSoapOut" />
+    </wsdl:operation>
     <wsdl:operation name="GetAllRoles">
       <wsdl:input message="tns:GetAllRolesSoapIn" />
       <wsdl:output message="tns:GetAllRolesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllIntervals">
+      <wsdl:input message="tns:GetAllIntervalsSoapIn" />
+      <wsdl:output message="tns:GetAllIntervalsSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetUserByID">
       <wsdl:input message="tns:GetUserByIDSoapIn" />
       <wsdl:output message="tns:GetUserByIDSoapOut" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllTrans">
-      <wsdl:input message="tns:GetAllTransSoapIn" />
-      <wsdl:output message="tns:GetAllTransSoapOut" />
+    <wsdl:operation name="GetAllTransByID">
+      <wsdl:input message="tns:GetAllTransByIDSoapIn" />
+      <wsdl:output message="tns:GetAllTransByIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTransByDate">
+      <wsdl:input message="tns:GetAllTransByDateSoapIn" />
+      <wsdl:output message="tns:GetAllTransByDateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAdminTransByDate">
+      <wsdl:input message="tns:GetAllAdminTransByDateSoapIn" />
+      <wsdl:output message="tns:GetAllAdminTransByDateSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetOneFile">
       <wsdl:input message="tns:GetOneFileSoapIn" />
@@ -522,8 +652,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAllCloudAdmins">
+      <soap:operation soapAction="http://tempuri.org/GetAllCloudAdmins" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAllRoles">
       <soap:operation soapAction="http://tempuri.org/GetAllRoles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllIntervals">
+      <soap:operation soapAction="http://tempuri.org/GetAllIntervals" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -540,8 +688,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllTrans">
-      <soap:operation soapAction="http://tempuri.org/GetAllTrans" style="document" />
+    <wsdl:operation name="GetAllTransByID">
+      <soap:operation soapAction="http://tempuri.org/GetAllTransByID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTransByDate">
+      <soap:operation soapAction="http://tempuri.org/GetAllTransByDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAdminTransByDate">
+      <soap:operation soapAction="http://tempuri.org/GetAllAdminTransByDate" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -651,8 +817,26 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAllCloudAdmins">
+      <soap12:operation soapAction="http://tempuri.org/GetAllCloudAdmins" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="GetAllRoles">
       <soap12:operation soapAction="http://tempuri.org/GetAllRoles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllIntervals">
+      <soap12:operation soapAction="http://tempuri.org/GetAllIntervals" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -669,8 +853,26 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllTrans">
-      <soap12:operation soapAction="http://tempuri.org/GetAllTrans" style="document" />
+    <wsdl:operation name="GetAllTransByID">
+      <soap12:operation soapAction="http://tempuri.org/GetAllTransByID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllTransByDate">
+      <soap12:operation soapAction="http://tempuri.org/GetAllTransByDate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllAdminTransByDate">
+      <soap12:operation soapAction="http://tempuri.org/GetAllAdminTransByDate" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -690,10 +892,10 @@
   </wsdl:binding>
   <wsdl:service name="CloudService">
     <wsdl:port name="CloudServiceSoap" binding="tns:CloudServiceSoap">
-      <soap:address location="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx" />
+      <soap:address location="http://localhost:4799/CloudService.asmx" />
     </wsdl:port>
     <wsdl:port name="CloudServiceSoap12" binding="tns:CloudServiceSoap12">
-      <soap12:address location="http://cis-iis2.temple.edu/Spring2017/CIS3342_tuf08783/TermProjectWS/CloudService.asmx" />
+      <soap12:address location="http://localhost:4799/CloudService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

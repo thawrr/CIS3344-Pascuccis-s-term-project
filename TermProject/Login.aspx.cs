@@ -14,7 +14,7 @@ namespace TermProject
 {
     public partial class LogInPage : System.Web.UI.Page
     {
-        Account objAccount;
+        Account objAccount = new Account();
 
         protected void Page_Load(object sender, EventArgs e)
         {
