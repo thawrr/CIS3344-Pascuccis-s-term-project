@@ -92,6 +92,7 @@ namespace TermProject
                         Byte[] byteArray = (Byte[])objDS.Tables[0].Rows[0]["Account"];
 
                         objAccount = DeserializeAccount(byteArray);
+
                         objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
                         objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
                         objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();

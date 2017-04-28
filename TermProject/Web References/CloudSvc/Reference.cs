@@ -48,6 +48,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback AddUserOperationCompleted;
         
+        private System.Threading.SendOrPostCallback CheckEmailOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetAllCloudUsersOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetAllUsersAdminsOperationCompleted;
@@ -67,6 +69,16 @@ namespace TermProject.CloudSvc {
         private System.Threading.SendOrPostCallback GetAllAdminTransByDateOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetOneFileOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllQuestionsAndAnswersOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllUnansweredQuestionsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AskQuestionOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AnswerQuestionOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback AddQuestionOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -134,6 +146,9 @@ namespace TermProject.CloudSvc {
         public event AddUserCompletedEventHandler AddUserCompleted;
         
         /// <remarks/>
+        public event CheckEmailCompletedEventHandler CheckEmailCompleted;
+        
+        /// <remarks/>
         public event GetAllCloudUsersCompletedEventHandler GetAllCloudUsersCompleted;
         
         /// <remarks/>
@@ -162,6 +177,21 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event GetOneFileCompletedEventHandler GetOneFileCompleted;
+        
+        /// <remarks/>
+        public event GetAllQuestionsAndAnswersCompletedEventHandler GetAllQuestionsAndAnswersCompleted;
+        
+        /// <remarks/>
+        public event GetAllUnansweredQuestionsCompletedEventHandler GetAllUnansweredQuestionsCompleted;
+        
+        /// <remarks/>
+        public event AskQuestionCompletedEventHandler AskQuestionCompleted;
+        
+        /// <remarks/>
+        public event AnswerQuestionCompletedEventHandler AnswerQuestionCompleted;
+        
+        /// <remarks/>
+        public event AddQuestionCompletedEventHandler AddQuestionCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -457,34 +487,63 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddUser", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AddUser(string fullName, string email, string password) {
+        public bool AddUser(string fullName, string email, string pw) {
             object[] results = this.Invoke("AddUser", new object[] {
                         fullName,
                         email,
-                        password});
+                        pw});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void AddUserAsync(string fullName, string email, string password) {
-            this.AddUserAsync(fullName, email, password, null);
+        public void AddUserAsync(string fullName, string email, string pw) {
+            this.AddUserAsync(fullName, email, pw, null);
         }
         
         /// <remarks/>
-        public void AddUserAsync(string fullName, string email, string password, object userState) {
+        public void AddUserAsync(string fullName, string email, string pw, object userState) {
             if ((this.AddUserOperationCompleted == null)) {
                 this.AddUserOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddUserOperationCompleted);
             }
             this.InvokeAsync("AddUser", new object[] {
                         fullName,
                         email,
-                        password}, this.AddUserOperationCompleted, userState);
+                        pw}, this.AddUserOperationCompleted, userState);
         }
         
         private void OnAddUserOperationCompleted(object arg) {
             if ((this.AddUserCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.AddUserCompleted(this, new AddUserCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/CheckEmail", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool CheckEmail(string email) {
+            object[] results = this.Invoke("CheckEmail", new object[] {
+                        email});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void CheckEmailAsync(string email) {
+            this.CheckEmailAsync(email, null);
+        }
+        
+        /// <remarks/>
+        public void CheckEmailAsync(string email, object userState) {
+            if ((this.CheckEmailOperationCompleted == null)) {
+                this.CheckEmailOperationCompleted = new System.Threading.SendOrPostCallback(this.OnCheckEmailOperationCompleted);
+            }
+            this.InvokeAsync("CheckEmail", new object[] {
+                        email}, this.CheckEmailOperationCompleted, userState);
+        }
+        
+        private void OnCheckEmailOperationCompleted(object arg) {
+            if ((this.CheckEmailCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.CheckEmailCompleted(this, new CheckEmailCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -777,14 +836,13 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetOneFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] GetOneFile(int fileID, int userID, string LoginID, string Password) {
+        public System.Data.DataSet GetOneFile(int fileID, int userID, string LoginID, string Password) {
             object[] results = this.Invoke("GetOneFile", new object[] {
                         fileID,
                         userID,
                         LoginID,
                         Password});
-            return ((byte[])(results[0]));
+            return ((System.Data.DataSet)(results[0]));
         }
         
         /// <remarks/>
@@ -808,6 +866,177 @@ namespace TermProject.CloudSvc {
             if ((this.GetOneFileCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetOneFileCompleted(this, new GetOneFileCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllQuestionsAndAnswers", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllQuestionsAndAnswers(string email, string password) {
+            object[] results = this.Invoke("GetAllQuestionsAndAnswers", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllQuestionsAndAnswersAsync(string email, string password) {
+            this.GetAllQuestionsAndAnswersAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllQuestionsAndAnswersAsync(string email, string password, object userState) {
+            if ((this.GetAllQuestionsAndAnswersOperationCompleted == null)) {
+                this.GetAllQuestionsAndAnswersOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllQuestionsAndAnswersOperationCompleted);
+            }
+            this.InvokeAsync("GetAllQuestionsAndAnswers", new object[] {
+                        email,
+                        password}, this.GetAllQuestionsAndAnswersOperationCompleted, userState);
+        }
+        
+        private void OnGetAllQuestionsAndAnswersOperationCompleted(object arg) {
+            if ((this.GetAllQuestionsAndAnswersCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllQuestionsAndAnswersCompleted(this, new GetAllQuestionsAndAnswersCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllUnansweredQuestions", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllUnansweredQuestions(string email, string password) {
+            object[] results = this.Invoke("GetAllUnansweredQuestions", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllUnansweredQuestionsAsync(string email, string password) {
+            this.GetAllUnansweredQuestionsAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllUnansweredQuestionsAsync(string email, string password, object userState) {
+            if ((this.GetAllUnansweredQuestionsOperationCompleted == null)) {
+                this.GetAllUnansweredQuestionsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllUnansweredQuestionsOperationCompleted);
+            }
+            this.InvokeAsync("GetAllUnansweredQuestions", new object[] {
+                        email,
+                        password}, this.GetAllUnansweredQuestionsOperationCompleted, userState);
+        }
+        
+        private void OnGetAllUnansweredQuestionsOperationCompleted(object arg) {
+            if ((this.GetAllUnansweredQuestionsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllUnansweredQuestionsCompleted(this, new GetAllUnansweredQuestionsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AskQuestion", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AskQuestion(int userID, string qa, string email, string password) {
+            object[] results = this.Invoke("AskQuestion", new object[] {
+                        userID,
+                        qa,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AskQuestionAsync(int userID, string qa, string email, string password) {
+            this.AskQuestionAsync(userID, qa, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void AskQuestionAsync(int userID, string qa, string email, string password, object userState) {
+            if ((this.AskQuestionOperationCompleted == null)) {
+                this.AskQuestionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAskQuestionOperationCompleted);
+            }
+            this.InvokeAsync("AskQuestion", new object[] {
+                        userID,
+                        qa,
+                        email,
+                        password}, this.AskQuestionOperationCompleted, userState);
+        }
+        
+        private void OnAskQuestionOperationCompleted(object arg) {
+            if ((this.AskQuestionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AskQuestionCompleted(this, new AskQuestionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AnswerQuestion", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool AnswerQuestion(int userID, int supportID, string answer, string email, string password) {
+            object[] results = this.Invoke("AnswerQuestion", new object[] {
+                        userID,
+                        supportID,
+                        answer,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AnswerQuestionAsync(int userID, int supportID, string answer, string email, string password) {
+            this.AnswerQuestionAsync(userID, supportID, answer, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void AnswerQuestionAsync(int userID, int supportID, string answer, string email, string password, object userState) {
+            if ((this.AnswerQuestionOperationCompleted == null)) {
+                this.AnswerQuestionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAnswerQuestionOperationCompleted);
+            }
+            this.InvokeAsync("AnswerQuestion", new object[] {
+                        userID,
+                        supportID,
+                        answer,
+                        email,
+                        password}, this.AnswerQuestionOperationCompleted, userState);
+        }
+        
+        private void OnAnswerQuestionOperationCompleted(object arg) {
+            if ((this.AnswerQuestionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AnswerQuestionCompleted(this, new AnswerQuestionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddQuestion", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int AddQuestion(int userID, int roleID, string qa, string email, string password) {
+            object[] results = this.Invoke("AddQuestion", new object[] {
+                        userID,
+                        roleID,
+                        qa,
+                        email,
+                        password});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void AddQuestionAsync(int userID, int roleID, string qa, string email, string password) {
+            this.AddQuestionAsync(userID, roleID, qa, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void AddQuestionAsync(int userID, int roleID, string qa, string email, string password, object userState) {
+            if ((this.AddQuestionOperationCompleted == null)) {
+                this.AddQuestionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddQuestionOperationCompleted);
+            }
+            this.InvokeAsync("AddQuestion", new object[] {
+                        userID,
+                        roleID,
+                        qa,
+                        email,
+                        password}, this.AddQuestionOperationCompleted, userState);
+        }
+        
+        private void OnAddQuestionOperationCompleted(object arg) {
+            if ((this.AddQuestionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddQuestionCompleted(this, new AddQuestionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1051,6 +1280,32 @@ namespace TermProject.CloudSvc {
         private object[] results;
         
         internal AddUserCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void CheckEmailCompletedEventHandler(object sender, CheckEmailCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class CheckEmailCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal CheckEmailCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1316,10 +1571,140 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
-        public byte[] Result {
+        public System.Data.DataSet Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((byte[])(this.results[0]));
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllQuestionsAndAnswersCompletedEventHandler(object sender, GetAllQuestionsAndAnswersCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllQuestionsAndAnswersCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllQuestionsAndAnswersCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllUnansweredQuestionsCompletedEventHandler(object sender, GetAllUnansweredQuestionsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllUnansweredQuestionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllUnansweredQuestionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void AskQuestionCompletedEventHandler(object sender, AskQuestionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AskQuestionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AskQuestionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void AnswerQuestionCompletedEventHandler(object sender, AnswerQuestionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AnswerQuestionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AnswerQuestionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void AddQuestionCompletedEventHandler(object sender, AddQuestionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class AddQuestionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal AddQuestionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

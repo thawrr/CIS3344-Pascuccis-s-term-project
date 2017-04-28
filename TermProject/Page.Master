@@ -11,7 +11,7 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link href="styles.css" rel="stylesheet" type="text/css" />
 
     <asp:ContentPlaceHolder ID="cphHead" runat="server">
@@ -38,16 +38,17 @@
                         <li class="navlinks"><a href="Home.aspx">Home</a></li>
                         <li class="navlinks"><a href="AdminTools.aspx">Admin Tools</a></li>
                         <li class="navlinks"><a href="UserPage.aspx">User Cloud</a></li>
+                        <li class="navlinks"><a href="TechSupport.aspx">Tech Support</a></li>
                         <li class="navlinks"><a href="Login.aspx">Login</a></li>
                         <li class="navlinks"><a href="Registration.aspx">Registration</a></li>
-                        <li class="navlinks"><a><asp:Button ID="btnLogout" Text="Log Out" OnClick="btnLogout_Click" runat="server" /></a></li>
+                        <li class="navlinks"><a>
+                            <asp:Button ID="btnLogout" Text="Log Out" OnClick="btnLogout_Click" runat="server" /></a></li>
                     </ul>
                 </div>
             </div>
         </nav>
         <div class="container">
             <asp:ContentPlaceHolder ID="cphBody" runat="server">
-
             </asp:ContentPlaceHolder>
         </div>
     </form>

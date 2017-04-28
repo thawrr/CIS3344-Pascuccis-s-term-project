@@ -15,7 +15,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (CheckSession()==false)
+            if (CheckSession() == false)
                 lblStatus.Text = "Hello. Please create an account.";
             else
                 Response.Redirect("Login.aspx");
@@ -36,7 +36,7 @@ namespace TermProject
             if (Session["Account"] == null)
                 Session["Account"] = new Account();
 
-           // objAccount.UserEmail = txtEmail.Text;
+            // objAccount.UserEmail = txtEmail.Text;
 
             ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
             ((Account)Session["Account"]).UserID = objAccount.UserID;
@@ -50,30 +50,67 @@ namespace TermProject
         {
             // Write email, password, and access date to cookie
             HttpCookie myCookie = new HttpCookie("LoginCredentials_Cookie");
-           // myCookie.Values["Email"] = txtEmail.Text;
+            // myCookie.Values["Email"] = txtEmail.Text;
             Response.Cookies.Add(myCookie);
         }
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
-            // Assuming fields are validated
-            bool isAdded = pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text);
-
-            if (isAdded)
+            if (CheckInput())
             {
-                txtFullName.Text = "";
-                txtEmail.Text = "";
-                txtPassword.Text = "";
+                if (pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text))
+                {
+                    txtFullName.Text = "";
+                    txtEmail.Text = "";
+                    txtPassword.Text = "";
 
-                lblAddStatus.Text = "New user has been added.";
+                    lblAddStatus.Text = "New user has been added.";
 
-                Response.Redirect("Home.aspx");
-            }
-            else
-            {
-                lblAddStatus.Text = "An error occured. User has not been added.";
+                    Response.Redirect("Home.aspx");
+                }
+                else
+                {
+                    lblAddStatus.Text = "An error occured. User has not been added.";
+                }
             }
         }
 
-    }//end class
-}//end nameSpace
+
+        // Validate registration inputs
+        private bool CheckInput()
+        {
+            bool isValidEmail = false;
+            bool isValidName = false;
+            bool isValidPassword = false;
+
+            string password = txtPassword.Text;
+
+            if (txtFullName.Text != "")
+            {
+                isValidName = true;
+            }
+            if (pxy.CheckEmail(txtEmail.Text))
+            {
+                if (txtEmail.Text.Contains('@'))
+                {
+                    isValidEmail = true;
+                }
+            }
+            if (password.Length >= 6)
+            {
+                if (password.Contains('!') || password.Contains('@') || password.Contains('#') || password.Contains('$') || password.Contains('%') || password.Contains('&'))
+                {
+                    isValidPassword = true;
+                }
+            }
+
+            if (isValidName && isValidEmail && isValidPassword)
+            {
+                return true;
+
+            }
+            else
+                return false;
+        }
+    }
+}

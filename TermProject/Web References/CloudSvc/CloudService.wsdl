@@ -170,7 +170,7 @@
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="fullName" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="pw" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -178,6 +178,20 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="1" maxOccurs="1" name="AddUserResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckEmailResult" type="s:boolean" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -396,7 +410,111 @@
       <s:element name="GetOneFileResponse">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="GetOneFileResult" type="s:base64Binary" />
+            <s:element minOccurs="0" maxOccurs="1" name="GetOneFileResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllQuestionsAndAnswers">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllQuestionsAndAnswersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllQuestionsAndAnswersResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUnansweredQuestions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAllUnansweredQuestionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAllUnansweredQuestionsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AskQuestion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AskQuestionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AskQuestionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnswerQuestion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="supportID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="answer" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AnswerQuestionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AnswerQuestionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddQuestion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="qa" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddQuestionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="AddQuestionResult" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -455,6 +573,12 @@
   </wsdl:message>
   <wsdl:message name="AddUserSoapOut">
     <wsdl:part name="parameters" element="tns:AddUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckEmail" />
+  </wsdl:message>
+  <wsdl:message name="CheckEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckEmailResponse" />
   </wsdl:message>
   <wsdl:message name="GetAllCloudUsersSoapIn">
     <wsdl:part name="parameters" element="tns:GetAllCloudUsers" />
@@ -516,6 +640,36 @@
   <wsdl:message name="GetOneFileSoapOut">
     <wsdl:part name="parameters" element="tns:GetOneFileResponse" />
   </wsdl:message>
+  <wsdl:message name="GetAllQuestionsAndAnswersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllQuestionsAndAnswers" />
+  </wsdl:message>
+  <wsdl:message name="GetAllQuestionsAndAnswersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllQuestionsAndAnswersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUnansweredQuestionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAllUnansweredQuestions" />
+  </wsdl:message>
+  <wsdl:message name="GetAllUnansweredQuestionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAllUnansweredQuestionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="AskQuestionSoapIn">
+    <wsdl:part name="parameters" element="tns:AskQuestion" />
+  </wsdl:message>
+  <wsdl:message name="AskQuestionSoapOut">
+    <wsdl:part name="parameters" element="tns:AskQuestionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AnswerQuestionSoapIn">
+    <wsdl:part name="parameters" element="tns:AnswerQuestion" />
+  </wsdl:message>
+  <wsdl:message name="AnswerQuestionSoapOut">
+    <wsdl:part name="parameters" element="tns:AnswerQuestionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddQuestionSoapIn">
+    <wsdl:part name="parameters" element="tns:AddQuestion" />
+  </wsdl:message>
+  <wsdl:message name="AddQuestionSoapOut">
+    <wsdl:part name="parameters" element="tns:AddQuestionResponse" />
+  </wsdl:message>
   <wsdl:portType name="CloudServiceSoap">
     <wsdl:operation name="AuthenticateMethod">
       <wsdl:input message="tns:AuthenticateMethodSoapIn" />
@@ -552,6 +706,10 @@
     <wsdl:operation name="AddUser">
       <wsdl:input message="tns:AddUserSoapIn" />
       <wsdl:output message="tns:AddUserSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckEmail">
+      <wsdl:input message="tns:CheckEmailSoapIn" />
+      <wsdl:output message="tns:CheckEmailSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetAllCloudUsers">
       <wsdl:input message="tns:GetAllCloudUsersSoapIn" />
@@ -592,6 +750,26 @@
     <wsdl:operation name="GetOneFile">
       <wsdl:input message="tns:GetOneFileSoapIn" />
       <wsdl:output message="tns:GetOneFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllQuestionsAndAnswers">
+      <wsdl:input message="tns:GetAllQuestionsAndAnswersSoapIn" />
+      <wsdl:output message="tns:GetAllQuestionsAndAnswersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUnansweredQuestions">
+      <wsdl:input message="tns:GetAllUnansweredQuestionsSoapIn" />
+      <wsdl:output message="tns:GetAllUnansweredQuestionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AskQuestion">
+      <wsdl:input message="tns:AskQuestionSoapIn" />
+      <wsdl:output message="tns:AskQuestionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AnswerQuestion">
+      <wsdl:input message="tns:AnswerQuestionSoapIn" />
+      <wsdl:output message="tns:AnswerQuestionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddQuestion">
+      <wsdl:input message="tns:AddQuestionSoapIn" />
+      <wsdl:output message="tns:AddQuestionSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
@@ -670,6 +848,15 @@
     </wsdl:operation>
     <wsdl:operation name="AddUser">
       <soap:operation soapAction="http://tempuri.org/AddUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckEmail">
+      <soap:operation soapAction="http://tempuri.org/CheckEmail" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -767,6 +954,51 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetAllQuestionsAndAnswers">
+      <soap:operation soapAction="http://tempuri.org/GetAllQuestionsAndAnswers" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUnansweredQuestions">
+      <soap:operation soapAction="http://tempuri.org/GetAllUnansweredQuestions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AskQuestion">
+      <soap:operation soapAction="http://tempuri.org/AskQuestion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnswerQuestion">
+      <soap:operation soapAction="http://tempuri.org/AnswerQuestion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddQuestion">
+      <soap:operation soapAction="http://tempuri.org/AddQuestion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -844,6 +1076,15 @@
     </wsdl:operation>
     <wsdl:operation name="AddUser">
       <soap12:operation soapAction="http://tempuri.org/AddUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckEmail">
+      <soap12:operation soapAction="http://tempuri.org/CheckEmail" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -934,6 +1175,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetOneFile">
       <soap12:operation soapAction="http://tempuri.org/GetOneFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllQuestionsAndAnswers">
+      <soap12:operation soapAction="http://tempuri.org/GetAllQuestionsAndAnswers" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllUnansweredQuestions">
+      <soap12:operation soapAction="http://tempuri.org/GetAllUnansweredQuestions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AskQuestion">
+      <soap12:operation soapAction="http://tempuri.org/AskQuestion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AnswerQuestion">
+      <soap12:operation soapAction="http://tempuri.org/AnswerQuestion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddQuestion">
+      <soap12:operation soapAction="http://tempuri.org/AddQuestion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

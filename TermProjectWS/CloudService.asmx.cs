@@ -246,7 +246,7 @@ namespace TermProjectWS
                 inputParameter.SqlDbType = SqlDbType.Int;
                 inputParameter.Size = 8000;
                 objCommand.Parameters.Add(inputParameter);
-                
+
                 inputParameter = new SqlParameter("@roleID", roleID);
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.Int;
@@ -389,7 +389,6 @@ namespace TermProjectWS
                 objCommand.Parameters.Add(inputParameter);
 
                 int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
-                DataSet newAccountInfo = new DataSet();
 
                 if (returnValue != -1)
                 {
@@ -400,47 +399,67 @@ namespace TermProjectWS
             }
             else
                 return false;
-
         }
 
         [WebMethod]
-        public bool AddUser(string fullName, string email, string password)
+        public bool AddUser(string fullName, string email, string pw)
         {
             DBConnect objDB = new DBConnect();
             SqlCommand objCommand = new SqlCommand();
 
-            if (AuthenticateMethod(email, password) == true)
-            {
-                objCommand.Parameters.Clear();
-                objCommand.CommandType = CommandType.StoredProcedure;
-                objCommand.CommandText = "AddUser";
-                objCommand.Parameters.Clear();
+            objCommand.Parameters.Clear();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "AddUser";
+            objCommand.Parameters.Clear();
 
-                SqlParameter inputParameter = new SqlParameter("@fullName", fullName);
-                inputParameter.Direction = ParameterDirection.Input;
-                inputParameter.SqlDbType = SqlDbType.VarChar;
-                inputParameter.Size = 500;
-                objCommand.Parameters.Add(inputParameter);
+            SqlParameter inputParameter = new SqlParameter("@fullName", fullName);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
 
-                inputParameter = new SqlParameter("@email", email);
-                inputParameter.Direction = ParameterDirection.Input;
-                inputParameter.SqlDbType = SqlDbType.VarChar;
-                inputParameter.Size = 500;
-                objCommand.Parameters.Add(inputParameter);
+            inputParameter = new SqlParameter("@email", email);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
 
-                inputParameter = new SqlParameter("@password", password);
-                inputParameter.Direction = ParameterDirection.Input;
-                inputParameter.SqlDbType = SqlDbType.VarChar;
-                inputParameter.Size = 500;
-                objCommand.Parameters.Add(inputParameter);
+            inputParameter = new SqlParameter("@password", pw);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
 
-                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+            int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
 
-                if (returnValue > 0)
-                    return true;
-                else
-                    return false;
-            }
+            if (returnValue > 0)
+                return true;
+            else
+                return false;
+
+        }
+
+        [WebMethod]
+        public bool CheckEmail(string email)
+        {
+            DBConnect objDB = new DBConnect();
+            SqlCommand objCommand = new SqlCommand();
+
+            objCommand.Parameters.Clear();
+            objCommand.CommandType = CommandType.StoredProcedure;
+            objCommand.CommandText = "CheckEmail";
+            objCommand.Parameters.Clear();
+
+            SqlParameter inputParameter = new SqlParameter("@email", email);
+            inputParameter.Direction = ParameterDirection.Input;
+            inputParameter.SqlDbType = SqlDbType.VarChar;
+            inputParameter.Size = 500;
+            objCommand.Parameters.Add(inputParameter);
+
+            DataSet objDS = objDB.GetDataSetUsingCmdObj(objCommand);
+
+            if (objDS.Tables[0].Rows.Count == 0)
+                return true;
             else
                 return false;
         }
@@ -651,7 +670,7 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public Byte[] GetOneFile(int fileID, int userID, string LoginID, string Password)
+        public DataSet GetOneFile(int fileID, int userID, string LoginID, string Password)
         {
             if (AuthenticateMethod(LoginID, Password) == true)
             {
@@ -677,17 +696,184 @@ namespace TermProjectWS
 
                 DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
 
-                byte[] bytes;
-                bytes = SerializeData(dsFiles);
-                return bytes;
+                return dsFiles;
             }
             else
             {
-                byte[] bytes = new byte[] {0x00};//enpty
-                return bytes;//return empty array if failed
+                DataSet empty = new DataSet();
+                return empty;//return empty dataset
 
             }
         }
 
+        [WebMethod]
+        public DataSet GetAllQuestionsAndAnswers(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllQAs";
+                objCommand.Parameters.Clear();
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet empty = new DataSet();
+                return empty;//return empty dataset
+
+            }
+        }
+
+        [WebMethod]
+        public DataSet GetAllUnansweredQuestions(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetAllUnansweredQuestions";
+                objCommand.Parameters.Clear();
+
+                DataSet dsFiles = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsFiles;
+            }
+            else
+            {
+                DataSet empty = new DataSet();
+                return empty;//return empty dataset
+            }
+        }
+
+        [WebMethod]
+        public bool AskQuestion(int userID, string qa, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "AskQuestion";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@question", qa);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.VarChar;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        [WebMethod]
+        public bool AnswerQuestion(int userID, int supportID, string answer, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "AnswerQuestion";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@supportID", supportID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@answer", answer);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.VarChar;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        [WebMethod]
+        public int AddQuestion(int userID, int roleID, string qa, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "AddQA";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@roleID", roleID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@question", qa);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.VarChar;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int result = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                return result;
+            }
+            else
+                return -1;//failed logIn
+        }
     }
 }

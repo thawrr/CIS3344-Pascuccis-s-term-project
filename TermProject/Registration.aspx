@@ -1,15 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="Registration.aspx.cs" Inherits="TermProject.Registration" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBody" runat="server">
     <asp:Label ID="lblStatus" Class="lblStatus" runat="server" />
     <br />
 
-   <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <h3>Account Info - Add a User</h3>
             <p>New user's role is automatically 'Cloud User' and storage capacity will be set at 256,000 bytes</p>
             <p>Consult an admin to elevate status</p>
+            <p>*Password must contain at least 6 characters and at least 1 special character</p>
             <asp:Table ID="tblNewUser" runat="server">
                 <asp:TableRow>
                     <asp:TableCell>Full Name:</asp:TableCell>
