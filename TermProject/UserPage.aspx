@@ -25,8 +25,4 @@
             <asp:ButtonField ButtonType="Button" runat="server" HeaderText="Download File" Text="Download" CommandName="gvCommandDownload" CausesValidation="false" />
         </Columns>
     </asp:GridView>
-    <br />
-
-
-
 </asp:Content>
