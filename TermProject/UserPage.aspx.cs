@@ -19,9 +19,6 @@ namespace TermProject
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
         GMethods objGM = new GMethods();
 
-        float price;
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
             //Check if it exists and if logged in
@@ -180,7 +177,7 @@ namespace TermProject
             ddlPlanOptions.Enabled = false;
             tblTransaction.Visible = true;
 
-            price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+            float price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             lblAmountDue.Text = "Your card will be charged: $" + price;
         }
@@ -195,6 +192,9 @@ namespace TermProject
         {
             if (ValidatePayment())
             {
+                float price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+
+
                 if (pxy.UpgradePlan(txtCC.Text, Convert.ToInt32(txtCCV.Text), price, objAccount.UserID, Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword))
                 {
                     lblPaymentStatus.Text = "Plan has been updgraded";
