@@ -213,6 +213,9 @@ namespace TermProject
             ddlUser.DataSource = dsAllUsersAdmins;
             ddlUser.DataBind();
 
+            ddlCloudUsers.DataSource = dsAllUsersAdmins;
+            ddlCloudUsers.DataBind();
+
             DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
             ddlUserTrans.DataSource = dsUsers;
             ddlUserTrans.DataBind();
@@ -232,6 +235,36 @@ namespace TermProject
 
             ddlSuperInterval.DataSource = dsIntervals;
             ddlSuperInterval.DataBind();
+        }
+
+        protected void ddlCloudUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblUserFileStatus.Text = "";
+
+            DataSet dsFiles = pxy.GetFilesByUserID(Convert.ToInt32(ddlCloudUsers.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+            DataTable dtFiles = dsFiles.Tables[0];
+
+            if (dsFiles.Tables[0].Rows.Count != 0)
+            {
+                dtFiles.Columns.Add("ImageURL", typeof(string));
+
+                // Determine which icon to show based on the file type
+                for (int i = 0; i < dtFiles.Rows.Count; i++)
+                {
+                    string fileType = dtFiles.Rows[i]["FileType"].ToString();
+                    string url = objGM.GetImageURL(fileType);
+                    dtFiles.Rows[i]["ImageURL"] = url;
+                }
+
+                gvUserCloud.Visible = true;
+                gvUserCloud.DataSource = dtFiles;
+                gvUserCloud.DataBind();
+            }
+            else
+            {
+                gvUserCloud.Visible = false;
+                lblUserFileStatus.Text = "No files were found";
+            }
         }
     }
 }

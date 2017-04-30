@@ -576,6 +576,87 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="GetFileVersions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetFileVersionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetFileVersionsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeletedFiles">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDeletedFilesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDeletedFilesResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreDeletedFile">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fileID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreDeletedFileResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RestoreDeletedFileResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreOldVersion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="storageID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="masterFileID" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RestoreOldVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RestoreOldVersionResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AuthenticateMethodSoapIn">
@@ -746,6 +827,30 @@
   <wsdl:message name="UpgradePlanSoapOut">
     <wsdl:part name="parameters" element="tns:UpgradePlanResponse" />
   </wsdl:message>
+  <wsdl:message name="GetFileVersionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetFileVersions" />
+  </wsdl:message>
+  <wsdl:message name="GetFileVersionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetFileVersionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDeletedFilesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDeletedFiles" />
+  </wsdl:message>
+  <wsdl:message name="GetDeletedFilesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDeletedFilesResponse" />
+  </wsdl:message>
+  <wsdl:message name="RestoreDeletedFileSoapIn">
+    <wsdl:part name="parameters" element="tns:RestoreDeletedFile" />
+  </wsdl:message>
+  <wsdl:message name="RestoreDeletedFileSoapOut">
+    <wsdl:part name="parameters" element="tns:RestoreDeletedFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="RestoreOldVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:RestoreOldVersion" />
+  </wsdl:message>
+  <wsdl:message name="RestoreOldVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:RestoreOldVersionResponse" />
+  </wsdl:message>
   <wsdl:portType name="CloudServiceSoap">
     <wsdl:operation name="AuthenticateMethod">
       <wsdl:input message="tns:AuthenticateMethodSoapIn" />
@@ -858,6 +963,22 @@
     <wsdl:operation name="UpgradePlan">
       <wsdl:input message="tns:UpgradePlanSoapIn" />
       <wsdl:output message="tns:UpgradePlanSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFileVersions">
+      <wsdl:input message="tns:GetFileVersionsSoapIn" />
+      <wsdl:output message="tns:GetFileVersionsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDeletedFiles">
+      <wsdl:input message="tns:GetDeletedFilesSoapIn" />
+      <wsdl:output message="tns:GetDeletedFilesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RestoreDeletedFile">
+      <wsdl:input message="tns:RestoreDeletedFileSoapIn" />
+      <wsdl:output message="tns:RestoreDeletedFileSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOldVersion">
+      <wsdl:input message="tns:RestoreOldVersionSoapIn" />
+      <wsdl:output message="tns:RestoreOldVersionSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
@@ -1114,6 +1235,42 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetFileVersions">
+      <soap:operation soapAction="http://tempuri.org/GetFileVersions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeletedFiles">
+      <soap:operation soapAction="http://tempuri.org/GetDeletedFiles" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreDeletedFile">
+      <soap:operation soapAction="http://tempuri.org/RestoreDeletedFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOldVersion">
+      <soap:operation soapAction="http://tempuri.org/RestoreOldVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1362,6 +1519,42 @@
     </wsdl:operation>
     <wsdl:operation name="UpgradePlan">
       <soap12:operation soapAction="http://tempuri.org/UpgradePlan" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileVersions">
+      <soap12:operation soapAction="http://tempuri.org/GetFileVersions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDeletedFiles">
+      <soap12:operation soapAction="http://tempuri.org/GetDeletedFiles" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreDeletedFile">
+      <soap12:operation soapAction="http://tempuri.org/RestoreDeletedFile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreOldVersion">
+      <soap12:operation soapAction="http://tempuri.org/RestoreOldVersion" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

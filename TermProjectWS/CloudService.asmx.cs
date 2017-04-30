@@ -896,8 +896,7 @@ namespace TermProjectWS
             else
             {
                 DataSet empty = new DataSet();
-                return empty;//return empty dataset
-
+                return empty;
             }
         }
 
@@ -970,6 +969,148 @@ namespace TermProjectWS
                 objCommand.Parameters.Add(inputParameter);
 
                 inputParameter = new SqlParameter("@storageID", storageID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        [WebMethod]
+        public DataSet GetFileVersions(int fileID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetFileVersions";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@masterFileID", fileID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsPlans = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsPlans;
+            }
+            else
+            {
+                DataSet empty = new DataSet();
+                return empty;
+            }
+        }
+
+        [WebMethod]
+        public DataSet GetDeletedFiles(int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetDeletedFiles";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsPlans = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                return dsPlans;
+            }
+            else
+            {
+                DataSet empty = new DataSet();
+                return empty;
+            }
+        }
+
+        [WebMethod]
+        public bool RestoreDeletedFile(int fileID, int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "RestoreDeletedFile";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@fileID", fileID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        [WebMethod]
+        public bool RestoreOldVersion(int storageID, int masterFileID, int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "RestoreOldVersion";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@storageID", storageID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@masterFileID", masterFileID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@userID", userID);
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.Int;
                 inputParameter.Size = 500;

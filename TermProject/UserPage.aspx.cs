@@ -56,6 +56,8 @@ namespace TermProject
 
         public void FillControls()
         {
+            gvViewVersions.Visible = false;
+
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
             DataTable dtFiles = dsFiles.Tables[0];
 
@@ -75,10 +77,10 @@ namespace TermProject
                 gvUserCloud.DataSource = dtFiles;
                 gvUserCloud.DataBind();
 
-                gvUserCloud.DataSource = dtFiles;
-                gvUserCloud.DataBind();
+                ddlFiles.DataSource = dtFiles;
+                ddlFiles.DataBind();
 
-                lblStatus.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
+                lblStatus.Text += "\nYou have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
             {
@@ -150,16 +152,16 @@ namespace TermProject
 
                 if (returnedFile.Tables[0].Rows.Count == 0)
                 {
-                    lblStatus2.Text = "Something went wrong at download";
+                    lblFileStatus.Text = "Something went wrong at download";
                 }
                 else
                 {
                     byte[] bytes = new byte[1];
                     bytes = (byte[])returnedFile.Tables[0].Rows[0][0];
 
-                    //give content type to convert byte array to original file
+                    // Give content type to convert byte array to original file
                     Response.AddHeader("content-disposition", "attachment;filename= " + fileName + extension);
-                    //Re-create the file from the byte array
+                    // Re-create the file from the byte array
                     Response.BinaryWrite(bytes);
                     Response.Flush();
                     Response.End();
@@ -168,8 +170,51 @@ namespace TermProject
 
                 FillControls();
             }
+            else if (e.CommandName == "gvCommandViewVersions")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                // Get the fileID to query to get the versions
+                GridViewRow selectedRow = gvUserCloud.Rows[index];
+
+                int fileID = int.Parse(selectedRow.Cells[0].Text);
+
+                DataSet dsFileVersions = pxy.GetFileVersions(fileID, objAccount.UserEmail, objAccount.UserPassword);
+
+                if (dsFileVersions.Tables[0].Rows.Count != 0)
+                {
+                    gvViewVersions.DataSource = dsFileVersions;
+                    gvViewVersions.DataBind();
+                    gvViewVersions.Visible = true;
+                }
+                else
+                {
+                    gvViewVersions.Visible = false;
+                    // Should only show for old files initially uploaded
+                    lblViewVersionStatus.Text = "No versions of this file were found.";
+                }
+            }
+            else if (e.CommandName == "gvCommandDelete")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                // Get the fileID to query to get the versions
+                GridViewRow selectedRow = gvUserCloud.Rows[index];
+
+                int fileID = int.Parse(selectedRow.Cells[0].Text);
+
+                if (pxy.DeleteFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                {
+                    lblFileStatus.Text = "File has been deleted.";
+                    FillControls();
+                }
+                else
+                    lblFileStatus.Text = "Unable to restore file. Please try again.";
+
+            }
             else
-                lblStatus2.Text = "Something went wrong at gridview Command";
+                lblFileStatus.Text = "Something went wrong at gridview Command";
+
         }
 
         protected void ddlPlanOptions_SelectedIndexChanged(object sender, EventArgs e)
@@ -179,7 +224,7 @@ namespace TermProject
 
             float price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
-            lblAmountDue.Text = "Your card will be charged: $" + price;
+            lblAmountDue.Text = "Your card will be charged: " + price.ToString("C");
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -220,6 +265,87 @@ namespace TermProject
                 return false;
             }
             return true;
+        }
+
+        protected void gvViewVersions_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "gvCommandRestoreVersion")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                // Get the fileID and masterFileID
+                GridViewRow selectedRow = gvViewVersions.Rows[index];
+
+                int fileID = int.Parse(selectedRow.Cells[0].Text);
+                int masterFileID = int.Parse(selectedRow.Cells[1].Text);
+                
+                if (pxy.RestoreOldVersion(fileID, masterFileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                {
+                    lblViewVersionStatus.Text = "File has been restored.";
+                    gvViewVersions.Visible = false;
+                    FillControls();
+                }
+                else
+                    lblViewVersionStatus.Text = "Unable to restore file. Please try again.";
+            }
+        }
+
+        protected void gvDeletedFiles_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "gvCommandRestoreVersion")
+            {
+                int index = Convert.ToInt32(e.CommandArgument);
+
+                // Get the fileID to query to get the versions
+                GridViewRow selectedRow = gvDeletedFiles.Rows[index];
+
+                int fileID = int.Parse(selectedRow.Cells[0].Text);
+
+                if (pxy.RestoreDeletedFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                {
+                    lblViewDeletedStatus.Text = "File has been restored.";
+                    ViewDeletedFiles();
+                    FillControls();
+                }
+                else
+                    lblViewDeletedStatus.Text = "Unable to restore file. Please try again.";
+
+            }
+        }
+
+        protected void btnViewDeletedFiles_Click(object sender, EventArgs e)
+        {
+            lblViewDeletedStatus.Text = "";
+            ViewDeletedFiles();
+        }
+
+        private void ViewDeletedFiles()
+        {
+            lblViewVersionStatus.Text = "";
+
+            DataSet dsDeletedFiles = pxy.GetDeletedFiles(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+
+            if (dsDeletedFiles.Tables[0].Rows.Count != 0)
+            {
+                gvDeletedFiles.DataSource = dsDeletedFiles;
+                gvDeletedFiles.DataBind();
+                gvDeletedFiles.Visible = true;
+            }
+            else
+            {
+                gvDeletedFiles.Visible = false;
+                lblViewDeletedStatus.Text = "No deleted files were found.";
+            }
+        }
+
+        protected void btnUpdateFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+
         }
     }//end class
 }//end nameSpace

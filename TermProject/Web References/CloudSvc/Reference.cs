@@ -86,6 +86,14 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback UpgradePlanOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetFileVersionsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetDeletedFilesOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RestoreDeletedFileOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback RestoreOldVersionOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -207,6 +215,18 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event UpgradePlanCompletedEventHandler UpgradePlanCompleted;
+        
+        /// <remarks/>
+        public event GetFileVersionsCompletedEventHandler GetFileVersionsCompleted;
+        
+        /// <remarks/>
+        public event GetDeletedFilesCompletedEventHandler GetDeletedFilesCompleted;
+        
+        /// <remarks/>
+        public event RestoreDeletedFileCompletedEventHandler RestoreDeletedFileCompleted;
+        
+        /// <remarks/>
+        public event RestoreOldVersionCompletedEventHandler RestoreOldVersionCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1161,6 +1181,144 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFileVersions", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetFileVersions(int fileID, string email, string password) {
+            object[] results = this.Invoke("GetFileVersions", new object[] {
+                        fileID,
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFileVersionsAsync(int fileID, string email, string password) {
+            this.GetFileVersionsAsync(fileID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetFileVersionsAsync(int fileID, string email, string password, object userState) {
+            if ((this.GetFileVersionsOperationCompleted == null)) {
+                this.GetFileVersionsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFileVersionsOperationCompleted);
+            }
+            this.InvokeAsync("GetFileVersions", new object[] {
+                        fileID,
+                        email,
+                        password}, this.GetFileVersionsOperationCompleted, userState);
+        }
+        
+        private void OnGetFileVersionsOperationCompleted(object arg) {
+            if ((this.GetFileVersionsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFileVersionsCompleted(this, new GetFileVersionsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetDeletedFiles", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetDeletedFiles(int userID, string email, string password) {
+            object[] results = this.Invoke("GetDeletedFiles", new object[] {
+                        userID,
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetDeletedFilesAsync(int userID, string email, string password) {
+            this.GetDeletedFilesAsync(userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetDeletedFilesAsync(int userID, string email, string password, object userState) {
+            if ((this.GetDeletedFilesOperationCompleted == null)) {
+                this.GetDeletedFilesOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetDeletedFilesOperationCompleted);
+            }
+            this.InvokeAsync("GetDeletedFiles", new object[] {
+                        userID,
+                        email,
+                        password}, this.GetDeletedFilesOperationCompleted, userState);
+        }
+        
+        private void OnGetDeletedFilesOperationCompleted(object arg) {
+            if ((this.GetDeletedFilesCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetDeletedFilesCompleted(this, new GetDeletedFilesCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RestoreDeletedFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool RestoreDeletedFile(int fileID, int userID, string email, string password) {
+            object[] results = this.Invoke("RestoreDeletedFile", new object[] {
+                        fileID,
+                        userID,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RestoreDeletedFileAsync(int fileID, int userID, string email, string password) {
+            this.RestoreDeletedFileAsync(fileID, userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void RestoreDeletedFileAsync(int fileID, int userID, string email, string password, object userState) {
+            if ((this.RestoreDeletedFileOperationCompleted == null)) {
+                this.RestoreDeletedFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRestoreDeletedFileOperationCompleted);
+            }
+            this.InvokeAsync("RestoreDeletedFile", new object[] {
+                        fileID,
+                        userID,
+                        email,
+                        password}, this.RestoreDeletedFileOperationCompleted, userState);
+        }
+        
+        private void OnRestoreDeletedFileOperationCompleted(object arg) {
+            if ((this.RestoreDeletedFileCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RestoreDeletedFileCompleted(this, new RestoreDeletedFileCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/RestoreOldVersion", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool RestoreOldVersion(int storageID, int masterFileID, int userID, string email, string password) {
+            object[] results = this.Invoke("RestoreOldVersion", new object[] {
+                        storageID,
+                        masterFileID,
+                        userID,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void RestoreOldVersionAsync(int storageID, int masterFileID, int userID, string email, string password) {
+            this.RestoreOldVersionAsync(storageID, masterFileID, userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void RestoreOldVersionAsync(int storageID, int masterFileID, int userID, string email, string password, object userState) {
+            if ((this.RestoreOldVersionOperationCompleted == null)) {
+                this.RestoreOldVersionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnRestoreOldVersionOperationCompleted);
+            }
+            this.InvokeAsync("RestoreOldVersion", new object[] {
+                        storageID,
+                        masterFileID,
+                        userID,
+                        email,
+                        password}, this.RestoreOldVersionOperationCompleted, userState);
+        }
+        
+        private void OnRestoreOldVersionOperationCompleted(object arg) {
+            if ((this.RestoreOldVersionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.RestoreOldVersionCompleted(this, new RestoreOldVersionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1894,6 +2052,110 @@ namespace TermProject.CloudSvc {
         private object[] results;
         
         internal UpgradePlanCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetFileVersionsCompletedEventHandler(object sender, GetFileVersionsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFileVersionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFileVersionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetDeletedFilesCompletedEventHandler(object sender, GetDeletedFilesCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetDeletedFilesCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetDeletedFilesCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void RestoreDeletedFileCompletedEventHandler(object sender, RestoreDeletedFileCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RestoreDeletedFileCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RestoreDeletedFileCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void RestoreOldVersionCompletedEventHandler(object sender, RestoreOldVersionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class RestoreOldVersionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal RestoreOldVersionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

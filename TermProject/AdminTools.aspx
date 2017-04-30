@@ -134,7 +134,6 @@
 
     <asp:Panel ID="pnlSuperAdminTools" Visible="false" runat="server">
         <div class="row">
-
             <%--View Admin Transactions--%>
             <div class="col-lg-8">
                 <h3>Admin Transactions</h3>
@@ -160,6 +159,33 @@
 
                 <asp:Label ID="lblSuperTransactionStatus" runat="server" />
             </div>
+
+            <%--View Admin Transactions--%>
+            <div class="col-lg-8">
+                <h3>View User Files</h3>
+                <p>Select a cloud user from the list below to view their current active files.</p>
+                <asp:DropDownList ID="ddlCloudUsers" DataTextField="Name" DataValueField="UserID" AutoPostBack="true" OnSelectedIndexChanged="ddlCloudUsers_SelectedIndexChanged" runat="server" />
+                <br />
+                <br />
+                <asp:GridView ID="gvUserCloud" AutoGenerateColumns="false" runat="server">
+                    <Columns>
+                        <asp:BoundField DataField="FileID" HeaderText="File ID" />
+                        <asp:BoundField DataField="UserID" HeaderText="User ID" />
+                        <asp:BoundField DataField="FileName" HeaderText="File Name" />
+                        <asp:TemplateField HeaderText="Type">
+                            <ItemTemplate>
+                                <asp:Image ImageUrl='<% #Eval("ImageURL")%>' Height="40" runat="server" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:BoundField DataField="FileType" HeaderText="File Type" />
+                        <asp:BoundField DataField="FileVersion" HeaderText="Version" />
+                        <asp:BoundField DataField="FileSize" HeaderText="File Size" />
+                    </Columns>
+                </asp:GridView>
+                <asp:Label ID="lblUserFileStatus" runat="server" />
+            </div>
         </div>
     </asp:Panel>
+    <br />
+    <br />
 </asp:Content>
