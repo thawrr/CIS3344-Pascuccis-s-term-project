@@ -73,7 +73,15 @@ namespace GlobalMethods
                     fileType = "Text";
                     break;
 
+                case ".TXT":
+                    fileType = "Text";
+                    break;
+
                 case ".png":
+                    fileType = "Portable Network Graphics";
+                    break;
+
+                case ".PNG":
                     fileType = "Portable Network Graphics";
                     break;
 
@@ -81,7 +89,15 @@ namespace GlobalMethods
                     fileType = "Graphics Interchange Format";
                     break;
 
+                case ".GIF":
+                    fileType = "Graphics Interchange Format";
+                    break;
+
                 case ".jpg":
+                    fileType = "Joint Photographic Experts Group";
+                    break;
+
+                case ".JPG":
                     fileType = "Joint Photographic Experts Group";
                     break;
 
@@ -89,7 +105,15 @@ namespace GlobalMethods
                     fileType = "Joint Photographic Experts Group";
                     break;
 
+                case ".JPEG":
+                    fileType = "Joint Photographic Experts Group";
+                    break;
+
                 case ".docx":
+                    fileType = "Windows Word Document";
+                    break;
+
+                case ".DOCX":
                     fileType = "Windows Word Document";
                     break;
 
@@ -103,6 +127,44 @@ namespace GlobalMethods
             }
 
             return fileType;
+        }
+
+        // Get file type by the extension
+        public string GetFileExtension(string fileType)
+        {
+
+            string extension = "";
+            switch (fileType)
+            {
+                case "Text":
+                    extension = ".txt";
+                    break;
+
+                case "Portable Network Graphics":
+                    extension = ".png";
+                    break;
+
+                case "Graphics Interchange Format":
+                    extension = ".gif";
+                    break;
+
+                case "Joint Photographic Experts Group":
+                    extension = ".jpeg";
+                    break;
+
+                case "Windows Word Document":
+                    extension = ".docx";
+                    break;
+
+                case "Batch File":
+                    extension = ".bat";
+                    break;
+
+                default:
+                    extension = ".txt";
+                    break;
+            }
+            return extension;
         }
 
 

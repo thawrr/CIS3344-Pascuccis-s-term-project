@@ -25,4 +25,45 @@
             <asp:ButtonField ButtonType="Button" runat="server" HeaderText="Download File" Text="Download" CommandName="gvCommandDownload" CausesValidation="false" />
         </Columns>
     </asp:GridView>
+
+    <br />
+    <asp:Panel ID="pnlUpgrade" runat="server">
+        <h4>Need more storage? Upgrade you max storage capacity here!</h4>
+        <h4>Please select a plan, enter your credit card info and hit submit</h4>
+        <asp:DropDownList ID="ddlPlanOptions" DataTextField="Description" DataValueField="OptionID" AutoPostBack="true" OnSelectedIndexChanged="ddlPlanOptions_SelectedIndexChanged" runat="server" />
+        <br />
+        <br />
+        <asp:Table ID="tblTransaction" Visible="false" runat="server" Height="165px" Width="436px">
+            <asp:TableRow>
+                <asp:TableCell>
+                    <p>Enter Credit Card Information</p>
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Label ID="lblAmountDue" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>CreditCard Number:</asp:TableCell>
+                <asp:TableCell>
+                    <asp:TextBox ID="txtCC" TextMode="Number" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>CCV Number:</asp:TableCell>
+                <asp:TableCell>
+                    <asp:TextBox ID="txtCCV" TextMode="Number" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Button ID="btnSubmit" Text="Submit" OnClick="btnSubmit_Click" runat="server" />
+                </asp:TableCell><asp:TableCell>
+                    <asp:Button ID="btnCancel" Text="Cancel" OnClick="btnCancel_Click" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        <asp:Label ID="lblPaymentStatus" runat="server" />
+    </asp:Panel>
 </asp:Content>

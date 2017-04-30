@@ -80,6 +80,12 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback AddQuestionOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetStorageOptionsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetStoragePriceOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback UpgradePlanOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -192,6 +198,15 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event AddQuestionCompletedEventHandler AddQuestionCompleted;
+        
+        /// <remarks/>
+        public event GetStorageOptionsCompletedEventHandler GetStorageOptionsCompleted;
+        
+        /// <remarks/>
+        public event GetStoragePriceCompletedEventHandler GetStoragePriceCompleted;
+        
+        /// <remarks/>
+        public event UpgradePlanCompletedEventHandler UpgradePlanCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1041,6 +1056,111 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetStorageOptions", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetStorageOptions(string email, string password) {
+            object[] results = this.Invoke("GetStorageOptions", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStorageOptionsAsync(string email, string password) {
+            this.GetStorageOptionsAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetStorageOptionsAsync(string email, string password, object userState) {
+            if ((this.GetStorageOptionsOperationCompleted == null)) {
+                this.GetStorageOptionsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStorageOptionsOperationCompleted);
+            }
+            this.InvokeAsync("GetStorageOptions", new object[] {
+                        email,
+                        password}, this.GetStorageOptionsOperationCompleted, userState);
+        }
+        
+        private void OnGetStorageOptionsOperationCompleted(object arg) {
+            if ((this.GetStorageOptionsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStorageOptionsCompleted(this, new GetStorageOptionsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetStoragePrice", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public float GetStoragePrice(int optionID, string email, string password) {
+            object[] results = this.Invoke("GetStoragePrice", new object[] {
+                        optionID,
+                        email,
+                        password});
+            return ((float)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetStoragePriceAsync(int optionID, string email, string password) {
+            this.GetStoragePriceAsync(optionID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetStoragePriceAsync(int optionID, string email, string password, object userState) {
+            if ((this.GetStoragePriceOperationCompleted == null)) {
+                this.GetStoragePriceOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetStoragePriceOperationCompleted);
+            }
+            this.InvokeAsync("GetStoragePrice", new object[] {
+                        optionID,
+                        email,
+                        password}, this.GetStoragePriceOperationCompleted, userState);
+        }
+        
+        private void OnGetStoragePriceOperationCompleted(object arg) {
+            if ((this.GetStoragePriceCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetStoragePriceCompleted(this, new GetStoragePriceCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpgradePlan", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UpgradePlan(string creditcard, int ccv, float price, int userID, int storageID, string email, string password) {
+            object[] results = this.Invoke("UpgradePlan", new object[] {
+                        creditcard,
+                        ccv,
+                        price,
+                        userID,
+                        storageID,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpgradePlanAsync(string creditcard, int ccv, float price, int userID, int storageID, string email, string password) {
+            this.UpgradePlanAsync(creditcard, ccv, price, userID, storageID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void UpgradePlanAsync(string creditcard, int ccv, float price, int userID, int storageID, string email, string password, object userState) {
+            if ((this.UpgradePlanOperationCompleted == null)) {
+                this.UpgradePlanOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpgradePlanOperationCompleted);
+            }
+            this.InvokeAsync("UpgradePlan", new object[] {
+                        creditcard,
+                        ccv,
+                        price,
+                        userID,
+                        storageID,
+                        email,
+                        password}, this.UpgradePlanOperationCompleted, userState);
+        }
+        
+        private void OnUpgradePlanOperationCompleted(object arg) {
+            if ((this.UpgradePlanCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpgradePlanCompleted(this, new UpgradePlanCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1705,6 +1825,84 @@ namespace TermProject.CloudSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetStorageOptionsCompletedEventHandler(object sender, GetStorageOptionsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStorageOptionsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStorageOptionsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetStoragePriceCompletedEventHandler(object sender, GetStoragePriceCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetStoragePriceCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetStoragePriceCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public float Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((float)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void UpgradePlanCompletedEventHandler(object sender, UpgradePlanCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpgradePlanCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpgradePlanCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

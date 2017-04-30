@@ -19,6 +19,8 @@ namespace TermProject
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
         GMethods objGM = new GMethods();
 
+        float price;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -85,6 +87,10 @@ namespace TermProject
             {
                 lblStatus.Text = "No files were found";
             }
+
+            DataSet dsStorageOptions = pxy.GetStorageOptions(objAccount.UserEmail, objAccount.UserPassword);
+            ddlPlanOptions.DataSource = dsStorageOptions;
+            ddlPlanOptions.DataBind();
         }
 
         protected void gvUserCloud_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -167,6 +173,53 @@ namespace TermProject
             }
             else
                 lblStatus2.Text = "Something went wrong at gridview Command";
+        }
+
+        protected void ddlPlanOptions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlPlanOptions.Enabled = false;
+            tblTransaction.Visible = true;
+
+            price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+
+            lblAmountDue.Text = "Your card will be charged: $" + price;
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            tblTransaction.Visible = false;
+            ddlPlanOptions.Enabled = true;
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (ValidatePayment())
+            {
+                if (pxy.UpgradePlan(txtCC.Text, Convert.ToInt32(txtCCV.Text), price, objAccount.UserID, Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword))
+                {
+                    lblPaymentStatus.Text = "Plan has been updgraded";
+                }
+                else
+                {
+                    lblPaymentStatus.Text = "An error has occured and the plan has not been upgraded";
+                }
+            }
+        }
+
+        // Validate form data
+        public bool ValidatePayment()
+        {
+            if (txtCC.Text.Length != 16)
+            {
+                lblPaymentStatus.Text = "Be sure the length of the credit card is exactly 16 digits.";
+                return false;
+            }
+            else if (txtCCV.Text.Length != 3)
+            {
+                lblPaymentStatus.Text = "The security code must be exactly 3 digits.";
+                return false;
+            }
+            return true;
         }
     }//end class
 }//end nameSpace
