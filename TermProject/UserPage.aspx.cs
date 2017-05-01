@@ -49,6 +49,7 @@ namespace TermProject
                 return true;
         }
 
+        // Fill controls with data
         public void FillControls()
         {
             gvViewVersions.Visible = false;
@@ -314,6 +315,7 @@ namespace TermProject
             ViewDeletedFiles();
         }
 
+        // View user's deleted files
         private void ViewDeletedFiles()
         {
             lblViewVersionStatus.Text = "";

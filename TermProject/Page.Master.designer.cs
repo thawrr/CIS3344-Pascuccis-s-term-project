@@ -40,6 +40,24 @@ namespace TermProject {
         protected global::TermProject.CustomControlNavBar CustomControlNavBar;
         
         /// <summary>
+        /// ScriptManager control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager;
+        
+        /// <summary>
+        /// CustomControlTimer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TermProject.CustomControlTimer CustomControlTimer;
+        
+        /// <summary>
         /// cphBody control.
         /// </summary>
         /// <remarks>

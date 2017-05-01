@@ -50,12 +50,12 @@ namespace TermProject
         {
             // Write email, password, and access date to cookie
             HttpCookie myCookie = new HttpCookie("LoginCredentials_Cookie");
-            // myCookie.Values["Email"] = txtEmail.Text;
             Response.Cookies.Add(myCookie);
         }
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
+            // Validate input and act accordingly
             if (CheckInput())
             {
                 if (pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text))
@@ -97,6 +97,7 @@ namespace TermProject
                     isValidEmail = true;
                 }
             }
+            // Password must be at least 6 characters and contain at least 1 special character
             if (password.Length >= 6)
             {
                 if (password.Contains('!') || password.Contains('@') || password.Contains('#') || password.Contains('$') || password.Contains('%') || password.Contains('&'))

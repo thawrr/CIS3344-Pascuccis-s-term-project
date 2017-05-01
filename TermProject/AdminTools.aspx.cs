@@ -16,7 +16,6 @@ namespace TermProject
         GMethods objGM = new GMethods();
         DataSet userCloud = new DataSet("Account");
 
-
         protected void Page_Load(object sender, EventArgs e)
         {
             //Check if it exists and if logged in
@@ -69,8 +68,9 @@ namespace TermProject
 
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
         {
+            // Check all controls for valid input
             bool isActive = chkActive.Checked;
-            if (CheckInput())
+            if (CheckUpdateInput(txtUpdateEmail.Text, txtUpdateName.Text, txtUpdatePassword.Text))
             {
                 bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text, Convert.ToInt32(ddlRole.SelectedValue), isActive, objAccount.UserEmail, objAccount.UserPassword);
 
@@ -91,21 +91,19 @@ namespace TermProject
 
 
         // Validate registration inputs
-        private bool CheckInput()
+        private bool CheckInput(string email, string name, string password)
         {
             bool isValidEmail = false;
             bool isValidName = false;
             bool isValidPassword = false;
 
-            string password = txtUpdatePassword.Text;
-
-            if (txtUpdateName.Text != "")
+            if (name != "")
             {
                 isValidName = true;
             }
-            if (pxy.CheckEmail(txtEmail.Text))
+            if (pxy.CheckEmail(email))
             {
-                if (txtUpdateEmail.Text.Contains('@'))
+                if (email.Contains('@'))
                 {
                     isValidEmail = true;
                 }
@@ -121,7 +119,37 @@ namespace TermProject
             if (isValidName && isValidEmail && isValidPassword)
             {
                 return true;
+            }
+            else
+                return false;
+        }
 
+        // Validate registration inputs
+        private bool CheckUpdateInput(string email, string name, string password)
+        {
+            bool isValidEmail = false;
+            bool isValidName = false;
+            bool isValidPassword = false;
+
+            if (name != "")
+            {
+                isValidName = true;
+            }
+            if (email.Contains('@'))
+            {
+                isValidEmail = true;
+            }
+            if (password.Length >= 6)
+            {
+                if (password.Contains('!') || password.Contains('@') || password.Contains('#') || password.Contains('$') || password.Contains('%') || password.Contains('&'))
+                {
+                    isValidPassword = true;
+                }
+            }
+
+            if (isValidName && isValidEmail && isValidPassword)
+            {
+                return true;
             }
             else
                 return false;
@@ -129,8 +157,9 @@ namespace TermProject
 
         protected void btnSelectUpdateUser_Click(object sender, EventArgs e)
         {
+            // Fill the controls with the selected user's information
             DataSet dsUser = pxy.GetUserByID(Convert.ToInt32(ddlUser.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
-            
+
             lblUserID.Text = dsUser.Tables[0].Rows[0]["UserID"].ToString();
             txtUpdateName.Text = dsUser.Tables[0].Rows[0]["Name"].ToString();
             txtUpdateEmail.Text = dsUser.Tables[0].Rows[0]["LoginID"].ToString();
@@ -150,27 +179,36 @@ namespace TermProject
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
-            // Assuming fields are validated
-            bool isAdded = pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text);
 
-            if (isAdded)
+            if (CheckInput(txtEmail.Text, txtFullName.Text, txtPassword.Text))
             {
-                txtFullName.Text = "";
-                txtEmail.Text = "";
-                txtPassword.Text = "";
+                // Assuming fields are validated
+                bool isAdded = pxy.AddUser(txtFullName.Text, txtEmail.Text, txtPassword.Text);
 
-                lblAddStatus.Text = "New user has been added.";
+                if (isAdded)
+                {
+                    txtFullName.Text = "";
+                    txtEmail.Text = "";
+                    txtPassword.Text = "";
 
-                FillControls();
+                    lblAddStatus.Text = "New user has been added.";
+
+                    FillControls();
+                }
+                else
+                {
+                    lblAddStatus.Text = "An error occured. User has not been added.";
+                }
             }
             else
             {
-                lblAddStatus.Text = "An error occured. User has not been added.";
+                lblAddStatus.Text = "Check your input. Ensure your entered name is not blank, email is valid, and password meets the criteria.";
             }
         }
 
         protected void btnSelectUserTrans_Click(object sender, EventArgs e)
         {
+            // Fill control with transaction data
             DataSet dsTrans = pxy.GetAllTransByID(Convert.ToInt32(ddlUserTrans.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsTrans.Tables[0].Rows.Count != 0)
@@ -210,6 +248,7 @@ namespace TermProject
 
         protected void btnSelectAdminTrans_Click(object sender, EventArgs e)
         {
+            // Fill control with transaction data
             DataSet dsTrans = pxy.GetAllTransByID(Convert.ToInt32(ddlAdmins.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsTrans.Tables[0].Rows.Count != 0)
@@ -229,7 +268,7 @@ namespace TermProject
 
         protected void btnAdminTransByDate_Click(object sender, EventArgs e)
         {
-
+            // Fill control with transaction data
             DataSet dsTrans = pxy.GetAllAdminTransByDate(Convert.ToInt32(ddlSuperInterval.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsTrans.Tables[0].Rows.Count != 0)
@@ -309,6 +348,7 @@ namespace TermProject
             }
         }
 
+        // Timer event for the live transaction panel
         protected void TimerTransaction_Tick(object sender, EventArgs e)
         {
             DataSet dsUsers = pxy.GetAllCloudTrans(objAccount.UserEmail, objAccount.UserPassword);

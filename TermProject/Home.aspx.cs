@@ -30,13 +30,6 @@ namespace TermProject
                     Session["Account"] = new Account();
 
                 objAccount = (Account)Session["Account"];
-
-                //Access your properties here
-                string email = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserID = ((Account)Session["Account"]).UserID;
-                objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
-
             }
             else
                 Response.Redirect("Login.aspx");

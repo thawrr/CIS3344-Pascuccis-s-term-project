@@ -14,6 +14,8 @@ namespace TermProject
         Account objAccount = new Account();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
 
+        DataSet dsFiles;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Check if it exists and if logged in
@@ -25,13 +27,7 @@ namespace TermProject
 
                 objAccount = (Account)Session["Account"];
 
-                //Access your properties here
-                string email = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserID = ((Account)Session["Account"]).UserID;
-                objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
-
-                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;
+                lblStatus.Text = "Welcome! Your email is: " + objAccount.UserEmail + ". Your UserID is " + objAccount.UserID;
 
                 // If an admin is visiting, then show respective panel
                 if (objAccount.UserRole == "Cloud Admin" || objAccount.UserRole == "Super Admin")
@@ -59,8 +55,22 @@ namespace TermProject
                 return true;
         }
 
+        // Fill page controls with data
         public void FillControls()
         {
+            dsFiles = pxy.GetAllQuestionsAndAnswers(objAccount.UserEmail, objAccount.UserPassword);
+            Session["FileDataSet"] = dsFiles;
+
+            if (dsFiles.Tables[0].Rows.Count != 0)
+            {
+                gvViewQuestions.DataSource = dsFiles;
+                gvViewQuestions.DataBind();
+            }
+            else
+            {
+                lblQAStatus.Text = "No questions have been asked";
+            }
+
             DataSet dsUnansweredQuestions = pxy.GetAllUnansweredQuestions(objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsUnansweredQuestions.Tables[0].Rows.Count != 0)
@@ -143,6 +153,20 @@ namespace TermProject
             }
             else
                 lblUpdateStatus.Text = "Invalid password format.";
+        }
+
+        protected void timerQA_Tick(object sender, EventArgs e)
+        {
+            FillControls();
+        }
+
+        protected void gvViewQuestions_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            // Set the GridView to display the correct page
+            gvViewQuestions.PageIndex = e.NewPageIndex;
+            dsFiles = (DataSet)Session["FileDataSet"];
+            gvViewQuestions.DataSource = dsFiles;
+            gvViewQuestions.DataBind();
         }
     }
 }

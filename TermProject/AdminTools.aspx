@@ -130,7 +130,6 @@
             </div>
             <br />
             <div class="col-lg-8">
-                <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
                 <asp:ScriptManagerProxy ID="ScriptManagerProxy" runat="server"></asp:ScriptManagerProxy>
                 <script type="text/javascript">
                     var xmlhttp;

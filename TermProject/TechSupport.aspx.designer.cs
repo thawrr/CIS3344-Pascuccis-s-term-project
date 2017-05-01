@@ -13,13 +13,49 @@ namespace TermProject {
     public partial class TechSupport {
         
         /// <summary>
-        /// CustomControlTechSupport control.
+        /// UpdatePanelQA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::TermProject.CustomControlTechSupport CustomControlTechSupport;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelQA;
+        
+        /// <summary>
+        /// timerQA control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.Timer timerQA;
+        
+        /// <summary>
+        /// pnlViewQuestions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlViewQuestions;
+        
+        /// <summary>
+        /// lblQAStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblQAStatus;
+        
+        /// <summary>
+        /// gvViewQuestions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvViewQuestions;
         
         /// <summary>
         /// lblStatus control.

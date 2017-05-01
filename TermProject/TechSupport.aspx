@@ -1,17 +1,54 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="TechSupport.aspx.cs" Inherits="TermProject.TechSupport" %>
 
-<%@ Register Src="~/CustomControlTechSupport.ascx" TagPrefix="uc1" TagName="CustomControlTechSupport" %>
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="server">
     <title>Tech Support</title>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBody" runat="server">
-    <uc1:CustomControlTechSupport runat="server" ID="CustomControlTechSupport" />
+
+    <script type="text/javascript">
+        var xmlhttp;
+        try {
+            // Code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        catch (try_older_microsoft) {
+
+            try {
+                // Code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (other) {
+                xmlhttp = false;
+                alert("Your browser doesn't support AJAX!");
+            }
+        }
+    </script>
+
+    <asp:UpdatePanel ID="UpdatePanelQA" runat="server">
+        <ContentTemplate>
+            <asp:Timer ID="timerQA" runat="server" Interval="1000" OnTick="timerQA_Tick"></asp:Timer>
+            <asp:Panel ID="pnlViewQuestions" runat="server">
+                <h3>You will be able to see questions as they are asked and answered.</h3>
+                <br />
+                <h3>Live Cloud User Transactions</h3>
+                <p>Grid updates every second</p>
+                <br />
+                <asp:Label ID="lblQAStatus" runat="server" />
+                <asp:GridView ID="gvViewQuestions" AllowPaging="true" PageSize="5" AutoGenerateColumns="false" OnPageIndexChanging="gvViewQuestions_PageIndexChanging" runat="server">
+                    <Columns>
+                        <asp:BoundField DataField="Question" HeaderText="Question" SortExpression="Question" />
+                        <asp:BoundField DataField="Answer" HeaderText="Admin Answer" SortExpression="Answer" />
+                    </Columns>
+                </asp:GridView>
+            </asp:Panel>
+            <br />
+            <br />
+        </ContentTemplate>
+    </asp:UpdatePanel>
     <br />
     <br />
-    <asp:Label ID="lblStatus" runat="server" /> 
+    <asp:Label ID="lblStatus" runat="server" />
     <asp:Panel ID="pnlChangePassword" runat="server">
         <h3>Change your login password here.</h3>
         <p>*Password must contain at least 6 characters and at least 1 special character.</p>

@@ -2,7 +2,8 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     height: 100%;
     padding-bottom: 40px;
-    background-color: #eee;
+    color: black;
+    background: linear-gradient(to right, #b7cbe5, #dce2ea);
 }
 
 #wrap {
@@ -36,7 +37,13 @@ footer {
     color:black;
 }
 
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: #dce2ea;
+    color: black;
+}
+
 th, td {
     padding: 5px;
     text-align: center;
+    border-color: darkgrey;
 }

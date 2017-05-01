@@ -19,6 +19,7 @@ namespace TermProject
 
         protected void btnLogout_Click(object sender, EventArgs e)
         {
+            // Reset the session variables and redirect user to login page
             Session["Account"] = null;
             Session["Storage"] = null;
             Response.Redirect("Login.aspx");
@@ -26,6 +27,7 @@ namespace TermProject
 
         protected void btnSync_Click(object sender, EventArgs e)
         {
+            // Sync object data to the database
             CloudSvc.CloudService pxy = new CloudSvc.CloudService();
             Account objAccount = (Account)Session["Account"];
             Storage objStorage = (Storage)Session["Storage"];

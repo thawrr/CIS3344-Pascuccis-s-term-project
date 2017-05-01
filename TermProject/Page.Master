@@ -1,6 +1,8 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Page.master.cs" Inherits="TermProject.Page" %>
 
 <%@ Register Src="~/CustomControlNavBar.ascx" TagPrefix="uc1" TagName="CustomControlNavBar" %>
+<%@ Register Src="~/CustomControlTimer.ascx" TagPrefix="uc1" TagName="CustomControlTimer" %>
+
 
 
 <!DOCTYPE html>
@@ -23,6 +25,8 @@
 <body>
     <form id="frmMain" runat="server">
         <uc1:CustomControlNavBar runat="server" id="CustomControlNavBar" />
+        <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+        <div class="col-lg-offset-9"><uc1:CustomControlTimer runat="server" id="CustomControlTimer" /></div>
         <div class="container">
             <asp:ContentPlaceHolder ID="cphBody" runat="server">
             </asp:ContentPlaceHolder>
