@@ -1160,5 +1160,37 @@ namespace TermProjectWS
             else
                 return false;
         }
+
+        [WebMethod]
+        public int GetUserStorageCapacity(int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetUserStorageCapacity";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsPlans = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                int capacity = Convert.ToInt32(dsPlans.Tables[0].Rows[0]["StorageCapacity"]);
+
+                return capacity;
+            }
+            else
+            {
+                return -1;
+            }
+
+        }
     }
 }

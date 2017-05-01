@@ -67,13 +67,9 @@ namespace GlobalMethods
         {
             string fileType;
 
-            switch (fileExtension)
+            switch (fileExtension.ToLower())
             {
                 case ".txt":
-                    fileType = "Text";
-                    break;
-
-                case ".TXT":
                     fileType = "Text";
                     break;
 
@@ -81,15 +77,7 @@ namespace GlobalMethods
                     fileType = "Portable Network Graphics";
                     break;
 
-                case ".PNG":
-                    fileType = "Portable Network Graphics";
-                    break;
-
                 case ".gif":
-                    fileType = "Graphics Interchange Format";
-                    break;
-
-                case ".GIF":
                     fileType = "Graphics Interchange Format";
                     break;
 
@@ -97,15 +85,7 @@ namespace GlobalMethods
                     fileType = "Joint Photographic Experts Group";
                     break;
 
-                case ".JPG":
-                    fileType = "Joint Photographic Experts Group";
-                    break;
-
                 case ".jpeg":
-                    fileType = "Joint Photographic Experts Group";
-                    break;
-
-                case ".JPEG":
                     fileType = "Joint Photographic Experts Group";
                     break;
 
@@ -113,12 +93,24 @@ namespace GlobalMethods
                     fileType = "Windows Word Document";
                     break;
 
-                case ".DOCX":
-                    fileType = "Windows Word Document";
+                case ".ppt":
+                    fileType = "Windows Power Point";
                     break;
 
-                case ".bat":
-                    fileType = "Batch File";
+                case ".css":
+                    fileType = "Cascading Style Sheet";
+                    break;
+
+                case ".html":
+                    fileType = "HyperText Markup Language";
+                    break;
+
+                case ".xml":
+                    fileType = "eXtensible Markup Language";
+                    break;
+
+                case ".pdf":
+                    fileType = "Portable Document Format";
                     break;
 
                 default:
@@ -132,7 +124,6 @@ namespace GlobalMethods
         // Get file type by the extension
         public string GetFileExtension(string fileType)
         {
-
             string extension;
 
             switch (fileType)
@@ -161,11 +152,43 @@ namespace GlobalMethods
                     extension = ".bat";
                     break;
 
+                case "Windows Power Point":
+                    extension = ".ppt";
+                    break;
+
+                case "Cascading Style Sheet":
+                    extension = ".css";
+                    break;
+
+                case "HyperText Markup Language":
+                    extension = ".html";
+                    break;
+
+                case "eXtensible Markup Language":
+                    extension = ".xml";
+                    break;
+
+                case "Portable Document Format":
+                    extension = ".pdf";
+                    break;
+
                 default:
                     extension = ".txt";
                     break;
             }
+
             return extension;
         }
+
+        public bool TestForLegalTypes(string fileExtension)
+        {
+            bool isStringContainedInList = new[] { ".txt", ".docx", ".doc", ".ppt", ".css", ".html", ".xml", ".pdf" }.Contains(fileExtension);
+
+            if (isStringContainedInList == true)
+                return true;
+            else
+                return false;
+        }
+        //".mp4", ".flac", ".avi", ".wmv", ".flv", ".mov", ".mp3", ".wav", ".wma", ".wma", ".flac"
     }
 }

@@ -36,7 +36,7 @@ namespace TermProject
                 objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
                 objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
 
-                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;
+                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID + ". ";
             }
             else
                 Response.Redirect("Login.aspx");
@@ -81,10 +81,11 @@ namespace TermProject
                 ddlFiles.DataBind();
 
                 lblStatus.Text += "\nYou have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
+                lblFileStatus.Text = "";
             }
             else
             {
-                lblStatus.Text = "No files were found";
+                lblFileStatus.Text = "No files were found";
             }
 
             DataSet dsStorageOptions = pxy.GetStorageOptions(objAccount.UserEmail, objAccount.UserPassword);
@@ -208,10 +209,11 @@ namespace TermProject
             {
                 float price = pxy.GetStoragePrice(Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
-
                 if (pxy.UpgradePlan(txtCC.Text, Convert.ToInt32(txtCCV.Text), price, objAccount.UserID, Convert.ToInt32(ddlPlanOptions.SelectedValue), objAccount.UserEmail, objAccount.UserPassword))
                 {
                     lblPaymentStatus.Text = "Plan has been updgraded";
+
+                    objAccount.StorageCapacity = pxy.GetUserStorageCapacity(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
                 }
                 else
                 {
@@ -328,8 +330,15 @@ namespace TermProject
             }
             else
             {
-                if (iFileSize < 4000000)
+                objAccount.FileName = FileUploadNew.PostedFile.FileName;
+                string fileExtension = Path.GetExtension(objAccount.FileName);
+                objAccount.FileType = objGM.GetFileType(fileExtension);
+                int userID = ((Account)Session["Account"]).UserID;
+                objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+
+                if (objGM.TestForLegalTypes(fileExtension) == true)
                 {
+
                     // Get the size in bytes of the file to upload.
                     objAccount.FileSize = FileUploadNew.PostedFile.ContentLength;
 
@@ -337,43 +346,38 @@ namespace TermProject
                     byte[] input = new byte[objAccount.FileSize - 1];
                     input = FileUploadNew.FileBytes;//file data
 
-                    if (objAccount.StorageUsed + objAccount.FileSize < objAccount.StorageCapacity)//limit size
+                    if (objAccount.StorageUsed + objAccount.FileSize > objAccount.StorageCapacity)//limit size
                     {
-                        Response.Clear();
                         lblFileError.Visible = true;//show error
                         lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
+                        Response.Clear();
                         return;
                     }
                     else
                     {
-                        objAccount.FileName = FileUploadNew.PostedFile.FileName;
-                        string fileExtension = Path.GetExtension(objAccount.FileName);
-                        objAccount.FileType = objGM.GetFileType(fileExtension);
-
-                        int userID = ((Account)Session["Account"]).UserID;
-
-                        objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
 
                         bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
 
 
-                        if (result == true)
+                        if (result != true)
+                        {
+                            lblFileError.Visible = true;
+                            lblFileError.Text = "Could not upload file to DataBase";
+                            Response.Clear();
+                            return;
+                        }
+                        else
                         {
                             lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
                             FillControls();
                         }
-                        else
-                        {
-                            Response.Clear();
-                            lblTest.Text = "Could not upload file to DataBase";
-                            return;
-                        }
-                    }
+                    }//end else
                 }
                 else
                 {
+                    lblFileError.Visible = true;
+                    lblFileError.Text = "You attempted to upload an illegal file. Please try again.";
                     Response.Clear();
-                    lblFileError.Text = "File is too Big To Download. file < 4 MB";
                     return;
                 }
             }
@@ -401,6 +405,7 @@ namespace TermProject
                 if (pxy.ClearStorage(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
                 {
                     lblClearStorageStatus.Text = "Storage has been cleared and reset.";
+                    objAccount.StorageUsed = 0;
                 }
                 else
                 {

@@ -96,6 +96,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback ClearStorageOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetUserStorageCapacityOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -232,6 +234,9 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event ClearStorageCompletedEventHandler ClearStorageCompleted;
+        
+        /// <remarks/>
+        public event GetUserStorageCapacityCompletedEventHandler GetUserStorageCapacityCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1357,6 +1362,39 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserStorageCapacity", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetUserStorageCapacity(int userID, string email, string password) {
+            object[] results = this.Invoke("GetUserStorageCapacity", new object[] {
+                        userID,
+                        email,
+                        password});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetUserStorageCapacityAsync(int userID, string email, string password) {
+            this.GetUserStorageCapacityAsync(userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetUserStorageCapacityAsync(int userID, string email, string password, object userState) {
+            if ((this.GetUserStorageCapacityOperationCompleted == null)) {
+                this.GetUserStorageCapacityOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetUserStorageCapacityOperationCompleted);
+            }
+            this.InvokeAsync("GetUserStorageCapacity", new object[] {
+                        userID,
+                        email,
+                        password}, this.GetUserStorageCapacityOperationCompleted, userState);
+        }
+        
+        private void OnGetUserStorageCapacityOperationCompleted(object arg) {
+            if ((this.GetUserStorageCapacityCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetUserStorageCapacityCompleted(this, new GetUserStorageCapacityCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2229,6 +2267,32 @@ namespace TermProject.CloudSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetUserStorageCapacityCompletedEventHandler(object sender, GetUserStorageCapacityCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetUserStorageCapacityCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetUserStorageCapacityCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }
