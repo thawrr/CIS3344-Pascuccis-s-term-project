@@ -199,7 +199,7 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public bool UpdateFile(int fileID, Byte[] input, int userID, string fileName, string fileType, int fileSize, int roleID, string LoginID, string Password)
+        public bool UpdateFile(int fileID, Byte[] input, int userID, string fileName, string fileType, int fileSize, string LoginID, string Password)
         {
             bool result = false;
             if (AuthenticateMethod(LoginID, Password) == true)
@@ -242,12 +242,6 @@ namespace TermProjectWS
                 objCommand.Parameters.Add(inputParameter);
 
                 inputParameter = new SqlParameter("@fileID", fileID);
-                inputParameter.Direction = ParameterDirection.Input;
-                inputParameter.SqlDbType = SqlDbType.Int;
-                inputParameter.Size = 8000;
-                objCommand.Parameters.Add(inputParameter);
-
-                inputParameter = new SqlParameter("@roleID", roleID);
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.Int;
                 inputParameter.Size = 8000;

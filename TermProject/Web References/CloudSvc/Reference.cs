@@ -378,7 +378,7 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpdateFile", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool UpdateFile(int fileID, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input, int userID, string fileName, string fileType, int fileSize, int roleID, string LoginID, string Password) {
+        public bool UpdateFile(int fileID, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] input, int userID, string fileName, string fileType, int fileSize, string LoginID, string Password) {
             object[] results = this.Invoke("UpdateFile", new object[] {
                         fileID,
                         input,
@@ -386,19 +386,18 @@ namespace TermProject.CloudSvc {
                         fileName,
                         fileType,
                         fileSize,
-                        roleID,
                         LoginID,
                         Password});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void UpdateFileAsync(int fileID, byte[] input, int userID, string fileName, string fileType, int fileSize, int roleID, string LoginID, string Password) {
-            this.UpdateFileAsync(fileID, input, userID, fileName, fileType, fileSize, roleID, LoginID, Password, null);
+        public void UpdateFileAsync(int fileID, byte[] input, int userID, string fileName, string fileType, int fileSize, string LoginID, string Password) {
+            this.UpdateFileAsync(fileID, input, userID, fileName, fileType, fileSize, LoginID, Password, null);
         }
         
         /// <remarks/>
-        public void UpdateFileAsync(int fileID, byte[] input, int userID, string fileName, string fileType, int fileSize, int roleID, string LoginID, string Password, object userState) {
+        public void UpdateFileAsync(int fileID, byte[] input, int userID, string fileName, string fileType, int fileSize, string LoginID, string Password, object userState) {
             if ((this.UpdateFileOperationCompleted == null)) {
                 this.UpdateFileOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateFileOperationCompleted);
             }
@@ -409,7 +408,6 @@ namespace TermProject.CloudSvc {
                         fileName,
                         fileType,
                         fileSize,
-                        roleID,
                         LoginID,
                         Password}, this.UpdateFileOperationCompleted, userState);
         }

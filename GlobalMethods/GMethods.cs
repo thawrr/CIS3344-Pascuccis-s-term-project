@@ -55,7 +55,7 @@ namespace GlobalMethods
                     break;
 
                 default:
-                    url = "images/unkown.png";
+                    url = "images/unknown.png";
                     break;
             }
 
@@ -94,6 +94,10 @@ namespace GlobalMethods
                     break;
 
                 case ".ppt":
+                    fileType = "Windows Power Point";
+                    break;
+
+                case ".pptx":
                     fileType = "Windows Power Point";
                     break;
 
@@ -182,7 +186,7 @@ namespace GlobalMethods
 
         public bool TestForLegalTypes(string fileExtension)
         {
-            bool isStringContainedInList = new[] { ".txt", ".docx", ".doc", ".ppt", ".css", ".html", ".xml", ".pdf" }.Contains(fileExtension);
+            bool isStringContainedInList = new[] { ".txt", ".docx", ".doc", ".ppt", ".pptx", ".css", ".html", ".xml", ".pdf" }.Contains(fileExtension);
 
             if (isStringContainedInList == true)
                 return true;

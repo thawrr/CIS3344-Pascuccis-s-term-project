@@ -51,7 +51,7 @@
         <br />
         <br />
         <h4>Upload a new file</h4>
-        <p>The only file types supported are: ".txt", ".docx", ".doc", ".ppt", ".css", ".html", ".xml", ".pdf"</p>
+        <p>The only file types supported are: ".txt", ".docx", ".doc", ".ppt", ".pptx", ".css", ".html", ".xml", ".pdf"</p>
         <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
         <asp:FileUpload ID="FileUploadNew" runat="server" /><br />
         <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />

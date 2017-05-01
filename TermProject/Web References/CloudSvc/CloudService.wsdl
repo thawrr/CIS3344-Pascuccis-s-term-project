@@ -92,7 +92,6 @@
             <s:element minOccurs="0" maxOccurs="1" name="fileName" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="fileType" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="fileSize" type="s:int" />
-            <s:element minOccurs="1" maxOccurs="1" name="roleID" type="s:int" />
             <s:element minOccurs="0" maxOccurs="1" name="LoginID" type="s:string" />
             <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
           </s:sequence>

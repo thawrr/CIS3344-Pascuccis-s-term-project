@@ -86,6 +86,7 @@ namespace TermProject
             else
             {
                 lblFileStatus.Text = "No files were found";
+                gvUserCloud.Visible = false;
             }
 
             DataSet dsStorageOptions = pxy.GetStorageOptions(objAccount.UserEmail, objAccount.UserPassword);
@@ -311,7 +312,73 @@ namespace TermProject
 
         protected void btnUpdateFile_Click(object sender, EventArgs e)
         {
+            lblFileError.Visible = false;//hide error
 
+            HttpPostedFile file = FileUploadUpdate.PostedFile;
+            int iFileSize = file.ContentLength;//temp file size
+
+            if (FileUploadUpdate.HasFile == false || iFileSize > 4000000)//check for file
+            {
+                Response.Clear();
+                lblFileError.Visible = true;//show error
+                lblFileError.Text = "No file to upload!";
+                return;
+            }
+            else
+            {
+                objAccount.FileName = FileUploadUpdate.PostedFile.FileName;
+                string fileExtension = Path.GetExtension(objAccount.FileName);
+                objAccount.FileType = objGM.GetFileType(fileExtension);
+                int userID = ((Account)Session["Account"]).UserID;
+                objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+
+                if (objGM.TestForLegalTypes(fileExtension) == true)
+                {
+
+                    // Get the size in bytes of the file to upload.
+                    objAccount.FileSize = FileUploadUpdate.PostedFile.ContentLength;
+
+                    // Create a byte array to hold the contents of the file.
+                    byte[] input = new byte[objAccount.FileSize - 1];
+                    input = FileUploadUpdate.FileBytes;//file data
+
+                    if (objAccount.StorageUsed + objAccount.FileSize > objAccount.StorageCapacity)//limit size
+                    {
+                        lblFileError.Visible = true;//show error
+                        lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
+                        Response.Clear();
+                        return;
+                    }
+                    else
+                    {
+                        int fileID = Convert.ToInt32(ddlFiles.SelectedValue);
+
+                        bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+                        //bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+
+
+                        if (result != true)
+                        {
+                            lblFileError.Visible = true;
+                            lblFileError.Text = "Could not upload file to DataBase";
+                            Response.Clear();
+                            return;
+                        }
+                        else
+                        {
+                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
+                            FillControls();
+                        }
+                    }//end else
+                }
+                else
+                {
+                    lblFileError.Visible = true;
+                    lblFileError.Text = "You attempted to upload an illegal file. Please try again.";
+                    Response.Clear();
+                    return;
+                }
+            }
         }
 
         protected void btnUpload_Click(object sender, EventArgs e)
@@ -325,7 +392,7 @@ namespace TermProject
             {
                 Response.Clear();
                 lblFileError.Visible = true;//show error
-                lblFileError.Text = "No file to upload!.";
+                lblFileError.Text = "No file to upload!";
                 return;
             }
             else
