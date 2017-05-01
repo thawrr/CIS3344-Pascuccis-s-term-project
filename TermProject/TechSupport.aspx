@@ -8,8 +8,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBody" runat="server">
-    <asp:Label ID="lblStatus" runat="server" />
-
+    <uc1:CustomControlTechSupport runat="server" ID="CustomControlTechSupport" />
+    <br />
+    <br />
+    <asp:Label ID="lblStatus" runat="server" /> 
     <asp:Panel ID="pnlChangePassword" runat="server">
         <h3>Change your login password here.</h3>
         <p>*Password must contain at least 6 characters and at least 1 special character.</p>
@@ -23,7 +25,7 @@
     <br />
     <asp:Panel ID="pnlAsk" Visible="false" runat="server">
         <h3>Post a question here.</h3>
-        <asp:TextBox ID="txtQuestion" runat="server" Rows="3" TextMode="MultiLine" Width="274px"></asp:TextBox>
+        <asp:TextBox ID="txtQuestion" runat="server" Rows="2" TextMode="MultiLine" Width="274px"></asp:TextBox>
         <br />
         <asp:Button ID="btnSubmitQuestion" runat="server" Text="Submit" OnClick="btnSubmitQuestion_Click" />
         <br />
@@ -36,7 +38,7 @@
         <br />
         <asp:DropDownList ID="ddlUnansweredQuestions" DataTextField="Question" DataValueField="SupportID" AutoPostBack="false" runat="server" />
         <br />
-        <asp:TextBox ID="txtAnswer" runat="server" Rows="3" TextMode="MultiLine" Width="274px"></asp:TextBox>
+        <asp:TextBox ID="txtAnswer" runat="server" Rows="2" TextMode="MultiLine" Width="274px"></asp:TextBox>
         <br />
         <asp:Button ID="btnSubmitAnswer" runat="server" Text="Submit" OnClick="btnSubmitAnswer_Click" />
         <br />
@@ -44,5 +46,4 @@
     </asp:Panel>
     <br />
     <br />
-    <uc1:CustomControlTechSupport runat="server" id="CustomControlTechSupport" />
 </asp:Content>

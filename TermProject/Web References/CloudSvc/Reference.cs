@@ -286,9 +286,10 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpdateAccount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public string UpdateAccount([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteArray, int UserID, string LoginID, string Password) {
+        public string UpdateAccount([System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteAccount, [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")] byte[] byteStorage, int UserID, string LoginID, string Password) {
             object[] results = this.Invoke("UpdateAccount", new object[] {
-                        byteArray,
+                        byteAccount,
+                        byteStorage,
                         UserID,
                         LoginID,
                         Password});
@@ -296,17 +297,18 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
-        public void UpdateAccountAsync(byte[] byteArray, int UserID, string LoginID, string Password) {
-            this.UpdateAccountAsync(byteArray, UserID, LoginID, Password, null);
+        public void UpdateAccountAsync(byte[] byteAccount, byte[] byteStorage, int UserID, string LoginID, string Password) {
+            this.UpdateAccountAsync(byteAccount, byteStorage, UserID, LoginID, Password, null);
         }
         
         /// <remarks/>
-        public void UpdateAccountAsync(byte[] byteArray, int UserID, string LoginID, string Password, object userState) {
+        public void UpdateAccountAsync(byte[] byteAccount, byte[] byteStorage, int UserID, string LoginID, string Password, object userState) {
             if ((this.UpdateAccountOperationCompleted == null)) {
                 this.UpdateAccountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdateAccountOperationCompleted);
             }
             this.InvokeAsync("UpdateAccount", new object[] {
-                        byteArray,
+                        byteAccount,
+                        byteStorage,
                         UserID,
                         LoginID,
                         Password}, this.UpdateAccountOperationCompleted, userState);

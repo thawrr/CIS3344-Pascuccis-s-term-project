@@ -31,13 +31,7 @@ namespace TermProject
 
                 objAccount = (Account)Session["Account"];
 
-                //Access your properties here
-                string email = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserID = ((Account)Session["Account"]).UserID;
-                objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
-                objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
-
-                lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID + ". ";
+                lblStatus.Text = "Welcome! Your email is: " + objAccount.UserEmail + ". Your UserID is " + objAccount.UserID + ". ";
             }
             else
                 Response.Redirect("Login.aspx");

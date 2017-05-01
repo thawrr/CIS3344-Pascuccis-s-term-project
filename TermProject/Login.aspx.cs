@@ -15,6 +15,7 @@ namespace TermProject
     public partial class LogInPage : System.Web.UI.Page
     {
         Account objAccount = new Account();
+        Storage objStorage = new Storage();
         GMethods objGM = new GMethods();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -49,6 +50,7 @@ namespace TermProject
             else
             {
                 Session["Account"] = null;
+                Session["Storage"] = null;
                 lblStatus.Text = "Invalid email/password or your account is deactivated. Please try again";
             }
         }
@@ -81,26 +83,31 @@ namespace TermProject
                 else
                 {
                     // If serialized column is empty, then store info, else load into Account object
-                    if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value)
+                    if (objDS.Tables[0].Rows[0]["Account"] == DBNull.Value || objDS.Tables[0].Rows[0]["Storage"] == DBNull.Value)
                     {
                         objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
 
+                        Byte[] byteAccount = SerializeAccount(objAccount);
+                        Byte[] byteStorage = SerializeStorage(objStorage);
+
                         // Serialize data for database input and display status
-                        //lblStatus.Text = pxy.UpdateAccount(objDS, objAccount.UserID, txtEmail.Text, txtPassword.Text);
+                        lblStatus.Text = pxy.UpdateAccount(byteAccount, byteStorage, objAccount.UserID, txtEmail.Text, txtPassword.Text);
                     }
                     else
                     {
-                        Byte[] byteArray = (Byte[])objDS.Tables[0].Rows[0]["Account"];
+                        Byte[] byteAccount = (Byte[])objDS.Tables[0].Rows[0]["Account"];
+                        objAccount = DeserializeAccount(byteAccount);
 
-                        objAccount = DeserializeAccount(byteArray);
-
-                        objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
-                        objAccount.UserPassword = objGM.DecryptPassword(objDS.Tables[0].Rows[0]["HashedPassword"].ToString());
-                        objAccount.UserEmail = objDS.Tables[0].Rows[0]["LoginID"].ToString();
-                        objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
-                        objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
-                        objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
+                        Byte[] byteStorage = (Byte[])objDS.Tables[0].Rows[0]["Storage"];
+                        objStorage = DeserializeStorage(byteStorage);
                     }
+
+                    objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
+                    objAccount.UserPassword = objGM.DecryptPassword(objDS.Tables[0].Rows[0]["HashedPassword"].ToString());
+                    objAccount.UserEmail = objDS.Tables[0].Rows[0]["LoginID"].ToString();
+                    objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
+                    objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
+                    objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
 
                     // User entered correct login information
                     return true;
@@ -124,6 +131,7 @@ namespace TermProject
         public void StartSession()
         {
             Session["Account"] = objAccount;
+            Session["Storage"] = objStorage;
         }
 
         // Deserialize the binary data to reconstruct the Account object
@@ -135,6 +143,42 @@ namespace TermProject
             objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
+        }
+
+        // Deserialize the binary data to reconstruct the Storage object
+        public Storage DeserializeStorage(Byte[] byteArray)
+        {
+            BinaryFormatter deSerializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream(byteArray);
+            memStream.Position = 0;
+            objStorage = (Storage)deSerializer.Deserialize(memStream);
+
+            return objStorage;
+        }
+
+
+        public Byte[] SerializeAccount(Account objAccount)
+        {
+            // Serialize the Account object
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, objAccount);
+            byteArray = memStream.ToArray();
+
+            return byteArray;
+        }
+
+        public Byte[] SerializeStorage(Storage objStorage)
+        {
+            // Serialize the Account object
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, objStorage);
+            byteArray = memStream.ToArray();
+
+            return byteArray;
         }
     }//end class
 }//end nameSpace

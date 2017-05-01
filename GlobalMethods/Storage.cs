@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GlobalMethods
 {
+    [Serializable]
     public class Storage
     {
         private String FName;

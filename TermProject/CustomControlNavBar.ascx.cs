@@ -20,6 +20,7 @@ namespace TermProject
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session["Account"] = null;
+            Session["Storage"] = null;
             Response.Redirect("Login.aspx");
         }
 
@@ -27,19 +28,33 @@ namespace TermProject
         {
             CloudSvc.CloudService pxy = new CloudSvc.CloudService();
             Account objAccount = (Account)Session["Account"];
+            Storage objStorage = (Storage)Session["Storage"];
+            
+            Byte[] byteAccount = SerializeAccount(objAccount);
+            Byte[] byteStorage = SerializeStorage(objStorage);
 
-            Byte[] byteArray = SerializeData(objAccount);
-
-            lblSyncStatus.Text = pxy.UpdateAccount(byteArray, objAccount.UserID, objAccount.UserLoginID, objAccount.UserPassword);
+            lblSyncStatus.Text = pxy.UpdateAccount(byteAccount, byteStorage, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
         }
 
-        public Byte[] SerializeData(Account objAccount)
+        public Byte[] SerializeAccount(Account objAccount)
         {
             // Serialize the Account object
             BinaryFormatter serializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream();
             Byte[] byteArray;
             serializer.Serialize(memStream, objAccount);
+            byteArray = memStream.ToArray();
+
+            return byteArray;
+        }
+
+        public Byte[] SerializeStorage(Storage objStorage)
+        {
+            // Serialize the Account object
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, objStorage);
             byteArray = memStream.ToArray();
 
             return byteArray;

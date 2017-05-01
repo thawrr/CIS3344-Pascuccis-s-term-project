@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
@@ -40,24 +42,42 @@ namespace TermProject
         protected void Session_End(object sender, EventArgs e)
         {
             CloudSvc.CloudService pxy = new CloudSvc.CloudService();
-
-            // Update the DB with serialized Account object
             Account objAccount = (Account)Session["Account"];
-            //objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;//get user ID from session object
-            //objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
+            Storage objStorage = (Storage)Session["Storage"];
 
-            DataSet objDS = new DataSet();
-            //objDS.Tables.Add(dt);
+            Byte[] byteAccount = SerializeAccount(objAccount);
+            Byte[] byteStorage = SerializeStorage(objStorage);
 
-            objDS = pxy.GetUserByLoginIDandPass(objAccount.UserLoginID, objAccount.UserPassword);
+            Console.WriteLine(pxy.UpdateAccount(byteAccount, byteStorage, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword));
+        }
 
-            //String strPlaceHolder = pxy.UpdateAccount(objAccount, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+        public Byte[] SerializeAccount(Account objAccount)
+        {
+            // Serialize the Account object
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, objAccount);
+            byteArray = memStream.ToArray();
+
+            return byteArray;
+        }
+
+        public Byte[] SerializeStorage(Storage objStorage)
+        {
+            // Serialize the Account object
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream();
+            Byte[] byteArray;
+            serializer.Serialize(memStream, objStorage);
+            byteArray = memStream.ToArray();
+
+            return byteArray;
         }
 
         protected void Application_End(object sender, EventArgs e)
         {
 
         }
-
     }
 }

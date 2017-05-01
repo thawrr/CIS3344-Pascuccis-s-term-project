@@ -13,6 +13,15 @@ namespace TermProject {
     public partial class TechSupport {
         
         /// <summary>
+        /// CustomControlTechSupport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TermProject.CustomControlTechSupport CustomControlTechSupport;
+        
+        /// <summary>
         /// lblStatus control.
         /// </summary>
         /// <remarks>
@@ -137,14 +146,5 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblAnswerStatus;
-        
-        /// <summary>
-        /// CustomControlTechSupport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::TermProject.CustomControlTechSupport CustomControlTechSupport;
     }
 }

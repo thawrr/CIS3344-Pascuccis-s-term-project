@@ -84,22 +84,20 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public String UpdateAccount(Byte[] byteArray, int UserID, string LoginID, string Password)
+        public String UpdateAccount(Byte[] byteAccount, Byte[] byteStorage, int UserID, string LoginID, string Password)
         {
             if (AuthenticateMethod(LoginID, Password) == true)
             {
                 String strStatus;
-                //DataSet objDS = GetUserByLoginIDandPass(objAccount.UserLoginID, objAccount.UserPassword);
-
-                //Byte[] byteArray = SerializeData(objDS);
 
                 // Update the account to store the serialized object (binary data) in the database
                 objCommand.CommandType = CommandType.StoredProcedure;
-                objCommand.CommandText = "StoreAccount";
+                objCommand.CommandText = "[SyncAccountStorage]";
                 objCommand.Parameters.Clear();
 
                 objCommand.Parameters.AddWithValue("@UserID", UserID);
-                objCommand.Parameters.AddWithValue("@Account", byteArray);
+                objCommand.Parameters.AddWithValue("@Account", byteAccount);
+                objCommand.Parameters.AddWithValue("@Storage", byteStorage);
 
                 int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
 
@@ -113,7 +111,7 @@ namespace TermProjectWS
             }
             else
             {
-                String strStatus = "unauthorized";
+                String strStatus = "Unauthorized";
 
                 return strStatus;
             }
