@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Services;
 using Utilities;
@@ -26,8 +28,10 @@ namespace TermProjectWS
         SqlCommand objCommand = new SqlCommand();
 
         [WebMethod]
-        public bool AuthenticateMethod(string LoginID, string Password)
+        private bool AuthenticateMethod(string LoginID, string Password)
         {
+            // Encrypt password to match with database
+            Password = EncryptPass(Password);
 
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "GetUserByLoginIDandPass";
@@ -54,11 +58,10 @@ namespace TermProjectWS
         }
 
         // Method is used to check for valid login credentials
-        // 	SELECT * FROM tblUser u JOIN tblRole r ON r.RoleID = u.RoleID= UPPER(@LoginID) AND Password = @Password
+        // SELECT * FROM tblUser u JOIN tblRole r ON r.RoleID = u.RoleID= UPPER(@LoginID) AND Password = @Password
         [WebMethod]
         public DataSet GetUserByLoginIDandPass(string LoginID, string Password)
         {
-
             objCommand.CommandType = CommandType.StoredProcedure;
             objCommand.CommandText = "GetUserByLoginIDandPass";
             objCommand.Parameters.Clear();
@@ -69,7 +72,7 @@ namespace TermProjectWS
             inputParameter.Size = 100;
             objCommand.Parameters.Add(inputParameter);
 
-            inputParameter = new SqlParameter("@Password", Password);
+            inputParameter = new SqlParameter("@Password", EncryptPass(Password));
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarChar;
             inputParameter.Size = 100;
@@ -123,7 +126,7 @@ namespace TermProjectWS
             Account objAccount = new Account();
             objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
             objAccount.UserLoginID = objDS.Tables[0].Rows[0]["LoginID"].ToString();
-            objAccount.UserPassword = objDS.Tables[0].Rows[0]["HashedPassword"].ToString();
+            objAccount.UserPassword = EncryptPass(objDS.Tables[0].Rows[0]["HashedPassword"].ToString());
             objAccount.UserFullName = objDS.Tables[0].Rows[0]["Name"].ToString();
             objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
             objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
@@ -418,7 +421,7 @@ namespace TermProjectWS
             inputParameter.Size = 500;
             objCommand.Parameters.Add(inputParameter);
 
-            inputParameter = new SqlParameter("@password", pw);
+            inputParameter = new SqlParameter("@password", EncryptPass(pw));
             inputParameter.Direction = ParameterDirection.Input;
             inputParameter.SqlDbType = SqlDbType.VarChar;
             inputParameter.Size = 500;
@@ -1205,7 +1208,7 @@ namespace TermProjectWS
                 inputParameter.Size = 500;
                 objCommand.Parameters.Add(inputParameter);
 
-                inputParameter = new SqlParameter("@newPassword", newPassword);
+                inputParameter = new SqlParameter("@newPassword", EncryptPass(newPassword));
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.VarChar;
                 inputParameter.Size = 500;
@@ -1275,6 +1278,47 @@ namespace TermProjectWS
                 DataSet userData = new DataSet();
                 return userData;//empty dataSet
             }
+        }
+
+        [WebMethod]
+        public string EncryptPass(string plainTextPassword)
+        {
+            Byte[] key = { 250, 101, 18, 76, 45, 135, 207, 118, 4, 171, 3, 168, 202, 241, 37, 199 };
+            Byte[] vector = { 146, 64, 191, 111, 23, 3, 113, 119, 231, 121, 252, 112, 79, 32, 114, 156 };
+            string encryptedPassword;
+
+            UTF8Encoding encoder = new UTF8Encoding();      // used to convert bytes to characters, and back
+            Byte[] textBytes;                               // stores the plain text data as bytes
+
+            // Perform Encryption
+            //-------------------
+            // Convert a string to a byte array, which will be used in the encryption process.
+            textBytes = encoder.GetBytes(plainTextPassword);
+
+            // Create an instances of the encryption algorithm (Rinjdael AES) for the encryption to perform,
+            // a memory stream used to store the encrypted data temporarily, and
+            // a crypto stream that performs the encryption algorithm.
+            RijndaelManaged rmEncryption = new RijndaelManaged();
+            MemoryStream myMemoryStream = new MemoryStream();
+            CryptoStream myEncryptionStream = new CryptoStream(myMemoryStream, rmEncryption.CreateEncryptor(key, vector), CryptoStreamMode.Write);
+
+            // Use the crypto stream to perform the encryption on the plain text byte array.
+            myEncryptionStream.Write(textBytes, 0, textBytes.Length);
+            myEncryptionStream.FlushFinalBlock();
+
+            // Retrieve the encrypted data from the memory stream, and write it to a separate byte array.
+            myMemoryStream.Position = 0;
+            Byte[] encryptedBytes = new Byte[myMemoryStream.Length];
+            myMemoryStream.Read(encryptedBytes, 0, encryptedBytes.Length);
+
+            // Close all the streams.
+            myEncryptionStream.Close();
+            myMemoryStream.Close();
+
+            // Convert the bytes to a string and display it.
+            encryptedPassword = Convert.ToBase64String(encryptedBytes);
+
+            return encryptedPassword;
         }
     }
 }

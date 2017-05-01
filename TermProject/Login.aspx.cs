@@ -15,6 +15,7 @@ namespace TermProject
     public partial class LogInPage : System.Web.UI.Page
     {
         Account objAccount = new Account();
+        GMethods objGM = new GMethods();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -94,7 +95,7 @@ namespace TermProject
                         objAccount = DeserializeAccount(byteArray);
 
                         objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
-                        objAccount.UserPassword = objDS.Tables[0].Rows[0]["HashedPassword"].ToString();
+                        objAccount.UserPassword = objGM.DecryptPassword(objDS.Tables[0].Rows[0]["HashedPassword"].ToString());
                         objAccount.UserEmail = objDS.Tables[0].Rows[0]["LoginID"].ToString();
                         objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
                         objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
@@ -134,6 +135,6 @@ namespace TermProject
             objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
-        }        
+        }
     }//end class
 }//end nameSpace
