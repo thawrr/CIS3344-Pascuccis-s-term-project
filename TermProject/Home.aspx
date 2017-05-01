@@ -13,10 +13,12 @@
             <p>All WebMethods are secured using User Credentials</p>
             <br />
             <div class="row">
-
+                <h3>the following are the ONLY Legal file extensions that can upload to the cloud:</h3>
+                <h3>txt, doc, docx, ppt, html, css, xml, pdf,</h3>
                 <div class="col-lg-12">
                     <h3>Upload a file</h3>
-                    <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
+                    <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;
+                    <asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
                     <asp:FileUpload ID="FileUpload1" runat="server" /><br />
                     <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
                 </div>

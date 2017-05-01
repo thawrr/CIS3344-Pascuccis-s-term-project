@@ -36,8 +36,12 @@ namespace TermProject
                 objAccount.UserID = ((Account)Session["Account"]).UserID;
                 objAccount.UserEmail = ((Account)Session["Account"]).UserEmail;
                 objAccount.UserPassword = ((Account)Session["Account"]).UserPassword;
+                objAccount.StorageUsed = ((Account)Session["Account"]).StorageUsed;
+                objAccount.StorageCapacity = ((Account)Session["Account"]).StorageCapacity;
 
                 lblStatus.Text = "Welcome! Your email is: " + email + ". Your UserID is " + objAccount.UserID;
+
+                lblStorageInfo.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
                 Response.Redirect("Login.aspx");
@@ -55,118 +59,6 @@ namespace TermProject
                 return true;
         }
 
-
-        protected void btnUpload_Click(object sender, EventArgs e)
-        {
-            lblFileError.Visible = false;//hide error
-
-            if (FileUpload1.HasFile == false)//check for file
-            {
-                lblFileError.Visible = true;//show error
-                lblFileError.Text = "No file was uploaded";
-            }
-            else
-            {
-                // Get the size in bytes of the file to upload.
-                objAccount.FileSize = FileUpload1.PostedFile.ContentLength;
-
-
-                if (objAccount.StorageUsed + objAccount.FileSize < objAccount.StorageCapacity)
-                {
-                    // Create a byte array to hold the contents of the file.
-                    byte[] input = new byte[objAccount.FileSize - 1];
-                    input = FileUpload1.FileBytes;//file data
-
-                    if (objAccount.FileSize > 510000)//limit size
-                    {
-                        lblFileError.Visible = true;//show error
-                        lblFileError.Text = "File is too big.";
-                    }
-                    else
-                    {
-                        objAccount.FileName = FileUpload1.PostedFile.FileName;
-                        string fileExtension = Path.GetExtension(objAccount.FileName);
-                        int userID = ((Account)Session["Account"]).UserID;
-
-
-                        switch (fileExtension)
-                        {
-                            case ".txt":
-                                objAccount.FileType = "Text";
-                                break;
-
-                            case ".png":
-                                objAccount.FileType = "Portable Network Graphics";
-                                break;
-
-                            case ".gif":
-                                objAccount.FileType = "Graphics Interchange Format";
-                                break;
-
-                            case ".jpg":
-                                objAccount.FileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".jpeg":
-                                objAccount.FileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".docx":
-                                objAccount.FileType = "Windows Word Document";
-                                break;
-
-                            case ".bat":
-                                objAccount.FileType = "Batch File";
-                                break;
-
-                            default:
-                                objAccount.FileType = "Unknown to app";
-                                break;
-                        }
-
-                        bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
-
-
-                        if (result == true)
-                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
-                        else
-                            lblTest.Text = "Could not upload file to DataBase";
-                    }//end else
-                }
-                else
-                {
-                    lblFileError.Text = "You have reached your maximum storage quota";
-                }
-            }
-            //FillControls();
-        }//end btnClick
-
-        // Deserialize the binary data to reconstruct the Account object
-        public Account DeserializeAccount(Byte[] byteArray)
-        {
-            BinaryFormatter deSerializer = new BinaryFormatter();
-            MemoryStream memStream = new MemoryStream(byteArray);
-            memStream.Position = 0;
-            objAccount = (Account)deSerializer.Deserialize(memStream);
-
-            return objAccount;
-        }
-
-        protected void gvFiles_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            // Get the fileID
-            int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[1].Text);
-
-            bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
-
-            if (isDelete)
-                lblDeleteStatus.Text = "File was deleted";
-            else
-                lblDeleteStatus.Text = "An error occured and the file was not deleted";
-
-            FillControls();
-        }
-
         public void FillControls()
         {
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
@@ -179,8 +71,8 @@ namespace TermProject
                 // Determine which icon to show based on the file type
                 for (int i = 0; i < dtFiles.Rows.Count; i++)
                 {
-                    string fileType = dtFiles.Rows[i]["FileType"].ToString();
-                    string url = objGM.GetImageURL(fileType);
+                    objAccount.FileType = dtFiles.Rows[i]["FileType"].ToString();
+                    string url = objGM.GetImageURL(objAccount.FileType);
                     dtFiles.Rows[i]["ImageURL"] = url;
                 }
 
@@ -190,8 +82,6 @@ namespace TermProject
 
                 ddlFiles.DataSource = dtFiles;
                 ddlFiles.DataBind();
-
-                lblStorageInfo.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
             else
             {
@@ -211,9 +101,112 @@ namespace TermProject
             ddlRole.DataSource = dlRoles;
             ddlRole.DataBind();
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //end basic HomePage methods
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+            // Your application shouldn't allow  images, videos, and sound/music files.
+
+            lblFileError.Visible = false;//hide error
+
+            HttpPostedFile file = FileUpload1.PostedFile;
+            int iFileSize = file.ContentLength;//temp file size
+
+            if (FileUpload1.HasFile == false || iFileSize > 4000000)//check for file
+            {
+                lblFileError.Visible = true;//show error
+                lblFileError.Text = "No file to upload!.";
+                Response.Clear();
+                return;
+            }
+            else
+            {
+                objAccount.FileName = FileUpload1.PostedFile.FileName;
+                string fileExtension = Path.GetExtension(objAccount.FileName);
+                objAccount.FileType = objGM.GetFileType(fileExtension);
+                int userID = ((Account)Session["Account"]).UserID;
+                objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+
+                if (objGM.TestForLegalTypes(fileExtension) == true)
+                {
+
+                    // Get the size in bytes of the file to upload.
+                    objAccount.FileSize = FileUpload1.PostedFile.ContentLength;
+
+                    // Create a byte array to hold the contents of the file.
+                    byte[] input = new byte[objAccount.FileSize - 1];
+                    input = FileUpload1.FileBytes;//file data
+                    
+                    if (objAccount.StorageUsed + objAccount.FileSize > objAccount.StorageCapacity)//limit size
+                    {
+                        lblFileError.Visible = true;//show error
+                        lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
+                        Response.Clear();
+                        return;
+                    }
+                    else
+                    {
+                      
+                        bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+
+
+                        if (result != true)
+                        {
+                            lblFileError.Visible = true;
+                            lblFileError.Text = "Could not upload file to DataBase";
+                            Response.Clear();
+                            return;
+                        }
+                        else
+                        {
+                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
+                            FillControls();
+                        }
+                    }//end else
+                }
+                else
+                {
+                    lblFileError.Visible = true;
+                    lblFileError.Text = "You attempted to upload an illegal file. Please try again.";
+                    Response.Clear();
+                    return;
+                }
+            }//end else
+        }//end btnClick
+
+        // Deserialize the binary data to reconstruct the Account object
+        public Account DeserializeAccount(Byte[] byteArray)
+        {
+            BinaryFormatter deSerializer = new BinaryFormatter();
+            MemoryStream memStream = new MemoryStream(byteArray);
+            memStream.Position = 0;
+            objAccount = (Account)deSerializer.Deserialize(memStream);
+
+            return objAccount;
+        }
+
+        protected void gvFiles_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            // Get the fileID
+            int fileID = Convert.ToInt32(gvFiles.Rows[e.RowIndex].Cells[2].Text);
+
+            bool isDelete = pxy.DeleteFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+
+            if (isDelete)
+                lblDeleteStatus.Text = "File was deleted";
+            else
+                lblDeleteStatus.Text = "An error occured and the file was not deleted";
+
+            FillControls();
+        }
+
+       
         protected void btnUpdateFile_Click(object sender, EventArgs e)
         {
+            lblFileError.Visible = false;
+
             int fileID = Convert.ToInt32(ddlFiles.SelectedValue);
 
             lblFileError.Visible = false;//hide error
@@ -242,47 +235,14 @@ namespace TermProject
                     else
                     {
                         objAccount.FileName = FileUpload1.PostedFile.FileName;
+                        
                         string fileExtension = Path.GetExtension(objAccount.FileName);
-                        int userID = ((Account)Session["Account"]).UserID;
+                        
+                        objAccount.FileType = objGM.GetFileType(fileExtension);
 
-
-                        switch (fileExtension)
-                        {
-                            case ".txt":
-                                objAccount.FileType = "Text";
-                                break;
-
-                            case ".png":
-                                objAccount.FileType = "Portable Network Graphics";
-                                break;
-
-                            case ".gif":
-                                objAccount.FileType = "Graphics Interchange Format";
-                                break;
-
-                            case ".jpg":
-                                objAccount.FileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".jpeg":
-                                objAccount.FileType = "Joint Photographic Experts Group";
-                                break;
-
-                            case ".docx":
-                                objAccount.FileType = "Windows Word Document";
-                                break;
-
-                            case ".bat":
-                                objAccount.FileType = "Batch File";
-                                break;
-
-                            default:
-                                objAccount.FileType = "Unknown to app";
-                                break;
-                        }
 
                         int roleID = Convert.ToInt32(ddlRole.SelectedValue);
-
+                        int userID = ((Account)Session["Account"]).UserID;
 
 
                         bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, roleID, objAccount.UserEmail, objAccount.UserPassword);
@@ -292,14 +252,15 @@ namespace TermProject
                         else
                             lblTest.Text = "Could not upload file to DataBase";
                     }//end else
-                }
+                }//end if
                 else
                 {
+                    lblFileError.Visible = true;
                     lblFileError.Text = "You have reached your maximum storage quota";
                 }
-            }
+            }//end else - file UpDate
             FillControls();
-        }
+        }//end upDate class
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
@@ -368,5 +329,5 @@ namespace TermProject
                 gvTransactions.Visible = false;
             }
         }
-    }
-}
+    }//end class
+}//end namespace

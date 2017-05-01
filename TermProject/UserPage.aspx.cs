@@ -59,6 +59,8 @@ namespace TermProject
 
         public void FillControls()
         {
+            DataSet dsUsers = pxy.GetAllCloudUsers(objAccount.UserEmail, objAccount.UserPassword);
+
             DataSet dsFiles = pxy.GetFilesByUserID(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
             DataTable dtFiles = dsFiles.Tables[0];
 
@@ -80,6 +82,9 @@ namespace TermProject
 
                 gvUserCloud.DataSource = dtFiles;
                 gvUserCloud.DataBind();
+
+                objAccount.StorageUsed = Convert.ToInt32(dsUsers.Tables[0].Rows[0]["StorageUsed"]);
+                objAccount.StorageCapacity = Convert.ToInt32(dsUsers.Tables[0].Rows[0]["StorageCapacity"]);
 
                 lblStatus.Text = "You have used " + objAccount.StorageUsed + " bytes of your allotted " + objAccount.StorageCapacity + " bytes.";
             }
@@ -110,41 +115,10 @@ namespace TermProject
                 int fileID = int.Parse(selectedRow.Cells[0].Text);//got userID for selected file
                 int userID = int.Parse(selectedRow.Cells[1].Text);//got fileID for that file
                 string fileName = selectedRow.Cells[2].Text;
-                string ContentType = selectedRow.Cells[3].Text;
+                string ContentType = selectedRow.Cells[4].Text;
 
-                string extension = "";
-                switch (ContentType)
-                {
-                    case "Text":
-                        extension = ".txt";
-                        break;
-
-                    case "Portable Network Graphics":
-                        extension = ".png";
-                        break;
-
-                    case "Graphics Interchange Format":
-                        extension = ".gif";
-                        break;
-
-                    case "Joint Photographic Experts Group":
-                        extension = ".jpeg";
-                        break;
-
-                    case "Windows Word Document":
-                        extension = ".docx";
-                        break;
-
-                    case "Batch File":
-                        extension = ".bat";
-                        break;
-
-                    default:
-                        extension = ".txt";
-                        break;
-                }
-
-                //string customValue = "attachment;fileID="+ fileID.ToString();
+                string extension = objGM.GetFileExtension(ContentType);
+                
                 //select file from DB
                 DataSet returnedFile = new DataSet();
                 returnedFile = pxy.GetOneFile(fileID, userID, objAccount.UserEmail, objAccount.UserPassword);
@@ -174,6 +148,9 @@ namespace TermProject
             else
                 lblStatus2.Text = "Something went wrong at gridview Command";
         }
+
+
+
 
         protected void ddlPlanOptions_SelectedIndexChanged(object sender, EventArgs e)
         {

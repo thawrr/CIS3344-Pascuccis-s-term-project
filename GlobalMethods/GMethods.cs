@@ -133,7 +133,8 @@ namespace GlobalMethods
         public string GetFileExtension(string fileType)
         {
 
-            string extension = "";
+            string extension;
+
             switch (fileType)
             {
                 case "Text":
@@ -166,7 +167,17 @@ namespace GlobalMethods
             }
             return extension;
         }
+        
+        public bool TestForLegalTypes(string fileExtension)
+        {
+            bool isStringContainedInList = new[] {".txt", ".docx", ".doc", "ppt", "css", "html", "xml", "pdf" }.Contains(fileExtension);
 
+            if (isStringContainedInList == true)
+                return true;
+            else
+                return false;
+        }
+        //".mp4", ".flac", ".avi", ".wmv", ".flv", ".mov", ".mp3", ".wav", ".wma", ".wma", ".flac"
 
 
     }
