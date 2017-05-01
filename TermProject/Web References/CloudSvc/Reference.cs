@@ -30,8 +30,6 @@ namespace TermProject.CloudSvc {
     [System.Web.Services.WebServiceBindingAttribute(Name="CloudServiceSoap", Namespace="http://tempuri.org/")]
     public partial class CloudService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback AuthenticateMethodOperationCompleted;
-        
         private System.Threading.SendOrPostCallback GetUserByLoginIDandPassOperationCompleted;
         
         private System.Threading.SendOrPostCallback UpdateAccountOperationCompleted;
@@ -104,6 +102,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback GetAllCloudTransOperationCompleted;
         
+        private System.Threading.SendOrPostCallback EncryptPassOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -141,9 +141,6 @@ namespace TermProject.CloudSvc {
                 this.useDefaultCredentialsSetExplicitly = true;
             }
         }
-        
-        /// <remarks/>
-        public event AuthenticateMethodCompletedEventHandler AuthenticateMethodCompleted;
         
         /// <remarks/>
         public event GetUserByLoginIDandPassCompletedEventHandler GetUserByLoginIDandPassCompleted;
@@ -254,35 +251,7 @@ namespace TermProject.CloudSvc {
         public event GetAllCloudTransCompletedEventHandler GetAllCloudTransCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AuthenticateMethod(string LoginID, string Password) {
-            object[] results = this.Invoke("AuthenticateMethod", new object[] {
-                        LoginID,
-                        Password});
-            return ((bool)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void AuthenticateMethodAsync(string LoginID, string Password) {
-            this.AuthenticateMethodAsync(LoginID, Password, null);
-        }
-        
-        /// <remarks/>
-        public void AuthenticateMethodAsync(string LoginID, string Password, object userState) {
-            if ((this.AuthenticateMethodOperationCompleted == null)) {
-                this.AuthenticateMethodOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAuthenticateMethodOperationCompleted);
-            }
-            this.InvokeAsync("AuthenticateMethod", new object[] {
-                        LoginID,
-                        Password}, this.AuthenticateMethodOperationCompleted, userState);
-        }
-        
-        private void OnAuthenticateMethodOperationCompleted(object arg) {
-            if ((this.AuthenticateMethodCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.AuthenticateMethodCompleted(this, new AuthenticateMethodCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+        public event EncryptPassCompletedEventHandler EncryptPassCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetUserByLoginIDandPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -504,25 +473,27 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AccountUpdate", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public bool AccountUpdate(int userID, string name, string email, int sc, string pw, int roleID, bool isActive) {
+        public bool AccountUpdate(int userID, string name, string email, int sc, string newPassword, int roleID, bool isActive, string userEmail, string userPassword) {
             object[] results = this.Invoke("AccountUpdate", new object[] {
                         userID,
                         name,
                         email,
                         sc,
-                        pw,
+                        newPassword,
                         roleID,
-                        isActive});
+                        isActive,
+                        userEmail,
+                        userPassword});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, int roleID, bool isActive) {
-            this.AccountUpdateAsync(userID, name, email, sc, pw, roleID, isActive, null);
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string newPassword, int roleID, bool isActive, string userEmail, string userPassword) {
+            this.AccountUpdateAsync(userID, name, email, sc, newPassword, roleID, isActive, userEmail, userPassword, null);
         }
         
         /// <remarks/>
-        public void AccountUpdateAsync(int userID, string name, string email, int sc, string pw, int roleID, bool isActive, object userState) {
+        public void AccountUpdateAsync(int userID, string name, string email, int sc, string newPassword, int roleID, bool isActive, string userEmail, string userPassword, object userState) {
             if ((this.AccountUpdateOperationCompleted == null)) {
                 this.AccountUpdateOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAccountUpdateOperationCompleted);
             }
@@ -531,9 +502,11 @@ namespace TermProject.CloudSvc {
                         name,
                         email,
                         sc,
-                        pw,
+                        newPassword,
                         roleID,
-                        isActive}, this.AccountUpdateOperationCompleted, userState);
+                        isActive,
+                        userEmail,
+                        userPassword}, this.AccountUpdateOperationCompleted, userState);
         }
         
         private void OnAccountUpdateOperationCompleted(object arg) {
@@ -1507,6 +1480,35 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/EncryptPass", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public string EncryptPass(string plainTextPassword) {
+            object[] results = this.Invoke("EncryptPass", new object[] {
+                        plainTextPassword});
+            return ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void EncryptPassAsync(string plainTextPassword) {
+            this.EncryptPassAsync(plainTextPassword, null);
+        }
+        
+        /// <remarks/>
+        public void EncryptPassAsync(string plainTextPassword, object userState) {
+            if ((this.EncryptPassOperationCompleted == null)) {
+                this.EncryptPassOperationCompleted = new System.Threading.SendOrPostCallback(this.OnEncryptPassOperationCompleted);
+            }
+            this.InvokeAsync("EncryptPass", new object[] {
+                        plainTextPassword}, this.EncryptPassOperationCompleted, userState);
+        }
+        
+        private void OnEncryptPassOperationCompleted(object arg) {
+            if ((this.EncryptPassCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.EncryptPassCompleted(this, new EncryptPassCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1522,32 +1524,6 @@ namespace TermProject.CloudSvc {
                 return true;
             }
             return false;
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    public delegate void AuthenticateMethodCompletedEventHandler(object sender, AuthenticateMethodCompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class AuthenticateMethodCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal AuthenticateMethodCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public bool Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((bool)(this.results[0]));
-            }
         }
     }
     
@@ -2483,6 +2459,32 @@ namespace TermProject.CloudSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((System.Data.DataSet)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void EncryptPassCompletedEventHandler(object sender, EncryptPassCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class EncryptPassCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal EncryptPassCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
             }
         }
     }

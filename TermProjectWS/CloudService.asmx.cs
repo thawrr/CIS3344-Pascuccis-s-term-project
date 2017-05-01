@@ -329,9 +329,9 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public bool AccountUpdate(int userID, string name, string email, int sc, string pw, int roleID, bool isActive)
+        public bool AccountUpdate(int userID, string name, string email, int sc, string newPassword, int roleID, bool isActive, string userEmail, string userPassword)
         {
-            if (AuthenticateMethod(email, pw) == true)
+            if (AuthenticateMethod(userEmail, userPassword) == true)
             {
                 objCommand.CommandType = CommandType.StoredProcedure;
                 objCommand.CommandText = "UpdateAccount";
@@ -361,7 +361,7 @@ namespace TermProjectWS
                 inputParameter.Size = 8000;
                 objCommand.Parameters.Add(inputParameter);
 
-                inputParameter = new SqlParameter("@pw", pw);
+                inputParameter = new SqlParameter("@pw", EncryptPass(newPassword));
                 inputParameter.Direction = ParameterDirection.Input;
                 inputParameter.SqlDbType = SqlDbType.VarChar;
                 inputParameter.Size = 8000;

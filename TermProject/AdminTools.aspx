@@ -129,39 +129,40 @@
                         <asp:BoundField DataField="DateTimeStamp" HeaderText="Date" />
                     </Columns>
                 </asp:GridView>
-
                 <asp:Label ID="lblTransactionStatus" runat="server" />
             </div>
             <br />
-            <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
-            <asp:ScriptManagerProxy ID="ScriptManagerProxy" runat="server"></asp:ScriptManagerProxy>
-            <br />
-            <script type="text/javascript">
-                var xmlhttp;
-                try {
-                    // Code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                catch (try_older_microsoft) {
-
+            <div class="col-lg-8">
+                <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+                <asp:ScriptManagerProxy ID="ScriptManagerProxy" runat="server"></asp:ScriptManagerProxy>
+                <br />
+                <script type="text/javascript">
+                    var xmlhttp;
                     try {
-                        // Code for IE6, IE5
-                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        // Code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
                     }
-                    catch (other) {
-                        xmlhttp = false;
-                        alert("Your browser doesn't support AJAX!");
+                    catch (try_older_microsoft) {
+
+                        try {
+                            // Code for IE6, IE5
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        catch (other) {
+                            xmlhttp = false;
+                            alert("Your browser doesn't support AJAX!");
+                        }
                     }
-                }
-            </script>
-            <h3>This panel updates every 3 seconds with all cloud user transactions.</h3>
-            <asp:UpdatePanel ID="UpdatePanelTransaction" runat="server">
-                <ContentTemplate>
-                    <asp:Timer ID="TimerTransaction" runat="server" Interval="3000" OnTick="TimerTransaction_Tick"></asp:Timer>
-                    <asp:GridView ID="gvAllCloudUserTrans" runat="server" AutoGenerateColumns="true">
-                    </asp:GridView>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+                </script>
+                <h3>This panel uses AJAX to update every 3 seconds.</h3>
+                <asp:UpdatePanel ID="UpdatePanelTransaction" runat="server">
+                    <ContentTemplate>
+                        <asp:Timer ID="TimerTransaction" runat="server" Interval="3000" OnTick="TimerTransaction_Tick"></asp:Timer>
+                        <asp:GridView ID="gvAllCloudUserTrans" runat="server" AutoGenerateColumns="true">
+                        </asp:GridView>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
         </div>
     </asp:Panel>
 
