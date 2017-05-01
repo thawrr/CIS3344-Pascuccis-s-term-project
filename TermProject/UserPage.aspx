@@ -113,5 +113,31 @@
             </Columns>
         </asp:GridView>
         <asp:Label ID="lblViewDeletedStatus" runat="server" />
+        <br />
+        <br />
+        <h4>Clear All Storage</h4>
+        <p>Would you like to delete all of your files and reset the amount of storage you are using?</p>
+        <asp:Table ID="tblClearStorage" runat="server">
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Button ID="btnClearStorage" Text="Clear Storage" OnClick="btnClearStorage_Click" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Label ID="lblClearStorageStatus" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+            <asp:TableRow>
+                <asp:TableCell>
+                    <asp:Button ID="btnYes" Text="Yes" Visible="false" OnClick="btnConfirm_Click" runat="server" />
+                </asp:TableCell>
+                <asp:TableCell>
+                    <asp:Button ID="btnNo" Text="No" Visible="false" OnClick="btnConfirm_Click" runat="server" />
+                </asp:TableCell>
+            </asp:TableRow>
+        </asp:Table>
+        <br />
+        <br />
     </asp:Panel>
 </asp:Content>

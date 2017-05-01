@@ -133,7 +133,8 @@ namespace GlobalMethods
         public string GetFileExtension(string fileType)
         {
 
-            string extension = "";
+            string extension;
+
             switch (fileType)
             {
                 case "Text":
@@ -166,8 +167,5 @@ namespace GlobalMethods
             }
             return extension;
         }
-
-
-
     }
 }

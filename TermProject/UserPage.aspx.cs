@@ -109,41 +109,10 @@ namespace TermProject
                 int fileID = int.Parse(selectedRow.Cells[0].Text);//got userID for selected file
                 int userID = int.Parse(selectedRow.Cells[1].Text);//got fileID for that file
                 string fileName = selectedRow.Cells[2].Text;
-                string ContentType = selectedRow.Cells[3].Text;
+                string ContentType = selectedRow.Cells[4].Text;
 
-                string extension = "";
-                switch (ContentType)
-                {
-                    case "Text":
-                        extension = ".txt";
-                        break;
+                string extension = objGM.GetFileExtension(ContentType);
 
-                    case "Portable Network Graphics":
-                        extension = ".png";
-                        break;
-
-                    case "Graphics Interchange Format":
-                        extension = ".gif";
-                        break;
-
-                    case "Joint Photographic Experts Group":
-                        extension = ".jpeg";
-                        break;
-
-                    case "Windows Word Document":
-                        extension = ".docx";
-                        break;
-
-                    case "Batch File":
-                        extension = ".bat";
-                        break;
-
-                    default:
-                        extension = ".txt";
-                        break;
-                }
-
-                //string customValue = "attachment;fileID="+ fileID.ToString();
                 //select file from DB
                 DataSet returnedFile = new DataSet();
                 returnedFile = pxy.GetOneFile(fileID, userID, objAccount.UserEmail, objAccount.UserPassword);
@@ -152,16 +121,16 @@ namespace TermProject
 
                 if (returnedFile.Tables[0].Rows.Count == 0)
                 {
-                    lblFileStatus.Text = "Something went wrong at download";
+                    lblFileError.Text = "Something went wrong at download";
                 }
                 else
                 {
                     byte[] bytes = new byte[1];
                     bytes = (byte[])returnedFile.Tables[0].Rows[0][0];
 
-                    // Give content type to convert byte array to original file
+                    //give content type to convert byte array to original file
                     Response.AddHeader("content-disposition", "attachment;filename= " + fileName + extension);
-                    // Re-create the file from the byte array
+                    //Re-create the file from the byte array
                     Response.BinaryWrite(bytes);
                     Response.Flush();
                     Response.End();
@@ -278,7 +247,7 @@ namespace TermProject
 
                 int fileID = int.Parse(selectedRow.Cells[0].Text);
                 int masterFileID = int.Parse(selectedRow.Cells[1].Text);
-                
+
                 if (pxy.RestoreOldVersion(fileID, masterFileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
                 {
                     lblViewVersionStatus.Text = "File has been restored.";
@@ -345,7 +314,104 @@ namespace TermProject
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
+            lblFileError.Visible = false;//hide error
 
+            HttpPostedFile file = FileUploadNew.PostedFile;
+            int iFileSize = file.ContentLength;//temp file size
+
+            if (FileUploadNew.HasFile == false || iFileSize > 4000000)//check for file
+            {
+                Response.Clear();
+                lblFileError.Visible = true;//show error
+                lblFileError.Text = "No file to upload!.";
+                return;
+            }
+            else
+            {
+                if (iFileSize < 4000000)
+                {
+                    // Get the size in bytes of the file to upload.
+                    objAccount.FileSize = FileUploadNew.PostedFile.ContentLength;
+
+                    // Create a byte array to hold the contents of the file.
+                    byte[] input = new byte[objAccount.FileSize - 1];
+                    input = FileUploadNew.FileBytes;//file data
+
+                    if (objAccount.StorageUsed + objAccount.FileSize < objAccount.StorageCapacity)//limit size
+                    {
+                        Response.Clear();
+                        lblFileError.Visible = true;//show error
+                        lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
+                        return;
+                    }
+                    else
+                    {
+                        objAccount.FileName = FileUploadNew.PostedFile.FileName;
+                        string fileExtension = Path.GetExtension(objAccount.FileName);
+                        objAccount.FileType = objGM.GetFileType(fileExtension);
+
+                        int userID = ((Account)Session["Account"]).UserID;
+
+                        objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+
+                        bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+
+
+                        if (result == true)
+                        {
+                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
+                            FillControls();
+                        }
+                        else
+                        {
+                            Response.Clear();
+                            lblTest.Text = "Could not upload file to DataBase";
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    Response.Clear();
+                    lblFileError.Text = "File is too Big To Download. file < 4 MB";
+                    return;
+                }
+            }
+        }
+
+        protected void btnClearStorage_Click(object sender, EventArgs e)
+        {
+            lblClearStorageStatus.Text = "Are you sure you would like to clear your all of your storage?";
+
+            btnYes.Visible = true;
+            btnNo.Visible = true;
+            btnClearStorage.Enabled = false;
+        }
+
+        protected void btnConfirm_Click(object sender, EventArgs e)
+        {
+            btnYes.Visible = false;
+            btnNo.Visible = false;
+            btnClearStorage.Enabled = true;
+
+            Button btnConfirm = (Button)sender;
+
+            if (btnConfirm.ID == "btnYes")
+            {
+                if (pxy.ClearStorage(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                {
+                    lblClearStorageStatus.Text = "Storage has been cleared and reset.";
+                }
+                else
+                {
+                    lblClearStorageStatus.Text = "Storage has not been cleared.";
+                }
+                FillControls();
+            }
+            else
+            {
+                lblClearStorageStatus.Text = "";
+            }
         }
     }//end class
 }//end nameSpace

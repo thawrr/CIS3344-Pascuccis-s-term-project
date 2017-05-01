@@ -94,6 +94,8 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback RestoreOldVersionOperationCompleted;
         
+        private System.Threading.SendOrPostCallback ClearStorageOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -227,6 +229,9 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event RestoreOldVersionCompletedEventHandler RestoreOldVersionCompleted;
+        
+        /// <remarks/>
+        public event ClearStorageCompletedEventHandler ClearStorageCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1319,6 +1324,39 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ClearStorage", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool ClearStorage(int userID, string email, string password) {
+            object[] results = this.Invoke("ClearStorage", new object[] {
+                        userID,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ClearStorageAsync(int userID, string email, string password) {
+            this.ClearStorageAsync(userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void ClearStorageAsync(int userID, string email, string password, object userState) {
+            if ((this.ClearStorageOperationCompleted == null)) {
+                this.ClearStorageOperationCompleted = new System.Threading.SendOrPostCallback(this.OnClearStorageOperationCompleted);
+            }
+            this.InvokeAsync("ClearStorage", new object[] {
+                        userID,
+                        email,
+                        password}, this.ClearStorageOperationCompleted, userState);
+        }
+        
+        private void OnClearStorageOperationCompleted(object arg) {
+            if ((this.ClearStorageCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ClearStorageCompleted(this, new ClearStorageCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2156,6 +2194,32 @@ namespace TermProject.CloudSvc {
         private object[] results;
         
         internal RestoreOldVersionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void ClearStorageCompletedEventHandler(object sender, ClearStorageCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ClearStorageCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ClearStorageCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

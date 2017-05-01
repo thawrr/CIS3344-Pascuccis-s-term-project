@@ -657,6 +657,22 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="ClearStorage">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="userID" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ClearStorageResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ClearStorageResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="AuthenticateMethodSoapIn">
@@ -851,6 +867,12 @@
   <wsdl:message name="RestoreOldVersionSoapOut">
     <wsdl:part name="parameters" element="tns:RestoreOldVersionResponse" />
   </wsdl:message>
+  <wsdl:message name="ClearStorageSoapIn">
+    <wsdl:part name="parameters" element="tns:ClearStorage" />
+  </wsdl:message>
+  <wsdl:message name="ClearStorageSoapOut">
+    <wsdl:part name="parameters" element="tns:ClearStorageResponse" />
+  </wsdl:message>
   <wsdl:portType name="CloudServiceSoap">
     <wsdl:operation name="AuthenticateMethod">
       <wsdl:input message="tns:AuthenticateMethodSoapIn" />
@@ -979,6 +1001,10 @@
     <wsdl:operation name="RestoreOldVersion">
       <wsdl:input message="tns:RestoreOldVersionSoapIn" />
       <wsdl:output message="tns:RestoreOldVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ClearStorage">
+      <wsdl:input message="tns:ClearStorageSoapIn" />
+      <wsdl:output message="tns:ClearStorageSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="CloudServiceSoap" type="tns:CloudServiceSoap">
@@ -1271,6 +1297,15 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="ClearStorage">
+      <soap:operation soapAction="http://tempuri.org/ClearStorage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="CloudServiceSoap12" type="tns:CloudServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1555,6 +1590,15 @@
     </wsdl:operation>
     <wsdl:operation name="RestoreOldVersion">
       <soap12:operation soapAction="http://tempuri.org/RestoreOldVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ClearStorage">
+      <soap12:operation soapAction="http://tempuri.org/ClearStorage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

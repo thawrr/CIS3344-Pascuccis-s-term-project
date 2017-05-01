@@ -1128,5 +1128,37 @@ namespace TermProjectWS
             else
                 return false;
         }
+
+        [WebMethod]
+        public bool ClearStorage(int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "ClearStorage";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
     }
 }
