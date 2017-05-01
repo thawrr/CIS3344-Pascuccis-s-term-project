@@ -31,3 +31,12 @@ footer {
     color: antiquewhite;
     background-color: black;
 }
+
+.navButton{
+    color:black;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center;
+}

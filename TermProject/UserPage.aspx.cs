@@ -16,6 +16,7 @@ namespace TermProject
     public partial class UserPage : System.Web.UI.Page
     {
         Account objAccount = new Account();
+        Storage objStorage = new Storage();
         CloudSvc.CloudService pxy = new CloudSvc.CloudService();
         GMethods objGM = new GMethods();
 
@@ -215,6 +216,8 @@ namespace TermProject
                     lblPaymentStatus.Text = "Plan has been updgraded";
 
                     objAccount.StorageCapacity = pxy.GetUserStorageCapacity(objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword);
+
+                    tblTransaction.Visible = false;
                 }
                 else
                 {
@@ -338,7 +341,7 @@ namespace TermProject
 
         protected void btnUpdateFile_Click(object sender, EventArgs e)
         {
-            lblFileError.Visible = false;//hide error
+            lblUpdateStatus.Visible = false;//hide error
 
             HttpPostedFile file = FileUploadUpdate.PostedFile;
             int iFileSize = file.ContentLength;//temp file size
@@ -346,34 +349,34 @@ namespace TermProject
             if (FileUploadUpdate.HasFile == false || iFileSize > 4000000)//check for file
             {
                 Response.Clear();
-                lblFileError.Visible = true;//show error
-                lblFileError.Text = "No file to upload!";
+                lblUpdateStatus.Visible = true;//show error
+                lblUpdateStatus.Text = "No file to upload!";
                 return;
             }
             else
             {
-                objAccount.FileName = FileUploadUpdate.PostedFile.FileName;
-                string fileExtension = Path.GetExtension(objAccount.FileName);
-                objAccount.FileType = objGM.GetFileType(fileExtension);
+                objStorage.FileName = FileUploadUpdate.PostedFile.FileName;
+                string fileExtension = Path.GetExtension(objStorage.FileName);
+                objStorage.FileType = objGM.GetFileType(fileExtension);
                 int userID = ((Account)Session["Account"]).UserID;
-                objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+                objStorage.FileName = Path.GetFileNameWithoutExtension(objStorage.FileName);
 
                 if (objGM.TestForLegalTypes(fileExtension) == true)
                 {
 
                     // Get the size in bytes of the file to upload.
-                    objAccount.FileSize = FileUploadUpdate.PostedFile.ContentLength;
+                    objStorage.FileSize = FileUploadUpdate.PostedFile.ContentLength;
 
                     // Create a byte array to hold the contents of the file.
-                    byte[] input = new byte[objAccount.FileSize - 1];
+                    byte[] input = new byte[objStorage.FileSize - 1];
                     input = FileUploadUpdate.FileBytes;//file data
 
                     int oldFileSize = pxy.GetFileSize(Convert.ToInt32(ddlFiles.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
 
-                    if (objAccount.StorageUsed + objAccount.FileSize - oldFileSize > objAccount.StorageCapacity)//limit size
+                    if (objAccount.StorageUsed + objStorage.FileSize - oldFileSize > objAccount.StorageCapacity)//limit size
                     {
-                        lblFileError.Visible = true;//show error
-                        lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
+                        lblUpdateStatus.Visible = true;//show error
+                        lblUpdateStatus.Text = "You have reached your storage capacity. Delete or add more storage.";
                         Response.Clear();
                         return;
                     }
@@ -381,26 +384,26 @@ namespace TermProject
                     {
                         int fileID = Convert.ToInt32(ddlFiles.SelectedValue);
 
-                        bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+                        bool result = pxy.UpdateFile(fileID, input, userID, objStorage.FileName, objStorage.FileType, objStorage.FileSize, objAccount.UserEmail, objAccount.UserPassword);
 
                         if (result != true)
                         {
-                            lblFileError.Visible = true;
-                            lblFileError.Text = "Could not upload file to DataBase";
+                            lblUpdateStatus.Visible = true;
+                            lblUpdateStatus.Text = "Could not upload file to DataBase";
                             Response.Clear();
                             return;
                         }
                         else
                         {
-                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
+                            lblTest.Text = userID + ", " + objStorage.FileName + ", " + objStorage.FileType + ", " + fileExtension + " was uploaded";
                             FillControls();
                         }
                     }//end else
                 }
                 else
                 {
-                    lblFileError.Visible = true;
-                    lblFileError.Text = "You attempted to upload an illegal file. Please try again.";
+                    lblUpdateStatus.Visible = true;
+                    lblUpdateStatus.Text = "You attempted to upload an illegal file. Check the supported file types try again.";
                     Response.Clear();
                     return;
                 }
@@ -423,23 +426,23 @@ namespace TermProject
             }
             else
             {
-                objAccount.FileName = FileUploadNew.PostedFile.FileName;
-                string fileExtension = Path.GetExtension(objAccount.FileName);
-                objAccount.FileType = objGM.GetFileType(fileExtension);
+                objStorage.FileName = FileUploadNew.PostedFile.FileName;
+                string fileExtension = Path.GetExtension(objStorage.FileName);
+                objStorage.FileType = objGM.GetFileType(fileExtension);
                 int userID = ((Account)Session["Account"]).UserID;
-                objAccount.FileName = Path.GetFileNameWithoutExtension(objAccount.FileName);
+                objStorage.FileName = Path.GetFileNameWithoutExtension(objStorage.FileName);
 
                 if (objGM.TestForLegalTypes(fileExtension) == true)
                 {
 
                     // Get the size in bytes of the file to upload.
-                    objAccount.FileSize = FileUploadNew.PostedFile.ContentLength;
+                    objStorage.FileSize = FileUploadNew.PostedFile.ContentLength;
 
                     // Create a byte array to hold the contents of the file.
-                    byte[] input = new byte[objAccount.FileSize - 1];
+                    byte[] input = new byte[objStorage.FileSize - 1];
                     input = FileUploadNew.FileBytes;//file data
 
-                    if (objAccount.StorageUsed + objAccount.FileSize > objAccount.StorageCapacity)//limit size
+                    if (objAccount.StorageUsed + objStorage.FileSize > objAccount.StorageCapacity)//limit size
                     {
                         lblFileError.Visible = true;//show error
                         lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
@@ -449,7 +452,7 @@ namespace TermProject
                     else
                     {
 
-                        bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
+                        bool result = pxy.AddFile(input, userID, objStorage.FileName, objStorage.FileType, objStorage.FileSize, objAccount.UserEmail, objAccount.UserPassword);
 
 
                         if (result != true)
@@ -461,7 +464,7 @@ namespace TermProject
                         }
                         else
                         {
-                            lblTest.Text = userID + ", " + objAccount.FileName + ", " + objAccount.FileType + ", " + fileExtension + " was uploaded";
+                            lblTest.Text = userID + ", " + objStorage.FileName + ", " + objStorage.FileType + ", " + fileExtension + " was uploaded";
                             FillControls();
                         }
                     }//end else

@@ -72,9 +72,6 @@
                         </asp:TableCell>
                     </asp:TableRow>
                     <asp:TableRow>
-                        <asp:TableCell>*Password must contain at least 6 characters and at least 1 special character.</asp:TableCell>
-                    </asp:TableRow>
-                    <asp:TableRow>
                         <asp:TableCell>Password:</asp:TableCell>
                         <asp:TableCell>
                             <asp:TextBox ID="txtUpdatePassword" runat="server" />
@@ -135,7 +132,6 @@
             <div class="col-lg-8">
                 <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
                 <asp:ScriptManagerProxy ID="ScriptManagerProxy" runat="server"></asp:ScriptManagerProxy>
-                <br />
                 <script type="text/javascript">
                     var xmlhttp;
                     try {
@@ -154,10 +150,11 @@
                         }
                     }
                 </script>
-                <h3>This panel uses AJAX to update every 3 seconds.</h3>
+                <h3>Live Cloud User Transactions</h3>
+                <p>Grid updates every second</p>
                 <asp:UpdatePanel ID="UpdatePanelTransaction" runat="server">
                     <ContentTemplate>
-                        <asp:Timer ID="TimerTransaction" runat="server" Interval="3000" OnTick="TimerTransaction_Tick"></asp:Timer>
+                        <asp:Timer ID="TimerTransaction" runat="server" Interval="1000" OnTick="TimerTransaction_Tick"></asp:Timer>
                         <asp:GridView ID="gvAllCloudUserTrans" runat="server" AutoGenerateColumns="true">
                         </asp:GridView>
                     </ContentTemplate>
@@ -190,7 +187,6 @@
                         <asp:BoundField DataField="DateTimeStamp" HeaderText="Date" />
                     </Columns>
                 </asp:GridView>
-
                 <asp:Label ID="lblSuperTransactionStatus" runat="server" />
             </div>
 

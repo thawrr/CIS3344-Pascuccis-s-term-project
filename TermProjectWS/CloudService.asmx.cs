@@ -84,14 +84,14 @@ namespace TermProjectWS
         }
 
         [WebMethod]
-        public String UpdateAccount(DataSet objDS, int UserID, string LoginID, string Password)
+        public String UpdateAccount(Byte[] byteArray, int UserID, string LoginID, string Password)
         {
             if (AuthenticateMethod(LoginID, Password) == true)
             {
                 String strStatus;
                 //DataSet objDS = GetUserByLoginIDandPass(objAccount.UserLoginID, objAccount.UserPassword);
 
-                Byte[] byteArray = SerializeData(objDS);
+                //Byte[] byteArray = SerializeData(objDS);
 
                 // Update the account to store the serialized object (binary data) in the database
                 objCommand.CommandType = CommandType.StoredProcedure;
@@ -105,9 +105,9 @@ namespace TermProjectWS
 
                 // Check to see whether the update was successful
                 if (returnValue > 0)
-                    strStatus = "The account was successfully stored for this user.";
+                    strStatus = "Success";
                 else
-                    strStatus = "A problem occured in storing the account info.";
+                    strStatus = "Fail";
 
                 return strStatus;
             }
@@ -117,7 +117,6 @@ namespace TermProjectWS
 
                 return strStatus;
             }
-
         }
 
         public Byte[] SerializeData(DataSet objDS)

@@ -95,6 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminTools.aspx" />
+    <Content Include="CustomControlNavBar.ascx" />
+    <Content Include="CustomControlTechSupport.ascx" />
     <Content Include="Global.asax" />
     <Content Include="images\batch.png" />
     <Content Include="images\gif.png" />
@@ -141,6 +143,20 @@
     </Compile>
     <Compile Include="AdminTools.aspx.designer.cs">
       <DependentUpon>AdminTools.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControlNavBar.ascx.cs">
+      <DependentUpon>CustomControlNavBar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomControlNavBar.ascx.designer.cs">
+      <DependentUpon>CustomControlNavBar.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControlTechSupport.ascx.cs">
+      <DependentUpon>CustomControlTechSupport.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomControlTechSupport.ascx.designer.cs">
+      <DependentUpon>CustomControlTechSupport.ascx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

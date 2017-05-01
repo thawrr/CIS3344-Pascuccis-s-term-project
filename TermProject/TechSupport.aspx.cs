@@ -61,19 +61,6 @@ namespace TermProject
 
         public void FillControls()
         {
-            DataSet dsFiles = pxy.GetAllQuestionsAndAnswers(objAccount.UserEmail, objAccount.UserPassword);
-
-            if (dsFiles.Tables[0].Rows.Count != 0)
-            {
-                gvViewQuestions.DataSource = dsFiles;
-                gvViewQuestions.DataBind();
-
-            }
-            else
-            {
-                lblStatus.Text = "No questions have been asked";
-            }
-
             DataSet dsUnansweredQuestions = pxy.GetAllUnansweredQuestions(objAccount.UserEmail, objAccount.UserPassword);
 
             if (dsUnansweredQuestions.Tables[0].Rows.Count != 0)
@@ -100,6 +87,7 @@ namespace TermProject
                 if (pxy.AskQuestion(objAccount.UserID, txtQuestion.Text, objAccount.UserEmail, objAccount.UserPassword))
                 {
                     lblAskStatus.Text = "Question posted! Admin will answer your question shortly.";
+                    txtQuestion.Text = "";
                     FillControls();
                 }
                 else

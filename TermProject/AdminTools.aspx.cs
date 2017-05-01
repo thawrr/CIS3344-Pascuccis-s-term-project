@@ -79,9 +79,6 @@ namespace TermProject
                     tblUpdateUser.Visible = false;
                     lblUpdateStatus.Text = "Account has been updated.";
                     FillControls();
-
-                    objAccount.UserEmail = txtUpdateEmail.Text;
-                    objAccount.UserPassword = txtUpdatePassword.Text;
                 }
                 else
                 {
@@ -133,11 +130,11 @@ namespace TermProject
         protected void btnSelectUpdateUser_Click(object sender, EventArgs e)
         {
             DataSet dsUser = pxy.GetUserByID(Convert.ToInt32(ddlUser.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
-
+            
             lblUserID.Text = dsUser.Tables[0].Rows[0]["UserID"].ToString();
             txtUpdateName.Text = dsUser.Tables[0].Rows[0]["Name"].ToString();
             txtUpdateEmail.Text = dsUser.Tables[0].Rows[0]["LoginID"].ToString();
-            txtUpdatePassword.Text = dsUser.Tables[0].Rows[0]["HashedPassword"].ToString();
+            txtUpdatePassword.Text = objGM.DecryptPassword(dsUser.Tables[0].Rows[0]["HashedPassword"].ToString());
             txtUpdateCapacity.Text = dsUser.Tables[0].Rows[0]["StorageCapacity"].ToString();
             ddlRole.SelectedValue = dsUser.Tables[0].Rows[0]["RoleID"].ToString();
 

@@ -51,7 +51,7 @@
         <br />
         <br />
         <h4>Upload a new file</h4>
-        <p>The only file types supported are: ".txt", ".docx", ".doc", ".ppt", ".pptx", ".css", ".html", ".xml", ".pdf"</p>
+        <p>No media files can be uploaded. The only file types supported are: ".txt", ".docx", ".doc", ".ppt", ".pptx", ".css", ".html", ".xml", ".pdf"</p>
         <asp:Label ID="lblFileError" runat="server" Text="" Visible="false"></asp:Label>&nbsp;<asp:Label ID="lblTest" runat="server" Text=""></asp:Label><br />
         <asp:FileUpload ID="FileUploadNew" runat="server" /><br />
         <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
@@ -81,6 +81,8 @@
         <h4>File Update</h4>
         <p>Choose a file to update:</p>
         <asp:DropDownList ID="ddlFiles" AutoPostBack="true" DataTextField="FileName" DataValueField="FileID" runat="server" />
+        <br />
+        <asp:Label ID="lblUpdateStatus" runat="server" />
         <asp:FileUpload ID="FileUploadUpdate" runat="server" /><br />
         <asp:Button ID="btnUpdateFile" runat="server" Text="Update" OnClick="btnUpdateFile_Click" />
         <br />

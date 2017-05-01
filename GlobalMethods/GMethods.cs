@@ -272,6 +272,5 @@ namespace GlobalMethods
             else
                 return false;
         }
-        //".mp4", ".flac", ".avi", ".wmv", ".flv", ".mov", ".mp3", ".wav", ".wma", ".wma", ".flac"
     }
 }

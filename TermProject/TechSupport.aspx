@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Page.Master" AutoEventWireup="true" CodeBehind="TechSupport.aspx.cs" Inherits="TermProject.TechSupport" %>
 
+<%@ Register Src="~/CustomControlTechSupport.ascx" TagPrefix="uc1" TagName="CustomControlTechSupport" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="cphHead" runat="server">
     <title>Tech Support</title>
 </asp:Content>
@@ -41,14 +44,5 @@
     </asp:Panel>
     <br />
     <br />
-    <asp:Panel ID="pnlViewQuestions" runat="server">
-        <h3>View already answered questions here.</h3>
-        <br />
-        <asp:GridView ID="gvViewQuestions" AutoGenerateColumns="false" runat="server">
-            <Columns>
-                <asp:BoundField DataField="Question" HeaderText="Question" SortExpression="Question" />
-                <asp:BoundField DataField="Answer" HeaderText="Admin Answer" SortExpression="Answer" />
-            </Columns>
-        </asp:GridView>
-    </asp:Panel>
+    <uc1:CustomControlTechSupport runat="server" id="CustomControlTechSupport" />
 </asp:Content>

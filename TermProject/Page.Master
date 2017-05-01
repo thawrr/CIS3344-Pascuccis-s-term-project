@@ -1,5 +1,8 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Page.master.cs" Inherits="TermProject.Page" %>
 
+<%@ Register Src="~/CustomControlNavBar.ascx" TagPrefix="uc1" TagName="CustomControlNavBar" %>
+
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,34 +22,7 @@
 </head>
 <body>
     <form id="frmMain" runat="server">
-        <nav class="navbar" id="top" role="banner">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div class="subtitle col-md-4">
-                    <a class="navbar-brand" style="color: antiquewhite">Term Project</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li class="navlinks"><a href="Home.aspx">Home</a></li>
-                        <li class="navlinks"><a href="AdminTools.aspx">Admin Tools</a></li>
-                        <li class="navlinks"><a href="UserPage.aspx">User Cloud</a></li>
-                        <li class="navlinks"><a href="TechSupport.aspx">Tech Support</a></li>
-                        <li class="navlinks"><a href="Login.aspx">Login</a></li>
-                        <li class="navlinks"><a href="Registration.aspx">Registration</a></li>
-                        <li class="navlinks"><a>
-                            <asp:Button ID="btnLogout" Text="Log Out" OnClick="btnLogout_Click" runat="server" /></a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <uc1:CustomControlNavBar runat="server" id="CustomControlNavBar" />
         <div class="container">
             <asp:ContentPlaceHolder ID="cphBody" runat="server">
             </asp:ContentPlaceHolder>

@@ -19,12 +19,6 @@ namespace GlobalMethods
         private int Used;
         private bool isActive;
 
-        private String FName;
-        private String FType;
-        private int FSize;
-        private float FVersion;
-
-
         public int UserID
         {
             get { return ID; }
@@ -73,34 +67,34 @@ namespace GlobalMethods
             set { Role = value; }
         }
 
-        public String FileName
-        {
-            get { return FName; }
-            set { FName = value; }
-        }
-
-        public String FileType
-        {
-            get { return FType; }
-            set { FType = value; }
-        }
-
-        public int FileSize
-        {
-            get { return FSize; }
-            set { FSize = value; }
-        }
-
-        public float FileVersion
-        {
-            get { return FVersion; }
-            set { FVersion = value; }
-        }
-
         public bool Active
         {
             get { return isActive; }
             set { isActive = value; }
         }
+
+        //public String FileName
+        //{
+        //    get { return FName; }
+        //    set { FName = value; }
+        //}
+
+        //public String FileType
+        //{
+        //    get { return FType; }
+        //    set { FType = value; }
+        //}
+
+        //public int FileSize
+        //{
+        //    get { return FSize; }
+        //    set { FSize = value; }
+        //}
+
+        //public float FileVersion
+        //{
+        //    get { return FVersion; }
+        //    set { FVersion = value; }
+        //}
     }
 }

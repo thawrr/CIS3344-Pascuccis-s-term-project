@@ -175,6 +175,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.DropDownList ddlFiles;
         
         /// <summary>
+        /// lblUpdateStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUpdateStatus;
+        
+        /// <summary>
         /// FileUploadUpdate control.
         /// </summary>
         /// <remarks>

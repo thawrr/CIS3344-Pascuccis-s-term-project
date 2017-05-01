@@ -10,42 +10,60 @@
 namespace TermProject {
     
     
-    public partial class Page {
+    public partial class CustomControlTechSupport {
         
         /// <summary>
-        /// cphHead control.
+        /// ScriptManagerQA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHead;
+        protected global::System.Web.UI.ScriptManager ScriptManagerQA;
         
         /// <summary>
-        /// frmMain control.
+        /// UpdatePanelQA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
+        protected global::System.Web.UI.UpdatePanel UpdatePanelQA;
         
         /// <summary>
-        /// CustomControlNavBar control.
+        /// timerQA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::TermProject.CustomControlNavBar CustomControlNavBar;
+        protected global::System.Web.UI.Timer timerQA;
         
         /// <summary>
-        /// cphBody control.
+        /// pnlViewQuestions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphBody;
+        protected global::System.Web.UI.WebControls.Panel pnlViewQuestions;
+        
+        /// <summary>
+        /// lblQAStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblQAStatus;
+        
+        /// <summary>
+        /// gvViewQuestions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvViewQuestions;
     }
 }
