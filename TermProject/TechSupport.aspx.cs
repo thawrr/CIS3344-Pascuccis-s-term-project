@@ -134,5 +134,27 @@ namespace TermProject
                 lblAnswerStatus.Text = "Please enter at least 20 characters!";
             }
         }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            string password = txtUpdatePassword.Text;
+
+            if (password.Length >= 6)
+            {
+                if (password.Contains('!') || password.Contains('@') || password.Contains('#') || password.Contains('$') || password.Contains('%') || password.Contains('&'))
+                {
+                    if (pxy.UpdatePassword(password, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                    {
+                        txtUpdatePassword.Text = "";
+                        lblUpdateStatus.Text = "Password has been updated.";
+                        objAccount.UserPassword = password;
+                    }
+                    else
+                        lblUpdateStatus.Text = "An error occured and the password has not been updated.";
+                }
+            }
+            else
+                lblUpdateStatus.Text = "Invalid password format.";
+        }
     }
 }

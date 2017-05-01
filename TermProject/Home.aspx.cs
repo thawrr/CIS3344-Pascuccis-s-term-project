@@ -245,7 +245,6 @@ namespace TermProject
                         string fileExtension = Path.GetExtension(objAccount.FileName);
                         int userID = ((Account)Session["Account"]).UserID;
 
-
                         switch (fileExtension)
                         {
                             case ".txt":

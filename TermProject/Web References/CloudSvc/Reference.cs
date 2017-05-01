@@ -98,6 +98,12 @@ namespace TermProject.CloudSvc {
         
         private System.Threading.SendOrPostCallback GetUserStorageCapacityOperationCompleted;
         
+        private System.Threading.SendOrPostCallback UpdatePasswordOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetFileSizeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetAllCloudTransOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -237,6 +243,15 @@ namespace TermProject.CloudSvc {
         
         /// <remarks/>
         public event GetUserStorageCapacityCompletedEventHandler GetUserStorageCapacityCompleted;
+        
+        /// <remarks/>
+        public event UpdatePasswordCompletedEventHandler UpdatePasswordCompleted;
+        
+        /// <remarks/>
+        public event GetFileSizeCompletedEventHandler GetFileSizeCompleted;
+        
+        /// <remarks/>
+        public event GetAllCloudTransCompletedEventHandler GetAllCloudTransCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AuthenticateMethod", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1393,6 +1408,105 @@ namespace TermProject.CloudSvc {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/UpdatePassword", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool UpdatePassword(string newPassword, int userID, string email, string password) {
+            object[] results = this.Invoke("UpdatePassword", new object[] {
+                        newPassword,
+                        userID,
+                        email,
+                        password});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void UpdatePasswordAsync(string newPassword, int userID, string email, string password) {
+            this.UpdatePasswordAsync(newPassword, userID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void UpdatePasswordAsync(string newPassword, int userID, string email, string password, object userState) {
+            if ((this.UpdatePasswordOperationCompleted == null)) {
+                this.UpdatePasswordOperationCompleted = new System.Threading.SendOrPostCallback(this.OnUpdatePasswordOperationCompleted);
+            }
+            this.InvokeAsync("UpdatePassword", new object[] {
+                        newPassword,
+                        userID,
+                        email,
+                        password}, this.UpdatePasswordOperationCompleted, userState);
+        }
+        
+        private void OnUpdatePasswordOperationCompleted(object arg) {
+            if ((this.UpdatePasswordCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.UpdatePasswordCompleted(this, new UpdatePasswordCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetFileSize", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public int GetFileSize(int fileID, string email, string password) {
+            object[] results = this.Invoke("GetFileSize", new object[] {
+                        fileID,
+                        email,
+                        password});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetFileSizeAsync(int fileID, string email, string password) {
+            this.GetFileSizeAsync(fileID, email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetFileSizeAsync(int fileID, string email, string password, object userState) {
+            if ((this.GetFileSizeOperationCompleted == null)) {
+                this.GetFileSizeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetFileSizeOperationCompleted);
+            }
+            this.InvokeAsync("GetFileSize", new object[] {
+                        fileID,
+                        email,
+                        password}, this.GetFileSizeOperationCompleted, userState);
+        }
+        
+        private void OnGetFileSizeOperationCompleted(object arg) {
+            if ((this.GetFileSizeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetFileSizeCompleted(this, new GetFileSizeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetAllCloudTrans", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public System.Data.DataSet GetAllCloudTrans(string email, string password) {
+            object[] results = this.Invoke("GetAllCloudTrans", new object[] {
+                        email,
+                        password});
+            return ((System.Data.DataSet)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetAllCloudTransAsync(string email, string password) {
+            this.GetAllCloudTransAsync(email, password, null);
+        }
+        
+        /// <remarks/>
+        public void GetAllCloudTransAsync(string email, string password, object userState) {
+            if ((this.GetAllCloudTransOperationCompleted == null)) {
+                this.GetAllCloudTransOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetAllCloudTransOperationCompleted);
+            }
+            this.InvokeAsync("GetAllCloudTrans", new object[] {
+                        email,
+                        password}, this.GetAllCloudTransOperationCompleted, userState);
+        }
+        
+        private void OnGetAllCloudTransOperationCompleted(object arg) {
+            if ((this.GetAllCloudTransCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetAllCloudTransCompleted(this, new GetAllCloudTransCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2291,6 +2405,84 @@ namespace TermProject.CloudSvc {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void UpdatePasswordCompletedEventHandler(object sender, UpdatePasswordCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class UpdatePasswordCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal UpdatePasswordCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetFileSizeCompletedEventHandler(object sender, GetFileSizeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetFileSizeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetFileSizeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    public delegate void GetAllCloudTransCompletedEventHandler(object sender, GetAllCloudTransCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetAllCloudTransCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetAllCloudTransCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public System.Data.DataSet Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((System.Data.DataSet)(this.results[0]));
             }
         }
     }

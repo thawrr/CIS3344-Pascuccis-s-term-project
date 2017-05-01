@@ -251,14 +251,28 @@ namespace TermProject
                 int fileID = int.Parse(selectedRow.Cells[0].Text);
                 int masterFileID = int.Parse(selectedRow.Cells[1].Text);
 
-                if (pxy.RestoreOldVersion(fileID, masterFileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                int newFileSize = int.Parse(selectedRow.Cells[5].Text);
+                int oldFileSize = pxy.GetFileSize(masterFileID, objAccount.UserEmail, objAccount.UserPassword);
+
+                if (objAccount.StorageUsed + newFileSize - oldFileSize > objAccount.StorageCapacity)//limit size
                 {
-                    lblViewVersionStatus.Text = "File has been restored.";
-                    gvViewVersions.Visible = false;
-                    FillControls();
+                    lblViewVersionStatus.Visible = true;//show error
+                    lblViewVersionStatus.Text = "You have reached your storage capacity. Delete or add more storage.";
+                    Response.Clear();
+                    return;
                 }
                 else
-                    lblViewVersionStatus.Text = "Unable to restore file. Please try again.";
+                {
+
+                    if (pxy.RestoreOldVersion(fileID, masterFileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                    {
+                        lblViewVersionStatus.Text = "File has been restored.";
+                        gvViewVersions.Visible = false;
+                        FillControls();
+                    }
+                    else
+                        lblViewVersionStatus.Text = "Unable to restore file. Please try again.";
+                }
             }
         }
 
@@ -273,15 +287,27 @@ namespace TermProject
 
                 int fileID = int.Parse(selectedRow.Cells[0].Text);
 
-                if (pxy.RestoreDeletedFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                int newFileSize = int.Parse(selectedRow.Cells[4].Text);
+
+                if (objAccount.StorageUsed + newFileSize > objAccount.StorageCapacity)//limit size
                 {
-                    lblViewDeletedStatus.Text = "File has been restored.";
-                    ViewDeletedFiles();
-                    FillControls();
+                    lblViewDeletedStatus.Visible = true;//show error
+                    lblViewDeletedStatus.Text = "You have reached your storage capacity. Delete or add more storage.";
+                    Response.Clear();
+                    return;
                 }
                 else
-                    lblViewDeletedStatus.Text = "Unable to restore file. Please try again.";
+                {
 
+                    if (pxy.RestoreDeletedFile(fileID, objAccount.UserID, objAccount.UserEmail, objAccount.UserPassword))
+                    {
+                        lblViewDeletedStatus.Text = "File has been restored.";
+                        ViewDeletedFiles();
+                        FillControls();
+                    }
+                    else
+                        lblViewDeletedStatus.Text = "Unable to restore file. Please try again.";
+                }
             }
         }
 
@@ -342,7 +368,9 @@ namespace TermProject
                     byte[] input = new byte[objAccount.FileSize - 1];
                     input = FileUploadUpdate.FileBytes;//file data
 
-                    if (objAccount.StorageUsed + objAccount.FileSize > objAccount.StorageCapacity)//limit size
+                    int oldFileSize = pxy.GetFileSize(Convert.ToInt32(ddlFiles.SelectedValue), objAccount.UserEmail, objAccount.UserPassword);
+
+                    if (objAccount.StorageUsed + objAccount.FileSize - oldFileSize > objAccount.StorageCapacity)//limit size
                     {
                         lblFileError.Visible = true;//show error
                         lblFileError.Text = "You have reached your storage capacity. Delete or add more storage.";
@@ -354,8 +382,6 @@ namespace TermProject
                         int fileID = Convert.ToInt32(ddlFiles.SelectedValue);
 
                         bool result = pxy.UpdateFile(fileID, input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
-                        //bool result = pxy.AddFile(input, userID, objAccount.FileName, objAccount.FileType, objAccount.FileSize, objAccount.UserEmail, objAccount.UserPassword);
-
 
                         if (result != true)
                         {

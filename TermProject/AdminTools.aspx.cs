@@ -70,19 +70,64 @@ namespace TermProject
         protected void btnUpdateAccount_Click(object sender, EventArgs e)
         {
             bool isActive = chkActive.Checked;
-
-            bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text, Convert.ToInt32(ddlRole.SelectedValue), isActive);
-
-            if (isUpdated)
+            if (CheckInput())
             {
-                tblUpdateUser.Visible = false;
-                lblUpdateStatus.Text = "Account has been updated.";
-                FillControls();
+                bool isUpdated = pxy.AccountUpdate(Convert.ToInt32(lblUserID.Text), txtUpdateName.Text, txtUpdateEmail.Text, Convert.ToInt32(txtUpdateCapacity.Text), txtUpdatePassword.Text, Convert.ToInt32(ddlRole.SelectedValue), isActive);
+
+                if (isUpdated)
+                {
+                    tblUpdateUser.Visible = false;
+                    lblUpdateStatus.Text = "Account has been updated.";
+                    FillControls();
+
+                    objAccount.UserEmail = txtUpdateEmail.Text;
+                    objAccount.UserPassword = txtUpdatePassword.Text;
+                }
+                else
+                {
+                    lblUpdateStatus.Text = "Account was not updated.";
+                }
             }
             else
+                lblUpdateStatus.Text = "Check your input. Ensure your entered name is not blank, email is valid, and password meets the criteria.";
+        }
+
+
+        // Validate registration inputs
+        private bool CheckInput()
+        {
+            bool isValidEmail = false;
+            bool isValidName = false;
+            bool isValidPassword = false;
+
+            string password = txtUpdatePassword.Text;
+
+            if (txtUpdateName.Text != "")
             {
-                lblUpdateStatus.Text = "Account was not updated.";
+                isValidName = true;
             }
+            if (pxy.CheckEmail(txtEmail.Text))
+            {
+                if (txtUpdateEmail.Text.Contains('@'))
+                {
+                    isValidEmail = true;
+                }
+            }
+            if (password.Length >= 6)
+            {
+                if (password.Contains('!') || password.Contains('@') || password.Contains('#') || password.Contains('$') || password.Contains('%') || password.Contains('&'))
+                {
+                    isValidPassword = true;
+                }
+            }
+
+            if (isValidName && isValidEmail && isValidPassword)
+            {
+                return true;
+
+            }
+            else
+                return false;
         }
 
         protected void btnSelectUpdateUser_Click(object sender, EventArgs e)
@@ -265,6 +310,13 @@ namespace TermProject
                 gvUserCloud.Visible = false;
                 lblUserFileStatus.Text = "No files were found";
             }
+        }
+
+        protected void TimerTransaction_Tick(object sender, EventArgs e)
+        {
+            DataSet dsUsers = pxy.GetAllCloudTrans(objAccount.UserEmail, objAccount.UserPassword);
+            gvAllCloudUserTrans.DataSource = dsUsers;
+            gvAllCloudUserTrans.DataBind();
         }
     }
 }

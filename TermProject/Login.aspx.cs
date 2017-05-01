@@ -48,7 +48,7 @@ namespace TermProject
             else
             {
                 Session["Account"] = null;
-                lblStatus.Text = "Invalid email or password. Please try again";
+                lblStatus.Text = "Invalid email/password or your account is deactivated. Please try again";
             }
         }
 
@@ -93,9 +93,12 @@ namespace TermProject
 
                         objAccount = DeserializeAccount(byteArray);
 
+                        objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
+                        objAccount.UserPassword = objDS.Tables[0].Rows[0]["HashedPassword"].ToString();
+                        objAccount.UserEmail = objDS.Tables[0].Rows[0]["LoginID"].ToString();
+                        objAccount.UserID = Convert.ToInt32(objDS.Tables[0].Rows[0]["UserID"]);
                         objAccount.StorageUsed = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageUsed"]);
                         objAccount.StorageCapacity = Convert.ToInt32(objDS.Tables[0].Rows[0]["StorageCapacity"]);
-                        objAccount.UserRole = objDS.Tables[0].Rows[0]["RoleDescription"].ToString();
                     }
 
                     // User entered correct login information
@@ -104,7 +107,6 @@ namespace TermProject
             }
             catch (Exception e)
             {
-                lblStatus.Text = e.ToString();
                 return false;
             }
         }
@@ -120,16 +122,6 @@ namespace TermProject
 
         public void StartSession()
         {
-            //Make sure there is an object saved for this user
-            if (Session["Account"] == null)
-                Session["Account"] = new Account();
-
-            objAccount.UserEmail = txtEmail.Text;
-
-            ((Account)Session["Account"]).UserEmail = objAccount.UserEmail;
-            ((Account)Session["Account"]).UserID = objAccount.UserID;
-            ((Account)Session["Account"]).UserPassword = objAccount.UserPassword;
-
             Session["Account"] = objAccount;
         }
 
@@ -142,7 +134,6 @@ namespace TermProject
             objAccount = (Account)deSerializer.Deserialize(memStream);
 
             return objAccount;
-        }
-        
+        }        
     }//end class
 }//end nameSpace

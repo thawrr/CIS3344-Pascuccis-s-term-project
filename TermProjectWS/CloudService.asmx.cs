@@ -1184,7 +1184,97 @@ namespace TermProjectWS
             {
                 return -1;
             }
+        }
 
+        [WebMethod]
+        public bool UpdatePassword(string newPassword, int userID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "UpdatePassword";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@userID", userID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                inputParameter = new SqlParameter("@newPassword", newPassword);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.VarChar;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                int returnValue = objDB.DoUpdateUsingCmdObj(objCommand);
+
+                if (returnValue != -1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        [WebMethod]
+        public int GetFileSize(int fileID, string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetFileSize";
+                objCommand.Parameters.Clear();
+
+                SqlParameter inputParameter = new SqlParameter("@fileID", fileID);
+                inputParameter.Direction = ParameterDirection.Input;
+                inputParameter.SqlDbType = SqlDbType.Int;
+                inputParameter.Size = 500;
+                objCommand.Parameters.Add(inputParameter);
+
+                DataSet dsPlans = objDB.GetDataSetUsingCmdObj(objCommand);
+
+                int fileSize = Convert.ToInt32(dsPlans.Tables[0].Rows[0]["fileSize"]);
+                return fileSize;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [WebMethod]
+        public DataSet GetAllCloudTrans(string email, string password)
+        {
+            if (AuthenticateMethod(email, password) == true)
+            {
+                DBConnect objDB = new DBConnect();
+                SqlCommand objCommand = new SqlCommand();
+
+                objCommand.Parameters.Clear();
+                objCommand.CommandType = CommandType.StoredProcedure;
+                objCommand.CommandText = "GetTopTenTrans";
+                objCommand.Parameters.Clear();
+
+                DataSet userData = objDB.GetDataSetUsingCmdObj(objCommand);
+                return userData;
+            }
+            else
+            {
+                DataSet userData = new DataSet();
+                return userData;//empty dataSet
+            }
         }
     }
 }

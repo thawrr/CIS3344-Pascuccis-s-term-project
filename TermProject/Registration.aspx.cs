@@ -73,8 +73,9 @@ namespace TermProject
                     lblAddStatus.Text = "An error occured. User has not been added.";
                 }
             }
+            else
+                lblAddStatus.Text = "Check your input. Ensure your entered name is not blank, email is valid, and password meets the criteria.";
         }
-
 
         // Validate registration inputs
         private bool CheckInput()

@@ -72,6 +72,9 @@
                         </asp:TableCell>
                     </asp:TableRow>
                     <asp:TableRow>
+                        <asp:TableCell>*Password must contain at least 6 characters and at least 1 special character.</asp:TableCell>
+                    </asp:TableRow>
+                    <asp:TableRow>
                         <asp:TableCell>Password:</asp:TableCell>
                         <asp:TableCell>
                             <asp:TextBox ID="txtUpdatePassword" runat="server" />
@@ -129,6 +132,36 @@
 
                 <asp:Label ID="lblTransactionStatus" runat="server" />
             </div>
+            <br />
+            <asp:ScriptManager ID="ScriptManager" runat="server"></asp:ScriptManager>
+            <asp:ScriptManagerProxy ID="ScriptManagerProxy" runat="server"></asp:ScriptManagerProxy>
+            <br />
+            <script type="text/javascript">
+                var xmlhttp;
+                try {
+                    // Code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                catch (try_older_microsoft) {
+
+                    try {
+                        // Code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    catch (other) {
+                        xmlhttp = false;
+                        alert("Your browser doesn't support AJAX!");
+                    }
+                }
+            </script>
+            <h3>This panel updates every 3 seconds with all cloud user transactions.</h3>
+            <asp:UpdatePanel ID="UpdatePanelTransaction" runat="server">
+                <ContentTemplate>
+                    <asp:Timer ID="TimerTransaction" runat="server" Interval="3000" OnTick="TimerTransaction_Tick"></asp:Timer>
+                    <asp:GridView ID="gvAllCloudUserTrans" runat="server" AutoGenerateColumns="true">
+                    </asp:GridView>
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </div>
     </asp:Panel>
 
